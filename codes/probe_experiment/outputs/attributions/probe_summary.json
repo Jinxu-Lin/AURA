@@ -1,0 +1,269 @@
+{
+  "experiment": "AURA Phase 1 Probe - TRV Pilot",
+  "dataset": "CIFAR-10",
+  "model": "ResNet-18 (CIFAR-adapted)",
+  "seeds": [
+    42,
+    123,
+    456
+  ],
+  "n_test": 100,
+  "n_ood": 20,
+  "k": 10,
+  "hessian_levels": [
+    "full_ggn",
+    "kfac",
+    "diagonal",
+    "damped_identity",
+    "identity"
+  ],
+  "per_seed_analysis": {
+    "42": {
+      "kappa": 1224782.25,
+      "trv_distribution": {
+        "counts": [
+          0,
+          59,
+          21,
+          1,
+          0,
+          19
+        ],
+        "fractions": [
+          0.0,
+          0.59,
+          0.21,
+          0.01,
+          0.0,
+          0.19
+        ],
+        "levels_above_10pct": 3,
+        "pass_trv_distribution": true
+      },
+      "jaccard_degradation": {
+        "mean_jaccard": [
+          1.0,
+          0.4562695311224726,
+          0.3372479275110853,
+          0.3341550236828874,
+          0.3341550236828874
+        ],
+        "std_jaccard": [
+          0.0,
+          0.16163235290510092,
+          0.14898961157136267,
+          0.15062148130437417,
+          0.15062148130437417
+        ],
+        "adj_jaccards": [
+          0.4562695311224724,
+          0.3372479275110854,
+          0.33415502368288746,
+          0.33415502368288746
+        ],
+        "max_adj_jaccard": 0.4562695311224724,
+        "pass_degradation": true,
+        "mean_per_point_std": 0.053914680185957825,
+        "pass_variance": false
+      },
+      "si_trv_correlation": {
+        "rho_si_trv": 0.042829826394678215,
+        "p_si_trv": 0.6722166579611724,
+        "rho_inv_si_trv": -0.042829826394678215,
+        "p_inv_si_trv": 0.6722166579611724,
+        "h4_supported": false
+      },
+      "confidence_stratification": {
+        "high_trv_mean": 2.12,
+        "low_trv_mean": 1.86,
+        "high_trv_median": 1.5,
+        "low_trv_median": 1.0,
+        "mannwhitney_u": 1446.0,
+        "mannwhitney_p": 0.1266590567093091,
+        "significant": false
+      },
+      "ood_confound": {
+        "id_trv_mean": 1.99,
+        "ood_trv_mean": 1.0,
+        "rho_ood_trv": -0.3151205716820994,
+        "p_ood_trv": 0.0004555866642421789,
+        "pass_ood_confound": true
+      }
+    },
+    "123": {
+      "kappa": 1130108.875,
+      "trv_distribution": {
+        "counts": [
+          0,
+          38,
+          40,
+          3,
+          0,
+          19
+        ],
+        "fractions": [
+          0.0,
+          0.38,
+          0.4,
+          0.03,
+          0.0,
+          0.19
+        ],
+        "levels_above_10pct": 3,
+        "pass_trv_distribution": true
+      },
+      "jaccard_degradation": {
+        "mean_jaccard": [
+          1.0,
+          0.531775528393176,
+          0.3647347054390399,
+          0.35122633042911694,
+          0.35122633042911694
+        ],
+        "std_jaccard": [
+          0.0,
+          0.14720054803256818,
+          0.15791619102491183,
+          0.15212390231473893,
+          0.15212390231473893
+        ],
+        "adj_jaccards": [
+          0.5317755283931755,
+          0.36473470543903985,
+          0.3512263304291169,
+          0.3512263304291169
+        ],
+        "max_adj_jaccard": 0.5317755283931755,
+        "pass_degradation": true,
+        "mean_per_point_std": 0.08164062248252352,
+        "pass_variance": false
+      },
+      "si_trv_correlation": {
+        "rho_si_trv": -0.18032170165994924,
+        "p_si_trv": 0.07260699954096529,
+        "rho_inv_si_trv": 0.18032170165994924,
+        "p_inv_si_trv": 0.07260699954096529,
+        "h4_supported": false
+      },
+      "confidence_stratification": {
+        "high_trv_mean": 2.36,
+        "low_trv_mean": 2.08,
+        "high_trv_median": 2.0,
+        "low_trv_median": 1.5,
+        "mannwhitney_u": 1489.5,
+        "mannwhitney_p": 0.07805944097017356,
+        "significant": false
+      },
+      "ood_confound": {
+        "id_trv_mean": 2.22,
+        "ood_trv_mean": 1.45,
+        "rho_ood_trv": -0.24587772142781283,
+        "p_ood_trv": 0.006790427398325402,
+        "pass_ood_confound": true
+      }
+    },
+    "456": {
+      "kappa": 1357640.25,
+      "trv_distribution": {
+        "counts": [
+          0,
+          65,
+          11,
+          2,
+          0,
+          22
+        ],
+        "fractions": [
+          0.0,
+          0.65,
+          0.11,
+          0.02,
+          0.0,
+          0.22
+        ],
+        "levels_above_10pct": 3,
+        "pass_trv_distribution": true
+      },
+      "jaccard_degradation": {
+        "mean_jaccard": [
+          1.0,
+          0.446816320933968,
+          0.37151632681044444,
+          0.36120152723093907,
+          0.36120152723093907
+        ],
+        "std_jaccard": [
+          0.0,
+          0.17586283192998725,
+          0.18010476288671545,
+          0.17479730725924256,
+          0.17479730725924256
+        ],
+        "adj_jaccards": [
+          0.44681632093396806,
+          0.37151632681044455,
+          0.361201527230939,
+          0.361201527230939
+        ],
+        "max_adj_jaccard": 0.44681632093396806,
+        "pass_degradation": true,
+        "mean_per_point_std": 0.05291981809479886,
+        "pass_variance": false
+      },
+      "si_trv_correlation": {
+        "rho_si_trv": -0.1138221523422669,
+        "p_si_trv": 0.25949725054570205,
+        "rho_inv_si_trv": 0.1138221523422669,
+        "p_inv_si_trv": 0.25949725054570205,
+        "h4_supported": false
+      },
+      "confidence_stratification": {
+        "high_trv_mean": 1.98,
+        "low_trv_mean": 2.08,
+        "high_trv_median": 1.0,
+        "low_trv_median": 1.0,
+        "mannwhitney_u": 1155.0,
+        "mannwhitney_p": 0.4405461888574429,
+        "significant": false
+      },
+      "ood_confound": {
+        "id_trv_mean": 2.03,
+        "ood_trv_mean": 1.45,
+        "rho_ood_trv": -0.1567074878890954,
+        "p_ood_trv": 0.08740397108246344,
+        "pass_ood_confound": true
+      }
+    }
+  },
+  "cross_seed_analysis": {
+    "seed_pairs": [
+      [
+        42,
+        123
+      ],
+      [
+        42,
+        456
+      ],
+      [
+        123,
+        456
+      ]
+    ],
+    "rhos": [
+      -0.022720460723038436,
+      -0.0727342773535383,
+      0.07617285217076715
+    ],
+    "mean_rho": -0.0064272953019365265,
+    "pass_stability": false
+  },
+  "verdict": {
+    "H1_trv_variability": true,
+    "early_signal_degradation": true,
+    "per_point_variance": false,
+    "ood_confound_clear": true,
+    "cross_seed_stable": false,
+    "phase1_viable": true
+  }
+}

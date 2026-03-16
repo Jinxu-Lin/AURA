@@ -14,7 +14,7 @@
 - **当前阶段**: C (Crystallize)
 - **执行模式**: 首次
 - **下一步**: 运行 `/praxis-research ~/Research/AURA` 继续自动化流程
-- **阶段历史**: S ✓ (Go with focus) →
+- **阶段历史**: S ✓ (Go with focus) → C ✓ (Probe done, TRV needs revision) →
 
 > 阶段状态由 `pipeline-status.json` 权威记录，本节仅供人类快速查阅。
 
@@ -24,7 +24,7 @@
 |------|------|------|
 | `project-startup.md` | ✓ | S — 项目知识基础 |
 | `research/problem-statement.md` | | C — Gap + 攻击角度 + 探针方案 |
-| `research/probe-results.md` | | P — 探针实验结果 |
+| `research/probe-results.md` | ✓ | P — 探针实验结果 |
 | `research/method-design.md` | | D — 方法设计 |
 | `research/experiment-design.md` | | D — 实验设计 |
 | `research/contribution.md` | ✓ | 跨阶段 — 贡献跟踪 |

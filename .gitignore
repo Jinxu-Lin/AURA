@@ -1,0 +1,10 @@
+# Data & model artifacts
+*.pt
+*.pth
+data/
+__pycache__/
+*.pyc
+
+# Large outputs (keep plots and JSON summaries)
+codes/probe_experiment/outputs/models/
+codes/probe_experiment/outputs/attributions/*.npz
