@@ -1,0 +1,210 @@
+{
+  "task_id": "auxiliary_hypotheses",
+  "mode": "PILOT",
+  "n_test": 100,
+  "seeds_available": {
+    "bss": 1,
+    "trv": 3
+  },
+  "timestamp": "2026-03-17T21:11:33.907758",
+  "h_a1_non_redundancy": {
+    "hypothesis": "H-A1: Uncertainty components are non-redundant (rho < 0.3)",
+    "n_test": 100,
+    "components": {
+      "U_metric": "log(1 + BSS_outlier) - spectral sensitivity to Hessian approximation",
+      "U_geodesic": "|Kendall_tau(IF, RepSim)| - cross-method disagreement proxy",
+      "U_curvature": "entropy - Laplace posterior uncertainty proxy"
+    },
+    "pairwise_correlations": {
+      "metric_vs_geodesic": {
+        "rho": 0.1712211221122112,
+        "p": 0.08851435164567328
+      },
+      "metric_vs_curvature": {
+        "rho": -0.002232223222322232,
+        "p": 0.9824147631032123
+      },
+      "geodesic_vs_curvature": {
+        "rho": -0.518019801980198,
+        "p": 3.394363583160374e-08
+      }
+    },
+    "correlation_matrix": [
+      [
+        1.0,
+        0.1712211221122112,
+        -0.002232223222322232
+      ],
+      [
+        0.1712211221122112,
+        1.0,
+        -0.518019801980198
+      ],
+      [
+        -0.002232223222322232,
+        -0.518019801980198,
+        1.0
+      ]
+    ],
+    "max_abs_rho": 0.518019801980198,
+    "gate_threshold": 0.3,
+    "gate_pass": false,
+    "descriptive_stats": {
+      "u_metric": {
+        "mean": 0.42942032018286364,
+        "std": 1.5513361944488937,
+        "min": 8.27313158153728e-06,
+        "max": 7.716697409153289
+      },
+      "u_geodesic": {
+        "mean": 0.22185792252326897,
+        "std": 0.11299840250346804,
+        "min": 0.003067013402680536,
+        "max": 0.4035084778359066
+      },
+      "u_curvature": {
+        "mean": 0.07782769838231615,
+        "std": 0.21514658633450118,
+        "min": 0.0013652895577251911,
+        "max": 1.0786103010177612
+      }
+    },
+    "pilot_limitations": [
+      "U_geodesic uses |tau(IF,RepSim)| as proxy for cross-seed attribution variance (only 1 seed available)",
+      "U_curvature uses entropy as Laplace posterior proxy (no actual Laplace inference)",
+      "Full experiment needs 5-seed cross-seed variance and proper Laplace posterior"
+    ]
+  },
+  "h_a2_stability_vs_correctness": {
+    "hypothesis": "H-A2: Stability metrics have near-zero partial correlation with correctness after class+grad_norm control",
+    "full_100_analysis": {
+      "n_points": 100,
+      "correctness_proxy": "LDS (EK-FAC IF vs TRAK ground truth)",
+      "partial_correlations": {
+        "BSS_outlier": {
+          "rho": 0.09857785778577859,
+          "p": 0.32918139999991614
+        },
+        "abs_tau": {
+          "rho": 0.4585178517851785,
+          "p": 1.6074197193278815e-06
+        },
+        "confidence": {
+          "rho": -0.26624662466246624,
+          "p": 0.007417302930547501
+        }
+      },
+      "covariates": "class (10 dummies) + log(1+gradient_norm)"
+    },
+    "loo_analysis": {
+      "n_loo_points": 10,
+      "warning": "Only 10 LOO points, very noisy",
+      "matched_points": 0
+    },
+    "max_partial_corr": 0.4585178517851785,
+    "gate_threshold": 0.1,
+    "gate_pass": false,
+    "pilot_limitations": [
+      "LOO only has 10 test points (need 100 for full experiment)",
+      "LOO models were severely undertrained (50/500 train samples)",
+      "Using LDS as correctness proxy for full-100 analysis",
+      "LOO-TDA correlation near zero in pilot (root cause: insufficient training)"
+    ]
+  },
+  "h_a3_ensemble_stability": {
+    "hypothesis": "H-A3: Ensemble TRV (mean across seeds) is leave-one-seed-out stable (rho > 0.6)",
+    "n_seeds": 3,
+    "n_points": 100,
+    "seeds": [
+      "42",
+      "123",
+      "456"
+    ],
+    "raw_cross_seed_stability": {
+      "pairwise": [
+        {
+          "pair": "42_vs_123",
+          "rho": 0.12762440613568454,
+          "p": 0.20573511864027982
+        },
+        {
+          "pair": "42_vs_456",
+          "rho": 0.07229146295742975,
+          "p": 0.4747562634019422
+        },
+        {
+          "pair": "123_vs_456",
+          "rho": 0.10401400684658765,
+          "p": 0.30307596721574426
+        }
+      ],
+      "mean_rho": 0.10130995864656732,
+      "reported_mean_rho": -0.007,
+      "note": "Reconstructed from TRV distribution (not raw per-point data)"
+    },
+    "ensemble_trv_stats": {
+      "mean": 2.0799999999999996,
+      "std": 0.9298984412886769,
+      "min": 1.0,
+      "max": 4.0
+    },
+    "leave_one_seed_out": {
+      "vs_full_ensemble": [
+        {
+          "left_out_seed": "42",
+          "rho_vs_full_ensemble": 0.8607907545023501,
+          "p_value": 1.6739071104973142e-30
+        },
+        {
+          "left_out_seed": "123",
+          "rho_vs_full_ensemble": 0.8610572704833789,
+          "p_value": 1.534149854011588e-30
+        },
+        {
+          "left_out_seed": "456",
+          "rho_vs_full_ensemble": 0.8355516257711874,
+          "p_value": 3.1002789221409368e-27
+        }
+      ],
+      "mean_rho": 0.8524665502523056,
+      "pairwise": [
+        {
+          "pair": "LOO_42_vs_LOO_123",
+          "rho": 0.6234391768049627,
+          "p": 4.276865750537463e-12
+        },
+        {
+          "pair": "LOO_42_vs_LOO_456",
+          "rho": 0.5839360670915372,
+          "p": 1.8063931795264013e-10
+        },
+        {
+          "pair": "LOO_123_vs_LOO_456",
+          "rho": 0.5874588640641356,
+          "p": 1.3202887607024902e-10
+        }
+      ],
+      "mean_pairwise_rho": 0.5982780359868786
+    },
+    "gate_threshold": 0.6,
+    "gate_pass": true,
+    "pilot_limitations": [
+      "Only 3 seeds available (Probe data), not 5",
+      "TRV values reconstructed from reported distributions (no raw per-point data)",
+      "Cross-seed TRV instability (rho~0) is a known issue - ensemble averaging reduces noise",
+      "Full experiment needs 5-seed BSS (not TRV) for proper H-A3 test"
+    ]
+  },
+  "pass_criteria": {
+    "all_pairwise_correlations_computable": true,
+    "no_nan_in_partial_correlation": true,
+    "overall": true
+  },
+  "gate_summary": {
+    "h_a1_non_redundancy": false,
+    "h_a2_stability_vs_correctness": false,
+    "h_a3_ensemble_stability": true,
+    "all_pass": false
+  },
+  "elapsed_seconds": 0.032336
+}

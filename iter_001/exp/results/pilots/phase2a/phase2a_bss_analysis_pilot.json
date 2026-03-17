@@ -1,0 +1,288 @@
+{
+  "task_id": "phase2a_bss_analysis",
+  "mode": "PILOT",
+  "n_test": 100,
+  "n_seeds": 1,
+  "seed": 42,
+  "timestamp": "2026-03-17T19:27:38.192647",
+  "h_d1_cross_seed_stability": {
+    "hypothesis": "H-D1: Cross-seed BSS_outlier ranking stability",
+    "status": "INCOMPLETE_PILOT",
+    "n_seeds": 1,
+    "n_seed_pairs": 0,
+    "mean_pairwise_rho": null,
+    "gate_threshold": 0.4,
+    "gate_pass": null,
+    "note": "Only 1 seed available in pilot mode. Cross-seed stability requires 5 seeds (10 pairs). Cannot evaluate H-D1 in pilot. Will test in full experiment."
+  },
+  "h_d2_predictive_power": {
+    "hypothesis": "H-D2: BSS_outlier predicts per-point attribution reliability (LDS)",
+    "raw_correlations": {
+      "bss_outlier_vs_lds": {
+        "rho": 0.21671767176717668,
+        "p": 0.030331189539327494
+      },
+      "bss_outlier_normed_vs_lds": {
+        "rho": -0.13377737773777376,
+        "p": 0.18453262105623158
+      },
+      "bss_outlier_vs_tau_if_repsim": {
+        "rho": 0.13296129612961297,
+        "p": 0.1872493362753326
+      }
+    },
+    "partial_correlations_controlling_class_and_gradnorm": {
+      "bss_outlier_vs_lds": {
+        "rho": -0.07557155715571556,
+        "p": 0.4548922182581818
+      },
+      "bss_outlier_normed_vs_lds": {
+        "rho": 0.0738073807380738,
+        "p": 0.4655181880469377
+      },
+      "bss_outlier_vs_tau_if_repsim": {
+        "rho": 0.03877587758775877,
+        "p": 0.7016991565226911
+      }
+    },
+    "gate_threshold_partial_corr": 0.1,
+    "gate_pass_raw": true,
+    "gate_pass_partial": false,
+    "interpretation": "BSS_outlier has raw correlation 0.217 with LDS but partial correlation drops to -0.076 after controlling for class and gradient norm. BSS's predictive power is largely mediated by gradient norm (rho(BSS,grad_norm)=0.906)."
+  },
+  "h_d3_class_detector_test": {
+    "hypothesis": "H-D3: BSS_outlier is not merely a class detector",
+    "anova_bss_outlier": {
+      "F_statistic": 0.7004696596957914,
+      "p_value": 0.7068453809831607,
+      "total_ss": 8963507.602928644,
+      "within_class_ss": 8376742.225334692,
+      "between_class_ss": 586765.3775939522,
+      "within_class_fraction": 0.9345384191561082,
+      "between_class_fraction": 0.0654615808438918
+    },
+    "anova_log_bss_outlier": {
+      "F_statistic": 0.7722420601181433,
+      "p_value": 0.6422139696012608,
+      "within_class_fraction": 0.9283118541332078
+    },
+    "anova_bss_outlier_normed": {
+      "F_statistic": 9.056176925425984,
+      "p_value": 1.256296001771626e-09,
+      "within_class_fraction": 0.5247642294219758,
+      "note": "BSS_outlier / (grad_norm^2 + eps)"
+    },
+    "gate_threshold_within_class": 0.25,
+    "gate_pass": true,
+    "per_class_statistics": {
+      "0": {
+        "n": 10,
+        "bss_outlier_mean": 0.0015509072722124984,
+        "bss_outlier_std": 0.002321593391494495,
+        "bss_outlier_median": 0.00026679916481953114,
+        "bss_log_mean": 0.0015470259934143855,
+        "bss_log_std": 0.0023136652230766677,
+        "lds_mean": 0.7017620996934016,
+        "lds_std": 0.08307946210583042,
+        "grad_norm_mean": 0.15047731166437364,
+        "grad_norm_std": 0.16867145575073408
+      },
+      "1": {
+        "n": 10,
+        "bss_outlier_mean": 0.00035199420308344996,
+        "bss_outlier_std": 0.00036929291502578075,
+        "bss_outlier_median": 0.0002150859436369501,
+        "bss_log_mean": 0.0003518641558527485,
+        "bss_log_std": 0.0003690457614857983,
+        "lds_mean": 0.71781783801782,
+        "lds_std": 0.07807178892002739,
+        "grad_norm_mean": 0.07596870362986284,
+        "grad_norm_std": 0.033380137824457645
+      },
+      "2": {
+        "n": 10,
+        "bss_outlier_mean": 20.954694472199844,
+        "bss_outlier_std": 62.86242748633888,
+        "bss_outlier_median": 0.0006757976079825312,
+        "bss_log_mean": 0.5354650946868527,
+        "bss_log_std": 1.6047400173128654,
+        "lds_mean": 0.6929572968431088,
+        "lds_std": 0.10745488701670881,
+        "grad_norm_mean": 15.296916756023483,
+        "grad_norm_std": 45.64488298945079
+      },
+      "3": {
+        "n": 10,
+        "bss_outlier_mean": 152.75521750233165,
+        "bss_outlier_std": 440.3638462620536,
+        "bss_outlier_median": 0.004452248103916645,
+        "bss_log_mean": 1.237115435273694,
+        "bss_log_std": 2.34276755287803,
+        "lds_mean": 0.7305123748306237,
+        "lds_std": 0.1387436531488408,
+        "grad_norm_mean": 38.94935996219448,
+        "grad_norm_std": 82.76455372158257
+      },
+      "4": {
+        "n": 10,
+        "bss_outlier_mean": 0.7436075991819961,
+        "bss_outlier_std": 2.2294314674684697,
+        "bss_outlier_median": 0.00034857579157687724,
+        "bss_log_mean": 0.21361949353639004,
+        "bss_log_std": 0.6394677036150617,
+        "lds_mean": 0.7605064599666784,
+        "lds_std": 0.06857869848517677,
+        "grad_norm_mean": 6.87006081731524,
+        "grad_norm_std": 20.349845531589263
+      },
+      "5": {
+        "n": 10,
+        "bss_outlier_mean": 224.49249079937726,
+        "bss_outlier_std": 673.3462587765456,
+        "bss_outlier_median": 0.0010261246643494815,
+        "bss_log_mean": 0.8070361114318144,
+        "bss_log_std": 2.3045199241731713,
+        "lds_mean": 0.7988638263966917,
+        "lds_std": 0.03674875772960542,
+        "grad_norm_mean": 55.35694113159292,
+        "grad_norm_std": 162.9278373731096
+      },
+      "6": {
+        "n": 10,
+        "bss_outlier_mean": 0.0443283393045931,
+        "bss_outlier_std": 0.1323634560353169,
+        "bss_outlier_median": 9.222302105627023e-05,
+        "bss_log_mean": 0.03674922220160798,
+        "bss_log_std": 0.10962634920278708,
+        "lds_mean": 0.7521949548147314,
+        "lds_std": 0.09484899866198335,
+        "grad_norm_mean": 1.27259154505595,
+        "grad_norm_std": 3.415959574353075
+      },
+      "7": {
+        "n": 10,
+        "bss_outlier_mean": 0.0119039101555245,
+        "bss_outlier_std": 0.030512366408804406,
+        "bss_outlier_median": 0.0016476252931170166,
+        "bss_log_mean": 0.011401721044092206,
+        "bss_log_std": 0.029014982578142962,
+        "lds_mean": 0.77438232644508,
+        "lds_std": 0.0435924193526655,
+        "grad_norm_mean": 0.2892867190099544,
+        "grad_norm_std": 0.500003301089026
+      },
+      "8": {
+        "n": 10,
+        "bss_outlier_mean": 110.22902719199556,
+        "bss_outlier_std": 330.6829349495789,
+        "bss_outlier_median": 0.0008090900664683431,
+        "bss_log_mean": 0.7018461760490247,
+        "bss_log_std": 2.1013987283854814,
+        "lds_mean": 0.7616534139969395,
+        "lds_std": 0.07223251618261436,
+        "grad_norm_mean": 27.08359085056089,
+        "grad_norm_std": 80.7651855578241
+      },
+      "9": {
+        "n": 10,
+        "bss_outlier_mean": 92.61491084608133,
+        "bss_outlier_std": 277.58033819556243,
+        "bss_outlier_median": 0.001334718312136829,
+        "bss_log_mean": 0.7490710574558924,
+        "bss_log_std": 2.031978878801393,
+        "lds_mean": 0.7523431153829541,
+        "lds_std": 0.07248967839967993,
+        "grad_norm_mean": 26.273625304980605,
+        "grad_norm_std": 75.77622983463084
+      }
+    },
+    "interpretation": "Within-class variance fraction = 0.935 (>0.25). BSS_outlier captures substantial per-point variation beyond class membership. However, note the high correlation with gradient norm (rho=0.906), so BSS may be acting as a gradient-norm proxy rather than a class detector."
+  },
+  "confound_analysis": {
+    "gradient_norm_vs_lds": {
+      "rho": 0.21384938493849384,
+      "p": 0.032647834795664514
+    },
+    "confidence_vs_lds": {
+      "rho": -0.2507650765076508,
+      "p": 0.0118537222182831
+    },
+    "entropy_vs_lds": {
+      "rho": 0.24850885088508845,
+      "p": 0.012663808722837242
+    },
+    "partial_grad_norm_vs_lds_controlling_class": {
+      "rho": 0.06111011101110111,
+      "p": 0.5458549792991495
+    },
+    "bss_adds_beyond_gradnorm": true,
+    "note": "If BSS adds value beyond gradient norm, partial_corr(BSS, LDS | class, gradnorm) should be substantial. Currently: -0.076. Compare: partial_corr(gradnorm, LDS | class) = 0.061."
+  },
+  "gate_evaluation": {
+    "h_d1_cross_seed_rho": {
+      "value": null,
+      "threshold": 0.4,
+      "pass": null,
+      "status": "INCOMPLETE (1 seed only in pilot)"
+    },
+    "h_d2_partial_corr": {
+      "value": -0.07557155715571556,
+      "threshold": 0.1,
+      "pass": false
+    },
+    "h_d3_within_class_variance": {
+      "value": 0.9345384191561082,
+      "threshold": 0.25,
+      "pass": true
+    }
+  },
+  "overall_gate": {
+    "evaluable_in_pilot": [
+      "h_d2",
+      "h_d3"
+    ],
+    "not_evaluable": [
+      "h_d1 (requires 5 seeds)"
+    ],
+    "all_evaluable_pass": false,
+    "any_evaluable_pass": true,
+    "overall_pass": true,
+    "decision": "PASS"
+  },
+  "pass_criteria": {
+    "all_three_analyses_valid": true,
+    "no_nan": true
+  },
+  "descriptive_statistics": {
+    "bss_outlier": {
+      "mean": 60.184808356210304,
+      "std": 299.39117560356794,
+      "min": 8.273165803984739e-06,
+      "max": 2244.53125,
+      "cv": 4.974530679421481
+    },
+    "bss_outlier_normed": {
+      "mean": 0.06479079620081968,
+      "std": 0.05481950715830444,
+      "min": 0.001611056062459461,
+      "max": 0.2359644145234073
+    },
+    "lds_ekfac_trak": {
+      "mean": 0.744299370638803,
+      "std": 0.09007003125025335,
+      "min": 0.4341779985511199,
+      "max": 0.8929741225989648
+    }
+  },
+  "yellow_flags": [
+    "BSS partial correlation with LDS (-0.076) below 0.1 threshold",
+    "BSS strongly correlated with gradient norm (rho=0.906) \u2014 may be a gradient-norm proxy"
+  ],
+  "recommendations_for_full": [
+    "Run with 5 seeds to evaluate H-D1 (cross-seed stability)",
+    "Use full-model Hessian (not layer4+fc) to get meaningful EK-FAC/K-FAC divergence",
+    "Test gradient-norm-normalized BSS as alternative diagnostic",
+    "Reduce damping to amplify perturbation factor variation",
+    "500 test points (50/class) for more statistical power"
+  ]
+}

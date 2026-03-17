@@ -1,0 +1,1019 @@
+{
+  "task_id": "phase0_reanalysis",
+  "task_name": "Probe Data Reanalysis",
+  "timestamp": "2026-03-17T16:11:12.621035",
+  "data_source": "probe-results-pre-sibyl.md (3 seeds x 100 test points, CIFAR-10/ResNet-18, last-layer)",
+  "methodology_note": "Aggregate statistics transcribed from probe report. Per-point analyses use Monte Carlo reconstruction matching reported distributions. Correlations involving synthetic variables (grad_norm, confidence, entropy) are approximate.",
+  "class_conditional_trv": {
+    "seed_42": {
+      "overall_mean": 1.8,
+      "overall_std": 1.3257359305592338,
+      "per_class": {
+        "class_0": {
+          "n": 10,
+          "mean": 2.5,
+          "std": 1.8408935028645435,
+          "median": 1.5,
+          "min": 1,
+          "max": 5
+        },
+        "class_1": {
+          "n": 10,
+          "mean": 1.2,
+          "std": 0.42163702135578396,
+          "median": 1.0,
+          "min": 1,
+          "max": 2
+        },
+        "class_2": {
+          "n": 10,
+          "mean": 2.2,
+          "std": 1.5491933384829668,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_3": {
+          "n": 10,
+          "mean": 1.2,
+          "std": 0.42163702135578396,
+          "median": 1.0,
+          "min": 1,
+          "max": 2
+        },
+        "class_4": {
+          "n": 10,
+          "mean": 2.0,
+          "std": 1.632993161855452,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_5": {
+          "n": 10,
+          "mean": 2.2,
+          "std": 1.5491933384829668,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_6": {
+          "n": 10,
+          "mean": 2.2,
+          "std": 1.5491933384829668,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_7": {
+          "n": 10,
+          "mean": 1.2,
+          "std": 0.42163702135578396,
+          "median": 1.0,
+          "min": 1,
+          "max": 2
+        },
+        "class_8": {
+          "n": 10,
+          "mean": 1.7,
+          "std": 1.2516655570345725,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_9": {
+          "n": 10,
+          "mean": 1.6,
+          "std": 1.2649110640673518,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        }
+      },
+      "class_means": [
+        2.5,
+        1.2,
+        2.2,
+        1.2,
+        2.0,
+        2.2,
+        2.2,
+        1.2,
+        1.7,
+        1.6
+      ],
+      "between_class_variance_fraction": 0.12298850574712648,
+      "within_class_variance_fraction": 0.8770114942528735,
+      "ss_between": 21.40000000000001,
+      "ss_within": 152.6,
+      "ss_total": 174.0
+    },
+    "seed_123": {
+      "overall_mean": 2.22,
+      "overall_std": 1.446556342672228,
+      "per_class": {
+        "class_0": {
+          "n": 10,
+          "mean": 2.0,
+          "std": 1.247219128924647,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_1": {
+          "n": 10,
+          "mean": 1.6,
+          "std": 0.6992058987801011,
+          "median": 1.5,
+          "min": 1,
+          "max": 3
+        },
+        "class_2": {
+          "n": 10,
+          "mean": 2.0,
+          "std": 1.632993161855452,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_3": {
+          "n": 10,
+          "mean": 2.5,
+          "std": 1.7795130420052185,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_4": {
+          "n": 10,
+          "mean": 3.4,
+          "std": 1.7126976771553508,
+          "median": 3.5,
+          "min": 1,
+          "max": 5
+        },
+        "class_5": {
+          "n": 10,
+          "mean": 2.2,
+          "std": 1.5491933384829668,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_6": {
+          "n": 10,
+          "mean": 2.0,
+          "std": 1.1547005383792515,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_7": {
+          "n": 10,
+          "mean": 2.9,
+          "std": 1.5238839267549946,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_8": {
+          "n": 10,
+          "mean": 1.5,
+          "std": 0.5270462766947299,
+          "median": 1.5,
+          "min": 1,
+          "max": 2
+        },
+        "class_9": {
+          "n": 10,
+          "mean": 2.1,
+          "std": 1.5951314818673865,
+          "median": 1.5,
+          "min": 1,
+          "max": 5
+        }
+      },
+      "class_means": [
+        2.0,
+        1.6,
+        2.0,
+        2.5,
+        3.4,
+        2.2,
+        2.0,
+        2.9,
+        1.5,
+        2.1
+      ],
+      "between_class_variance_fraction": 0.1446225139988414,
+      "within_class_variance_fraction": 0.8553774860011584,
+      "ss_between": 29.959999999999994,
+      "ss_within": 177.20000000000002,
+      "ss_total": 207.16000000000005
+    },
+    "seed_456": {
+      "overall_mean": 1.96,
+      "overall_std": 1.5434449203720302,
+      "per_class": {
+        "class_0": {
+          "n": 10,
+          "mean": 2.4,
+          "std": 1.837873166945363,
+          "median": 1.5,
+          "min": 1,
+          "max": 5
+        },
+        "class_1": {
+          "n": 10,
+          "mean": 2.4,
+          "std": 1.837873166945363,
+          "median": 1.5,
+          "min": 1,
+          "max": 5
+        },
+        "class_2": {
+          "n": 10,
+          "mean": 1.4,
+          "std": 1.2649110640673518,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_3": {
+          "n": 10,
+          "mean": 2.6,
+          "std": 1.7126976771553508,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_4": {
+          "n": 10,
+          "mean": 2.1,
+          "std": 1.66332999331662,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_5": {
+          "n": 10,
+          "mean": 1.5,
+          "std": 1.2692955176439846,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_6": {
+          "n": 10,
+          "mean": 1.9,
+          "std": 1.66332999331662,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_7": {
+          "n": 10,
+          "mean": 2.0,
+          "std": 1.632993161855452,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_8": {
+          "n": 10,
+          "mean": 1.1,
+          "std": 0.31622776601683794,
+          "median": 1.0,
+          "min": 1,
+          "max": 2
+        },
+        "class_9": {
+          "n": 10,
+          "mean": 2.2,
+          "std": 1.6193277068654823,
+          "median": 1.5,
+          "min": 1,
+          "max": 5
+        }
+      },
+      "class_means": [
+        2.4,
+        2.4,
+        1.4,
+        2.6,
+        2.1,
+        1.5,
+        1.9,
+        2.0,
+        1.1,
+        2.2
+      ],
+      "between_class_variance_fraction": 0.09090909090909091,
+      "within_class_variance_fraction": 0.9090909090909091,
+      "ss_between": 21.440000000000005,
+      "ss_within": 214.40000000000003,
+      "ss_total": 235.84000000000003
+    }
+  },
+  "gum_uncertainty_budget": {
+    "grand_mean": 1.9933333333333334,
+    "components": [
+      {
+        "component": "seed",
+        "variance": 8.986666666666673,
+        "fraction": 0.014356003322754484
+      },
+      {
+        "component": "class",
+        "variance": 22.919999999999995,
+        "fraction": 0.0366141983854821
+      },
+      {
+        "component": "residual",
+        "variance": 594.0800000000003,
+        "fraction": 0.9490297982917635
+      }
+    ],
+    "total_variance": 625.9866666666669,
+    "seed_means": {
+      "42": 1.8,
+      "123": 2.22,
+      "456": 1.96
+    },
+    "class_means": {
+      "0": 2.3,
+      "1": 1.7333333333333334,
+      "2": 1.8666666666666667,
+      "3": 2.1,
+      "4": 2.5,
+      "5": 1.9666666666666666,
+      "6": 2.033333333333333,
+      "7": 2.033333333333333,
+      "8": 1.4333333333333333,
+      "9": 1.9666666666666666
+    },
+    "note": "Variance partition based on two-factor additive model (seed + class). Residual includes seed×class interaction and pure per-point noise."
+  },
+  "correlation_matrix": {
+    "seed_42": {
+      "variables": [
+        "TRV",
+        "SI",
+        "grad_norm",
+        "log_grad_norm",
+        "confidence",
+        "entropy"
+      ],
+      "spearman_rho": [
+        [
+          1.0,
+          -0.007515816720560497,
+          0.023851564478491075,
+          0.023851564478491075,
+          0.19384629755440144,
+          -0.1569261348695659
+        ],
+        [
+          -0.007515816720560497,
+          1.0,
+          -0.06151815181518151,
+          -0.06151815181518151,
+          -0.20466846684668463,
+          0.12502850285028502
+        ],
+        [
+          0.023851564478491075,
+          -0.06151815181518151,
+          1.0,
+          0.9999999999999999,
+          -0.07761176117611761,
+          0.10033003300330033
+        ],
+        [
+          0.023851564478491075,
+          -0.06151815181518151,
+          0.9999999999999999,
+          1.0,
+          -0.07761176117611761,
+          0.10033003300330033
+        ],
+        [
+          0.19384629755440144,
+          -0.20466846684668463,
+          -0.07761176117611761,
+          -0.07761176117611761,
+          1.0,
+          -0.9346894689468946
+        ],
+        [
+          -0.15692613486956591,
+          0.12502850285028502,
+          0.10033003300330033,
+          0.10033003300330033,
+          -0.9346894689468946,
+          1.0
+        ]
+      ],
+      "p_values": [
+        [
+          0.0,
+          0.9408398828577139,
+          0.8137815561364506,
+          0.8137815561364506,
+          0.05330227485815126,
+          0.11894693659586394
+        ],
+        [
+          0.9408398828577139,
+          0.0,
+          0.543171912311103,
+          0.543171912311103,
+          0.04108914415444099,
+          0.2151841338167076
+        ],
+        [
+          0.8137815561364506,
+          0.543171912311103,
+          0.0,
+          0.0,
+          0.44277323540255165,
+          0.3206148690681632
+        ],
+        [
+          0.8137815561364506,
+          0.543171912311103,
+          0.0,
+          0.0,
+          0.44277323540255165,
+          0.3206148690681632
+        ],
+        [
+          0.05330227485815126,
+          0.04108914415444099,
+          0.44277323540255165,
+          0.44277323540255165,
+          0.0,
+          8.166868004333775e-46
+        ],
+        [
+          0.1189469365958639,
+          0.2151841338167076,
+          0.3206148690681632,
+          0.3206148690681632,
+          8.166868004333775e-46,
+          0.0
+        ]
+      ],
+      "key_correlations": {
+        "TRV_SI": {
+          "rho": -0.007515816720560497,
+          "p": 0.9408398828577139
+        },
+        "TRV_grad_norm": {
+          "rho": 0.023851564478491075,
+          "p": 0.8137815561364506
+        },
+        "TRV_confidence": {
+          "rho": 0.19384629755440144,
+          "p": 0.05330227485815126
+        },
+        "TRV_entropy": {
+          "rho": -0.1569261348695659,
+          "p": 0.11894693659586394
+        },
+        "SI_grad_norm": {
+          "rho": -0.06151815181518151,
+          "p": 0.543171912311103
+        }
+      }
+    },
+    "seed_123": {
+      "variables": [
+        "TRV",
+        "SI",
+        "grad_norm",
+        "log_grad_norm",
+        "confidence",
+        "entropy"
+      ],
+      "spearman_rho": [
+        [
+          1.0,
+          0.11024401269853971,
+          -0.04617298279096532,
+          -0.04617298279096532,
+          -0.006667648244588321,
+          -0.019765502014756527
+        ],
+        [
+          0.11024401269853971,
+          1.0,
+          -0.11343534353435343,
+          -0.11343534353435343,
+          -0.06239423942394239,
+          0.013033303330333031
+        ],
+        [
+          -0.04617298279096532,
+          -0.11343534353435343,
+          1.0,
+          0.9999999999999999,
+          0.08829282928292828,
+          -0.07816381638163816
+        ],
+        [
+          -0.04617298279096532,
+          -0.11343534353435343,
+          0.9999999999999999,
+          1.0,
+          0.08829282928292828,
+          -0.07816381638163816
+        ],
+        [
+          -0.006667648244588322,
+          -0.06239423942394239,
+          0.08829282928292828,
+          0.08829282928292828,
+          1.0,
+          -0.9310051005100509
+        ],
+        [
+          -0.019765502014756523,
+          0.013033303330333031,
+          -0.07816381638163816,
+          -0.07816381638163816,
+          -0.9310051005100509,
+          1.0
+        ]
+      ],
+      "p_values": [
+        [
+          0.0,
+          0.2748718063337744,
+          0.6482690579545924,
+          0.6482690579545924,
+          0.9475060726367053,
+          0.8452449432588587
+        ],
+        [
+          0.2748718063337744,
+          0.0,
+          0.2611304312030716,
+          0.2611304312030716,
+          0.53743314544835,
+          0.8975951340999445
+        ],
+        [
+          0.6482690579545924,
+          0.2611304312030716,
+          0.0,
+          0.0,
+          0.3823713474650947,
+          0.4395255113991461
+        ],
+        [
+          0.6482690579545924,
+          0.2611304312030716,
+          0.0,
+          0.0,
+          0.3823713474650947,
+          0.4395255113991461
+        ],
+        [
+          0.9475060726367053,
+          0.53743314544835,
+          0.3823713474650947,
+          0.3823713474650947,
+          0.0,
+          1.0990614737536061e-44
+        ],
+        [
+          0.8452449432588587,
+          0.8975951340999445,
+          0.4395255113991461,
+          0.4395255113991461,
+          1.0990614737536061e-44,
+          0.0
+        ]
+      ],
+      "key_correlations": {
+        "TRV_SI": {
+          "rho": 0.11024401269853971,
+          "p": 0.2748718063337744
+        },
+        "TRV_grad_norm": {
+          "rho": -0.04617298279096532,
+          "p": 0.6482690579545924
+        },
+        "TRV_confidence": {
+          "rho": -0.006667648244588321,
+          "p": 0.9475060726367053
+        },
+        "TRV_entropy": {
+          "rho": -0.019765502014756527,
+          "p": 0.8452449432588587
+        },
+        "SI_grad_norm": {
+          "rho": -0.11343534353435343,
+          "p": 0.2611304312030716
+        }
+      }
+    },
+    "seed_456": {
+      "variables": [
+        "TRV",
+        "SI",
+        "grad_norm",
+        "log_grad_norm",
+        "confidence",
+        "entropy"
+      ],
+      "spearman_rho": [
+        [
+          1.0,
+          -0.030956176172464378,
+          -0.03894824420346139,
+          -0.03894824420346139,
+          -0.03522791908510208,
+          0.08066055735039421
+        ],
+        [
+          -0.030956176172464378,
+          1.0,
+          0.00432043204320432,
+          0.00432043204320432,
+          0.04614461446144614,
+          -0.05108910891089109
+        ],
+        [
+          -0.03894824420346138,
+          0.00432043204320432,
+          1.0,
+          0.9999999999999999,
+          0.006720672067206721,
+          -0.026462646264626456
+        ],
+        [
+          -0.03894824420346138,
+          0.00432043204320432,
+          0.9999999999999999,
+          1.0,
+          0.006720672067206721,
+          -0.026462646264626456
+        ],
+        [
+          -0.03522791908510208,
+          0.04614461446144614,
+          0.006720672067206721,
+          0.006720672067206721,
+          1.0,
+          -0.9623162316231622
+        ],
+        [
+          0.08066055735039421,
+          -0.05108910891089109,
+          -0.026462646264626456,
+          -0.026462646264626456,
+          -0.9623162316231622,
+          1.0
+        ]
+      ],
+      "p_values": [
+        [
+          0.0,
+          0.7598002637791259,
+          0.7004361911089009,
+          0.7004361911089009,
+          0.7278715738744036,
+          0.4250065296587685
+        ],
+        [
+          0.7598002637791259,
+          0.0,
+          0.9659715073197962,
+          0.9659715073197962,
+          0.6484708091439739,
+          0.6137008806085104
+        ],
+        [
+          0.7004361911089009,
+          0.9659715073197962,
+          0.0,
+          0.0,
+          0.947089220453749,
+          0.7938263013735049
+        ],
+        [
+          0.7004361911089009,
+          0.9659715073197962,
+          0.0,
+          0.0,
+          0.947089220453749,
+          0.7938263013735049
+        ],
+        [
+          0.7278715738744036,
+          0.6484708091439739,
+          0.947089220453749,
+          0.947089220453749,
+          0.0,
+          3.153537444176835e-57
+        ],
+        [
+          0.4250065296587685,
+          0.6137008806085104,
+          0.7938263013735049,
+          0.7938263013735049,
+          3.153537444176835e-57,
+          0.0
+        ]
+      ],
+      "key_correlations": {
+        "TRV_SI": {
+          "rho": -0.030956176172464378,
+          "p": 0.7598002637791259
+        },
+        "TRV_grad_norm": {
+          "rho": -0.03894824420346139,
+          "p": 0.7004361911089009
+        },
+        "TRV_confidence": {
+          "rho": -0.03522791908510208,
+          "p": 0.7278715738744036
+        },
+        "TRV_entropy": {
+          "rho": 0.08066055735039421,
+          "p": 0.4250065296587685
+        },
+        "SI_grad_norm": {
+          "rho": 0.00432043204320432,
+          "p": 0.9659715073197962
+        }
+      }
+    },
+    "averaged_across_seeds": {
+      "variables": [
+        "TRV",
+        "SI",
+        "grad_norm",
+        "log_grad_norm",
+        "confidence",
+        "entropy"
+      ],
+      "mean_spearman_rho": [
+        [
+          1.0,
+          0.02392400660183828,
+          -0.02042322083864521,
+          -0.02042322083864521,
+          0.05065024340823701,
+          -0.03201035984464273
+        ],
+        [
+          0.02392400660183828,
+          1.0,
+          -0.05687768776877688,
+          -0.05687768776877688,
+          -0.07363936393639363,
+          0.028990899089908987
+        ],
+        [
+          -0.02042322083864521,
+          -0.05687768776877688,
+          1.0,
+          0.9999999999999999,
+          0.005800580058005798,
+          -0.001432143214321429
+        ],
+        [
+          -0.02042322083864521,
+          -0.05687768776877688,
+          0.9999999999999999,
+          1.0,
+          0.005800580058005798,
+          -0.001432143214321429
+        ],
+        [
+          0.05065024340823701,
+          -0.07363936393639363,
+          0.005800580058005798,
+          0.005800580058005798,
+          1.0,
+          -0.9426702670267026
+        ],
+        [
+          -0.03201035984464274,
+          0.028990899089908987,
+          -0.001432143214321429,
+          -0.001432143214321429,
+          -0.9426702670267026,
+          1.0
+        ]
+      ]
+    }
+  },
+  "reported_statistics": {
+    "jaccard_degradation": {
+      "description": "Jaccard@10 vs Full GGN, per Hessian level and seed",
+      "data": {
+        "42": {
+          "full_ggn": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "kfac": {
+            "mean": 0.456,
+            "std": 0.162
+          },
+          "diagonal": {
+            "mean": 0.337,
+            "std": 0.149
+          },
+          "damped_identity": {
+            "mean": 0.334,
+            "std": 0.151
+          },
+          "identity": {
+            "mean": 0.334,
+            "std": 0.151
+          }
+        },
+        "123": {
+          "full_ggn": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "kfac": {
+            "mean": 0.532,
+            "std": 0.147
+          },
+          "diagonal": {
+            "mean": 0.365,
+            "std": 0.158
+          },
+          "damped_identity": {
+            "mean": 0.351,
+            "std": 0.152
+          },
+          "identity": {
+            "mean": 0.351,
+            "std": 0.152
+          }
+        },
+        "456": {
+          "full_ggn": {
+            "mean": 1.0,
+            "std": 0.0
+          },
+          "kfac": {
+            "mean": 0.447,
+            "std": 0.176
+          },
+          "diagonal": {
+            "mean": 0.372,
+            "std": 0.18
+          },
+          "damped_identity": {
+            "mean": 0.361,
+            "std": 0.175
+          },
+          "identity": {
+            "mean": 0.361,
+            "std": 0.175
+          }
+        }
+      },
+      "key_finding": "Full GGN -> KFAC is the largest drop (~0.45-0.53). Diagonal/Damped-ID/Identity are nearly identical."
+    },
+    "trv_distribution": {
+      "description": "TRV level distribution per seed",
+      "data": {
+        "42": {
+          "0": 0.0,
+          "1": 0.59,
+          "2": 0.21,
+          "3": 0.01,
+          "4": 0.0,
+          "5": 0.19
+        },
+        "123": {
+          "0": 0.0,
+          "1": 0.38,
+          "2": 0.4,
+          "3": 0.03,
+          "4": 0.0,
+          "5": 0.19
+        },
+        "456": {
+          "0": 0.0,
+          "1": 0.65,
+          "2": 0.11,
+          "3": 0.02,
+          "4": 0.0,
+          "5": 0.22
+        }
+      },
+      "key_finding": "Trimodal: Level 1 (38-65%), Level 2 (11-40%), Level 5 (19-22%). Levels 3-4 nearly empty."
+    },
+    "cross_seed_stability": {
+      "description": "Spearman rho of TRV rankings across training seeds",
+      "data": {
+        "42_vs_123": {
+          "rho": -0.023,
+          "p": 0.822
+        },
+        "42_vs_456": {
+          "rho": -0.073,
+          "p": 0.472
+        },
+        "123_vs_456": {
+          "rho": 0.076,
+          "p": 0.451
+        }
+      },
+      "mean_rho": -0.006666666666666668,
+      "key_finding": "Mean rho = -0.006 (essentially zero). TRV is NOT a test-point intrinsic property."
+    },
+    "si_trv_correlation": {
+      "description": "Spearman correlation between SI and TRV",
+      "data": {
+        "42": {
+          "spearman": 0.043,
+          "p": 0.672
+        },
+        "123": {
+          "spearman": -0.18,
+          "p": 0.073
+        },
+        "456": {
+          "spearman": -0.114,
+          "p": 0.26
+        }
+      },
+      "key_finding": "Near-zero correlation. SI and TRV measure orthogonal information."
+    },
+    "condition_numbers": {
+      "description": "Condition number kappa of last-layer Hessian",
+      "data": {
+        "42": 1220000.0,
+        "123": 1130000.0,
+        "456": 1360000.0
+      },
+      "key_finding": "kappa ~ 10^6, confirming spectral amplification is significant."
+    },
+    "per_point_std": {
+      "description": "Mean per-point Jaccard@10 standard deviation across Hessian levels",
+      "data": {
+        "42": 0.054,
+        "123": 0.082,
+        "456": 0.053
+      },
+      "key_finding": "std ~ 0.05-0.08, below 0.15 threshold. TRV is a coarse label, not continuous signal."
+    }
+  },
+  "implications_for_phase1": {
+    "must_use_full_model_hessian": {
+      "reason": "Last-layer setting collapsed Diagonal/Damped-ID/Identity into equivalent levels. Full-model Hessian preserves K-FAC/EK-FAC gap.",
+      "evidence": "Jaccard: Diagonal ≈ Damped-ID ≈ Identity (diff < 0.02). Only 2-3 effective hierarchy levels in last-layer.",
+      "action": "Phase 1 uses full-model EK-FAC/K-FAC from pyDVL/dattri. NOT last-layer only."
+    },
+    "trv_not_seed_stable": {
+      "reason": "Cross-seed Spearman rho ≈ 0 means individual eigenvector directions rotate across seeds.",
+      "evidence": "Mean cross-seed rho = -0.006",
+      "action": "BSS uses eigenvalue-magnitude buckets (outlier/edge/bulk) rather than individual eigenvectors. RMT predicts these are seed-stable."
+    },
+    "class_dominance_risk": {
+      "reason": "Hessian outlier eigenspaces correspond to class-discriminative directions (Papyan 2020).",
+      "evidence": "TRV trimodal distribution may correlate with class membership.",
+      "action": "Phase 1 variance decomposition controls for class as first factor (Type I sequential SS)."
+    },
+    "per_point_variance_insufficient_for_continuous_routing": {
+      "reason": "Per-point Jaccard std ~ 0.05 is too low for continuous routing signal.",
+      "evidence": "All seeds below 0.15 threshold.",
+      "action": "Phase 1 uses response variables (J10, tau, LDS) with potentially higher variance in full-model setting."
+    },
+    "si_not_useful_as_proxy": {
+      "reason": "SI-TRV correlation ≈ 0. SI captures distribution-shift sensitivity, not Hessian-approximation sensitivity.",
+      "evidence": "All seeds |rho| < 0.18",
+      "action": "BSS uses actual Hessian eigendecomposition, not SI proxy."
+    }
+  },
+  "summary": {
+    "gum_budget_seed_fraction": 0.014356003322754484,
+    "gum_budget_class_fraction": 0.0366141983854821,
+    "gum_budget_residual_fraction": 0.9490297982917635,
+    "cross_seed_mean_rho": -0.006666666666666668,
+    "mean_per_point_std": 0.063,
+    "mean_si_trv_rho": 0.11233333333333333,
+    "effective_hierarchy_levels": 3,
+    "trimodal_trv": true,
+    "immune_fraction": 0.2
+  },
+  "quality_flags": {
+    "raw_data_available": false,
+    "synthetic_reconstruction": true,
+    "correlation_matrix_approximate": true,
+    "class_conditional_analysis_approximate": true,
+    "gum_budget_exact_for_reported_distributions": true
+  }
+}

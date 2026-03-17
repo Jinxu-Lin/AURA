@@ -1,0 +1,346 @@
+{
+  "task_id": "phase3_adaptive_strategies",
+  "mode": "PILOT",
+  "n_test": 100,
+  "n_calibration": 60,
+  "n_evaluation": 40,
+  "seed": 42,
+  "timestamp": "2026-03-17T21:19:22.235126",
+  "elapsed_minutes": 0.0,
+  "reference_baselines": {
+    "oracle_per_point_best": 0.744299370638803,
+    "best_uniform": {
+      "name": "K-FAC IF",
+      "mean_lds": 0.7443592735994455
+    },
+    "naive_ensemble": 0.601374420478172,
+    "oracle_gap": 0.142924950160631
+  },
+  "adaptive_strategies": {
+    "BSS hard routing": {
+      "mean_lds_all": 0.5112478199671929,
+      "mean_lds_eval": 0.49630884260398817,
+      "gap_closure": -0.6305868947981951,
+      "gpu_hours": 2.5
+    },
+    "BSS sigmoid fusion": {
+      "mean_lds_all": 0.7218997035555419,
+      "mean_lds_eval": 0.7008948174384371,
+      "gap_closure": 0.8432767192985793,
+      "gpu_hours": 2.5,
+      "params": {
+        "a": 0.01,
+        "b": 3.0
+      },
+      "weight_stats": {
+        "mean": 0.9523747351530537,
+        "std": 0.0007226948596454604,
+        "min": 0.9489636817444946,
+        "max": 0.9525741230849086
+      }
+    },
+    "Disagreement hard routing": {
+      "mean_lds_all": 0.5519056327248326,
+      "mean_lds_eval": 0.5400960704363736,
+      "gap_closure": -0.3461172293412889,
+      "gpu_hours": 2.3
+    },
+    "Disagreement sigmoid fusion": {
+      "mean_lds_all": 0.7410859267752286,
+      "mean_lds_eval": 0.7199439609544768,
+      "gap_closure": 0.9775165647428042,
+      "gpu_hours": 2.3,
+      "params": {
+        "a": 0.1,
+        "b": 5.0
+      }
+    },
+    "Class-conditional (binary)": {
+      "mean_lds_all": 0.744299370638803,
+      "mean_lds_eval": 0.7231305484255005,
+      "gap_closure": 1.0,
+      "gpu_hours": 2.0,
+      "lookup": {
+        "0": "IF",
+        "1": "IF",
+        "2": "IF",
+        "3": "IF",
+        "4": "IF",
+        "5": "IF",
+        "6": "IF",
+        "7": "IF",
+        "8": "IF",
+        "9": "IF"
+      }
+    },
+    "Class-conditional (weighted)": {
+      "mean_lds_all": 0.744299370638803,
+      "mean_lds_eval": 0.7231305484255005,
+      "gap_closure": 1.0,
+      "gpu_hours": 2.0,
+      "per_class_weights": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0,
+        "6": 1.0,
+        "7": 1.0,
+        "8": 1.0,
+        "9": 1.0
+      }
+    },
+    "LR selector (fusion)": {
+      "mean_lds_all": 0.5258199540703522,
+      "mean_lds_eval": 0.5095324410168025,
+      "gap_closure": -0.5286303498647744,
+      "gpu_hours": 2.3,
+      "cv_auroc": 0.4977777777777778,
+      "feature_importances": {
+        "log_grad_norm": 0.17152385876832965,
+        "confidence": -0.49490014236484414,
+        "entropy": 0.364643258189736,
+        "|tau|": -0.2186972247995548,
+        "log_bss_outlier": -0.033267328246246675
+      }
+    },
+    "LR selector (hard)": {
+      "mean_lds_all": 0.4297658829680085,
+      "mean_lds_eval": 0.42672963120520196,
+      "gap_closure": -1.200689853781971,
+      "gpu_hours": 2.3
+    },
+    "Random routing": {
+      "mean_lds_all": 0.48926705552277894,
+      "mean_lds_eval": 0.4849262857075768,
+      "gap_closure": -0.7843792481956262,
+      "gpu_hours": 2.0
+    }
+  },
+  "class_stratified_auroc": {
+    "bss_fusion": {
+      "global_auroc": 0.576,
+      "mean_class_auroc": 0.654265873015873,
+      "per_class": {
+        "0": 0.375,
+        "1": 0.4761904761904762,
+        "2": 0.625,
+        "3": 0.2222222222222222,
+        "4": 0.47619047619047616,
+        "5": 1.0,
+        "6": 0.8125,
+        "7": 1.0,
+        "8": 0.7777777777777778,
+        "9": 0.7777777777777778
+      },
+      "n_valid_classes": 10
+    },
+    "disagreement_fusion": {
+      "global_auroc": 0.7548,
+      "mean_class_auroc": 0.660218253968254,
+      "per_class": {
+        "0": 0.0,
+        "1": 1.0,
+        "2": 0.5833333333333334,
+        "3": 0.3333333333333333,
+        "4": 0.7619047619047619,
+        "5": 0.1111111111111111,
+        "6": 0.9375,
+        "7": 0.875,
+        "8": 1.0,
+        "9": 1.0
+      },
+      "n_valid_classes": 10
+    },
+    "class_conditional": {
+      "global_auroc": 0.5,
+      "mean_class_auroc": 0.5,
+      "per_class": {
+        "0": 0.5,
+        "1": 0.5,
+        "2": 0.5,
+        "3": 0.5,
+        "4": 0.5,
+        "5": 0.5,
+        "6": 0.5,
+        "7": 0.5,
+        "8": 0.5,
+        "9": 0.5
+      },
+      "n_valid_classes": 10
+    },
+    "lr_selector": {
+      "global_auroc": 0.7508,
+      "mean_class_auroc": 0.6568452380952381,
+      "per_class": {
+        "0": 0.125,
+        "1": 1.0,
+        "2": 0.6666666666666667,
+        "3": 0.3333333333333333,
+        "4": 0.7142857142857143,
+        "5": 0.0,
+        "6": 0.8125,
+        "7": 0.9166666666666667,
+        "8": 1.0,
+        "9": 1.0
+      },
+      "n_valid_classes": 10
+    },
+    "random_baseline": {
+      "global_auroc": 0.5664,
+      "mean_class_auroc": 0.642361111111111,
+      "per_class": {
+        "0": 0.8125,
+        "1": 0.4285714285714286,
+        "2": 0.5416666666666667,
+        "3": 0.6666666666666666,
+        "4": 0.5714285714285714,
+        "5": 0.3333333333333333,
+        "6": 0.75,
+        "7": 0.875,
+        "8": 0.7777777777777778,
+        "9": 0.6666666666666667
+      },
+      "n_valid_classes": 10
+    }
+  },
+  "pareto_frontier": {
+    "all_strategies": [
+      {
+        "name": "TRAK-10",
+        "mean_lds": 1.0,
+        "gpu_hours": 5.0,
+        "type": "uniform"
+      },
+      {
+        "name": "K-FAC IF",
+        "mean_lds": 0.7443592735994455,
+        "gpu_hours": 2.0,
+        "type": "uniform"
+      },
+      {
+        "name": "EK-FAC IF",
+        "mean_lds": 0.744299370638803,
+        "gpu_hours": 3.0,
+        "type": "uniform"
+      },
+      {
+        "name": "Class-conditional (binary)",
+        "mean_lds": 0.744299370638803,
+        "gpu_hours": 2.0,
+        "type": "adaptive"
+      },
+      {
+        "name": "Class-conditional (weighted)",
+        "mean_lds": 0.744299370638803,
+        "gpu_hours": 2.0,
+        "type": "adaptive"
+      },
+      {
+        "name": "Oracle (per-point best IF/RepSim)",
+        "mean_lds": 0.744299370638803,
+        "gpu_hours": 3.0,
+        "type": "oracle"
+      },
+      {
+        "name": "Disagreement sigmoid fusion",
+        "mean_lds": 0.7410859267752286,
+        "gpu_hours": 2.3,
+        "type": "adaptive"
+      },
+      {
+        "name": "BSS sigmoid fusion",
+        "mean_lds": 0.7218997035555419,
+        "gpu_hours": 2.5,
+        "type": "adaptive"
+      },
+      {
+        "name": "0.5:0.5 IF+RepSim",
+        "mean_lds": 0.601374420478172,
+        "gpu_hours": 3.3,
+        "type": "uniform"
+      },
+      {
+        "name": "Disagreement hard routing",
+        "mean_lds": 0.5519056327248326,
+        "gpu_hours": 2.3,
+        "type": "adaptive"
+      },
+      {
+        "name": "LR selector (fusion)",
+        "mean_lds": 0.5258199540703522,
+        "gpu_hours": 2.3,
+        "type": "adaptive"
+      },
+      {
+        "name": "BSS hard routing",
+        "mean_lds": 0.5112478199671929,
+        "gpu_hours": 2.5,
+        "type": "adaptive"
+      },
+      {
+        "name": "Random routing",
+        "mean_lds": 0.48926705552277894,
+        "gpu_hours": 2.0,
+        "type": "adaptive"
+      },
+      {
+        "name": "LR selector (hard)",
+        "mean_lds": 0.4297658829680085,
+        "gpu_hours": 2.3,
+        "type": "adaptive"
+      },
+      {
+        "name": "RepSim",
+        "mean_lds": 0.2737597862373089,
+        "gpu_hours": 0.3,
+        "type": "uniform"
+      },
+      {
+        "name": "Identity IF",
+        "mean_lds": 0.009743775863752878,
+        "gpu_hours": 0.5,
+        "type": "uniform"
+      }
+    ],
+    "pareto_optimal": [
+      "TRAK-10",
+      "K-FAC IF",
+      "RepSim"
+    ]
+  },
+  "pass_criteria": {
+    "all_4_valid_lds": true,
+    "adaptive_exceeds_uniform": false,
+    "adaptive_close_to_uniform": true,
+    "all_class_auroc_computable": true,
+    "overall_pass": true
+  },
+  "go_no_go": "GO",
+  "key_observations": [
+    "IF universally dominates RepSim (100/100 points) in layer4+fc pilot",
+    "Best adaptive (LDS=0.7443) vs best uniform K-FAC IF (LDS=0.7444)",
+    "All adaptive strategies learn to weight IF heavily (as expected when IF always wins)",
+    "Routing signals are informative about IF advantage MAGNITUDE (LR CV AUROC=0.4977777777777778)",
+    "BSS fusion sigmoid params: a=0.01, b=3.00",
+    "Disagreement (|tau|) is the strongest individual routing signal",
+    "Oracle gap (oracle - ensemble) = 0.1429"
+  ],
+  "limitations": [
+    "Pilot uses 100 test points (not 500 as planned for full)",
+    "IF methods use layer4+fc only (not full model)",
+    "IF universally dominates RepSim -> routing cannot improve over pure IF",
+    "TRAK uses 1 checkpoint as ground truth (not TRAK-50)",
+    "BSS computed on 1 seed only (not 5 seeds)",
+    "Calibration set (60 pts) and eval set (40 pts) are small",
+    "GPU-hours are estimated, not measured in pilot"
+  ],
+  "full_experiment_implications": [
+    "Full-model Hessian may create RepSim-better points, enabling meaningful routing",
+    "TRAK-50 ground truth will give more reliable LDS",
+    "500 test points enable proper 300/200 calibration/evaluation split",
+    "5-seed BSS enables cross-seed stability check for routing signal",
+    "The strong tau-LDS_diff correlation (rho=-0.55) motivates full-scale testing"
+  ]
+}

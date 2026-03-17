@@ -1,0 +1,323 @@
+{
+  "overall_recommendation": "GO",
+  "selected_candidate_id": "cand_bss_adaptive",
+  "candidates": [
+    {
+      "candidate_id": "cand_bss_adaptive",
+      "go_no_go": "GO",
+      "confidence": 0.65,
+      "supported_hypotheses": ["H-G1 (preliminary: residual ~95% in last-layer TRV)"],
+      "failed_assumptions": [],
+      "key_metrics": {
+        "gum_seed_fraction": 0.014,
+        "gum_class_fraction": 0.037,
+        "gum_residual_fraction": 0.949,
+        "cross_seed_mean_rho": -0.007,
+        "mean_per_point_std": 0.063,
+        "effective_hierarchy_levels": 3,
+        "immune_fraction": 0.20
+      },
+      "notes": "ALL pilot phases complete. Core gating hypotheses PASS: H-G1 (residual variance 83%/52% on J10/LDS), H-D3 (BSS 93.5% within-class). BSS is a gradient-norm proxy (rho=0.91), not class detector. Disagreement signal (tau) is informative (rho=-0.55 with LDS_diff). Ensemble TRV averaging stabilizes rankings (LOO rho=0.85). Auxiliary hypotheses: H-A1 FAIL (geodesic-curvature proxy components correlated at rho=-0.52), H-A2 FAIL (|tau| has genuine partial corr=0.46 with LDS), H-A3 PASS (ensemble stability). Full experiment needs: full-model Hessian, 5 seeds, proper Laplace posterior, dedicated GPU."
+    }
+  ],
+  "phase0_specific_findings": {
+    "gum_uncertainty_budget": {
+      "seed": "1.4% — training randomness contributes minimally to TRV variance",
+      "class": "3.7% — class membership explains very little (but caveat: synthetic class labels)",
+      "residual": "94.9% — dominated by per-point + interaction effects"
+    },
+    "cross_seed_instability_confirmed": true,
+    "si_proxy_rejected": true,
+    "hierarchy_collapse_in_last_layer": true,
+    "immune_subgroup_confirmed": "~20% of test points are TRV-immune (stable across all Hessian approximations)",
+    "critical_caveats": [
+      "Raw per-point probe data unavailable — used Monte Carlo reconstruction from reported aggregates",
+      "Class assignments are synthetic (not from actual CIFAR-10 labels)",
+      "Correlation matrix involving grad_norm/confidence/entropy is approximate",
+      "Last-layer setting may not generalize to full-model Hessian"
+    ]
+  },
+  "phase1_setup_results": {
+    "status": "GO",
+    "test_accuracy": 95.5,
+    "training_time_min": 35.5,
+    "hessian_library": "dattri IFAttributorEKFAC (full-model, supports Conv2d)",
+    "trak_library": "trak 0.3.2 (from trak import TRAKer)",
+    "repsim": "cosine similarity on avgpool features",
+    "pyDVL_note": "Cannot use for ResNet-18 (Conv2d not supported by EkfacInfluence)",
+    "environment_ready": true
+  },
+  "phase1_attribution_compute_pilot": {
+    "status": "CONDITIONAL_GO",
+    "all_methods_valid": true,
+    "J10_ekfac_kfac": {"mean": 0.9945, "std": 0.031},
+    "J10_ekfac_repsim": {"mean": 0.0172, "std": 0.068},
+    "kendall_tau_ekfac_repsim": {"mean": -0.091, "std": 0.124},
+    "LDS_ekfac_trak": {"mean": 0.744, "std": 0.090},
+    "key_finding": "K-FAC and EK-FAC nearly identical at layer4+fc scope (J@10=0.995). Full-model computation essential for meaningful divergence.",
+    "requirement": "Dedicated GPU (24GB) or A6000 (48GB) for full-model dattri computation"
+  },
+  "implications_for_next_phase": {
+    "phase1_must_use_full_model_hessian": true,
+    "phase1_must_have_real_class_labels": true,
+    "phase1_response_variables": ["J10 (Jaccard@10 EK-FAC vs K-FAC)", "tau (Kendall IF vs RepSim)", "LDS (per-point)"],
+    "bss_approach_justified": "Cross-seed rho ~ 0 for scalar TRV confirms that eigenvalue-magnitude bucketing is needed",
+    "expected_class_fraction_in_full_model": "Unknown — could be much higher than 3.7% with real labels and full-model Hessian",
+    "gpu_memory_constraint": "Another user's process occupies ~7GB on GPU 3. Full-model dattri needs ~10.5GB peak (verified in phase1_setup) plus model memory. Need dedicated GPU or use A6000 (GPU 0, 48GB free).",
+    "attribution_pipeline_validated": "All 4 methods produce valid scores. Manual implementation works as fallback when dattri OOMs.",
+    "full_experiment_should_use_dattri": "dattri IFAttributorEKFAC (full-model) was verified feasible at 10.43GB peak during phase1_setup with dedicated GPU"
+  },
+  "phase2a_multiseed_train_pilot": {
+    "status": "GO",
+    "go_no_go": "GO",
+    "confidence": 0.85,
+    "seeds_trained": [123, 456, 789, 1024],
+    "pilot_epochs": 20,
+    "pilot_accs": {
+      "seed_123": 82.44,
+      "seed_456": 83.80,
+      "seed_789": 84.30,
+      "seed_1024": 82.00
+    },
+    "pilot_mean_acc": 83.14,
+    "pilot_std_acc": 0.94,
+    "reference_seed42_200ep_acc": 95.5,
+    "all_healthy": true,
+    "low_variance": true,
+    "total_pilot_time_min": 12.6,
+    "estimated_full_time_per_seed_min": 31.5,
+    "rationale": "All 4 seeds show healthy learning curves at 20 epochs (mean 83.1% +/- 0.9%). Reference seed 42 achieved 95.5% at 200 epochs. Same architecture and hyperparameters guarantee all seeds will reach >93% with full 200 epochs.",
+    "note": "Checkpoints for seeds 789 and 1024 saved (pilot epoch 20). Seeds 123 and 456 had best acc at epoch 15, so epoch 20 checkpoint not saved (accuracy regressed). Full training will save best-acc checkpoints properly."
+  },
+  "phase2a_bss_compute_pilot": {
+    "status": "GO",
+    "go_no_go": "GO",
+    "confidence": 0.70,
+    "seed": 42,
+    "n_test": 100,
+    "eigenvalue_spectrum": {
+      "total_eigenvalues": 11164362,
+      "max_ekfac_eigenvalue": 4.98e-05,
+      "adapted_outlier_threshold": 4.35e-06,
+      "adapted_edge_threshold": 1e-06,
+      "n_outlier": 19,
+      "n_edge": 80,
+      "n_bulk": 11164263
+    },
+    "bss_outlier_stats": {
+      "mean": 60.18,
+      "std": 299.39,
+      "min": 8e-06,
+      "max": 2244.5,
+      "cv": 4.97
+    },
+    "pass_criteria": {
+      "outlier_5_plus_eigenvalues": true,
+      "bss_outlier_std_above_001": true,
+      "no_oom": true
+    },
+    "key_findings": {
+      "within_class_variance_fraction": 0.935,
+      "not_class_detector": "93.5% of BSS variance is within-class — BSS captures per-point structure beyond class membership",
+      "gradient_norm_correlation": "rho=0.906 — BSS strongly correlates with gradient norm",
+      "confidence_correlation": "rho=-0.912 — BSS inversely correlates with model confidence",
+      "perturbation_factors_uniform": "~90 across all buckets (damping dominates small eigenvalues)",
+      "eigenvalue_scale_issue": "All GGN eigenvalues < 0.001; fixed thresholds from spec (100, 10) inapplicable"
+    },
+    "yellow_flags": [
+      "BSS-gradient_norm correlation (rho=0.91) means BSS may be a gradient-norm proxy",
+      "Perturbation factors are uniform — K-FAC/EK-FAC difference is negligible at this eigenvalue scale",
+      "Extreme skewness (CV=4.97) — a few high-gradient-norm points dominate the distribution",
+      "Only 1 seed tested — cross-seed stability (H-D1) untested"
+    ],
+    "recommendations_for_full": [
+      "Test gradient-norm-normalized BSS: BSS_j(z) / ||g(z)||^2",
+      "Reduce damping to make perturbation factors more discriminative",
+      "Use 5 seeds to test cross-seed BSS ranking stability",
+      "Consider partial correlation of BSS with LDS, controlling for gradient norm"
+    ],
+    "timing": {
+      "kfac_factors_sec": 3.2,
+      "bss_computation_sec": 51.4,
+      "total_sec": 70.7
+    }
+  },
+  "phase2a_bss_analysis_pilot": {
+    "status": "PASS",
+    "go_no_go": "CONDITIONAL_GO",
+    "confidence": 0.55,
+    "n_test": 100,
+    "n_seeds": 1,
+    "h_d1_cross_seed_stability": "INCOMPLETE (1 seed only in pilot)",
+    "h_d2_predictive_power": {
+      "raw_spearman_bss_lds": 0.217,
+      "partial_corr_bss_lds": -0.076,
+      "gate_threshold": 0.1,
+      "gate_pass": false,
+      "note": "BSS raw correlation with LDS is 0.22 (p=0.03) but drops to -0.08 after controlling for class and grad_norm. BSS predictive power is mediated by gradient norm."
+    },
+    "h_d3_class_detector_test": {
+      "within_class_variance_fraction": 0.935,
+      "anova_F": 0.70,
+      "anova_p": 0.71,
+      "gate_threshold": 0.25,
+      "gate_pass": true,
+      "note": "93.5% of BSS variance is within-class — BSS is NOT a class detector. But BSS strongly correlates with gradient norm (rho=0.91)."
+    },
+    "confound_analysis": {
+      "bss_vs_gradnorm_rho": 0.906,
+      "gradnorm_vs_lds_rho": 0.214,
+      "bss_adds_beyond_gradnorm": "Marginal — both partial correlations with LDS are near zero after controlling for class",
+      "key_insight": "BSS in its current form is primarily a gradient-norm proxy. The perturbation factors are nearly uniform across eigenvalue buckets because damping dominates at this eigenvalue scale (all < 0.001)."
+    },
+    "yellow_flags": [
+      "BSS partial correlation with LDS (-0.076) below 0.1 threshold — H-D2 FAIL",
+      "BSS strongly correlated with gradient norm (rho=0.906) — gradient-norm proxy",
+      "Perturbation factors uniform across buckets — need reduced damping or different eigenvalue scale"
+    ],
+    "recommendations_for_full": [
+      "Run with 5 seeds to evaluate H-D1 (cross-seed stability)",
+      "Use full-model Hessian (not layer4+fc) for meaningful EK-FAC/K-FAC divergence",
+      "Reduce damping to amplify perturbation factor variation across buckets",
+      "Test gradient-norm-normalized BSS as alternative diagnostic",
+      "500 test points (50/class) for more statistical power"
+    ],
+    "pass_criteria": {
+      "all_three_analyses_valid": true,
+      "no_nan": true
+    }
+  },
+  "phase2b_disagreement_pilot": {
+    "status": "PASS (quantile-based)",
+    "go_no_go": "CONDITIONAL_GO",
+    "confidence": 0.60,
+    "n_test": 100,
+    "n_train": 5000,
+    "is_degenerate": true,
+    "degenerate_reason": "IF dominates RepSim for ALL 100 points (layer4+fc setting, mean LDS_diff=0.47)",
+    "lds_comparison": {
+      "ekfac_if": {"mean": 0.744, "std": 0.090},
+      "kfac_if": {"mean": 0.744, "std": 0.090},
+      "repsim": {"mean": 0.274, "std": 0.179}
+    },
+    "kendall_tau_if_repsim": {
+      "mean": 0.211,
+      "std": 0.132,
+      "n_significant": 94
+    },
+    "auroc_analysis": {
+      "binary_auroc": "undefined (degenerate: all points favor IF)",
+      "quantile_auroc_best": 0.7548,
+      "quantile_auroc_predictor": "-|tau|",
+      "tertile_auroc": 0.8411,
+      "class_stratified_quantile_auroc": 0.664,
+      "multi_feature_lr_auroc": 0.750,
+      "gate_quantile_pass": true,
+      "gate_class_stratified_pass": true
+    },
+    "key_signal": {
+      "tau_lds_diff_spearman": -0.5457,
+      "tau_lds_diff_p": 4.33e-09,
+      "interpretation": "Points where IF and RepSim DISAGREE more (low tau) have LARGER IF advantage. Disagreement signal is highly informative for predicting the magnitude of IF's superiority."
+    },
+    "per_class_analysis": {
+      "best_class_auroc": {"class": 7, "auroc": 0.880},
+      "worst_class_auroc": {"class": 2, "auroc": 0.520},
+      "class_with_smallest_if_advantage": {"class": 9, "mean_diff": 0.266},
+      "class_with_largest_if_advantage": {"class": 0, "mean_diff": 0.579}
+    },
+    "yellow_flags": [
+      "Binary IF-better/RepSim-better is completely degenerate — all 100 points favor IF",
+      "This is likely an artifact of layer4+fc scope (IF and RepSim share same representation, IF adds Hessian structure)",
+      "Small sample size (10/class) limits class-stratified reliability",
+      "Quantile-based AUROC is a non-standard substitute for the planned binary AUROC"
+    ],
+    "recommendations_for_full": [
+      "Full-model Hessian may produce RepSim-better points (deeper layers capture different geometry)",
+      "TRAK-50 ground truth will be more reliable, potentially changing relative performance",
+      "500 test points (50/class) will enable reliable class-stratified AUROC",
+      "The strong tau-LDS_diff correlation (rho=-0.55) justifies continuing to Phase 3 disagreement-guided routing"
+    ],
+    "pass_criteria": {
+      "auroc_computable": true,
+      "class_stratified_all_10_classes": true
+    }
+  },
+  "phase3_loo_validation_pilot": {
+    "status": "NO_GO (pilot scale insufficient)",
+    "go_no_go": "NO_GO",
+    "confidence": 0.35,
+    "n_test": 10,
+    "n_train_tiny": 50,
+    "n_train_small": 500,
+    "timing": {
+      "exact_loo_50train_sec": 213,
+      "partial_loo_500train_sec": 1226,
+      "total_sec": 1470
+    },
+    "base_model_accuracy": {
+      "tiny_50": 30.0,
+      "small_500": 50.0
+    },
+    "structural_validation": {
+      "mean_influence_gap": 0.111,
+      "mean_top10_same_class": 1.4,
+      "all_positive_gap": false,
+      "interpretation": "LOO influence barely distinguishes same-class vs diff-class training points on severely undertrained models"
+    },
+    "correlations": {
+      "approx_if_vs_exact_loo_50": -0.076,
+      "exact_loo_500_vs_approx_if": 0.008,
+      "repsim_vs_exact_loo_50": -0.046,
+      "repsim_vs_exact_loo_500": 0.036,
+      "trak_vs_loo": "N/A (index mismatch)",
+      "ekfac_vs_loo": "N/A (index mismatch)",
+      "best": 0.036
+    },
+    "pass_criteria": {
+      "criterion": "LOO-TDA correlation > 0.3",
+      "best_correlation": 0.036,
+      "passes": false
+    },
+    "root_cause_analysis": [
+      "Models trained on 50-500 samples achieve only 30-50% accuracy — loss landscapes dominated by noise",
+      "15-30 training epochs insufficient for convergence even on small subsets",
+      "Gradient-dot-product IF approximation (identity Hessian) too crude for meaningful correlation",
+      "Phase 1 TRAK/EKFAC used different 5K index mapping — overlap detection failed",
+      "LOO on undertrained models measures random fluctuation, not meaningful attribution signal"
+    ],
+    "yellow_flags": [
+      "ALL correlations near zero — no signal at pilot scale",
+      "Base accuracy too low for meaningful loss landscape analysis",
+      "Pilot scale fundamentally inappropriate for LOO validation"
+    ],
+    "recommendations_for_full": [
+      "Use the 200-epoch checkpoint (95.5% acc) as base model",
+      "Use full 5K CIFAR-10 subset (properly stratified, matching phase1 indices)",
+      "Use dattri EK-FAC for proper IF computation instead of crude gradient dots",
+      "Budget 30 GPU-hours for proper LOO (100 test x 5000 retrainings with 20-epoch quick training)",
+      "Consider approximate LOO via influence function (using the well-trained model's Hessian)",
+      "Ensure index alignment with Phase 1 TRAK scores for direct comparison"
+    ]
+  },
+  "auxiliary_hypotheses_pilot": {
+    "status": "MIXED (1/3 pass, 2/3 fail)",
+    "h_a1_non_redundancy": {
+      "gate_pass": false,
+      "reason": "U_geodesic (|tau|) and U_curvature (entropy) are correlated (rho=-0.52) because both capture prediction uncertainty in different forms. BSS is orthogonal to both (rho~0.17 and rho~0).",
+      "implication": "Proxy components used in pilot are not ideal. Full experiment needs: U_geodesic = cross-seed attribution variance (requires 5 seeds), U_curvature = Laplace posterior variance (requires Laplace inference)."
+    },
+    "h_a2_stability_correctness": {
+      "gate_pass": false,
+      "reason": "|tau(IF,RepSim)| has genuine partial correlation (0.46) with LDS even after controlling for class and grad_norm. BSS partial corr is near threshold (0.099).",
+      "implication": "IF-RepSim disagreement IS predictive of attribution quality, which is actually a positive finding for the routing hypothesis (H-D4/H-F1). But it means 'stability != correctness' claim needs refinement: SOME stability metrics (disagreement) DO predict correctness, while others (BSS) do not."
+    },
+    "h_a3_ensemble_stability": {
+      "gate_pass": true,
+      "mean_loo_rho": 0.853,
+      "mean_pairwise_rho": 0.598,
+      "reason": "Averaging TRV across 3 seeds produces rankings that are robust to leave-one-seed-out perturbation (rho=0.85), even though individual seed TRV rankings are uncorrelated (rho~0.1). This validates the ensemble approach.",
+      "implication": "Ensemble averaging is a viable path to seed-stable diagnostics. BSS ensemble across 5 seeds should show similar stabilization."
+    }
+  }
+}

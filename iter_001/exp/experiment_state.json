@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "tasks": {
+    "phase0_reanalysis": {
+      "status": "completed",
+      "gpu_ids": [
+        3
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase0_reanalysis.pid",
+      "registered_at": "2026-03-17T16:03:50.017660",
+      "completed_at": "2026-03-17T16:11:13"
+    },
+    "phase1_setup": {
+      "status": "completed",
+      "gpu_ids": [
+        3
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase1_setup.pid",
+      "registered_at": "2026-03-17T16:12:57.032663",
+      "completed_at": "2026-03-17T18:10:00"
+    },
+    "phase1_attribution_compute": {
+      "status": "completed",
+      "gpu_ids": [
+        3
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase1_attribution_compute.pid",
+      "registered_at": "2026-03-17T18:04:07.552350",
+      "completed_at": "2026-03-17T18:41:00"
+    },
+    "phase1_variance_decomposition": {
+      "status": "completed",
+      "gpu_ids": [
+        3
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase1_variance_decomposition.pid",
+      "registered_at": "2026-03-17T18:46:52.001495",
+      "completed_at": "2026-03-17T18:50:01"
+    },
+    "phase2a_multiseed_train": {
+      "status": "completed",
+      "gpu_ids": [
+        3
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase2a_multiseed_train.pid",
+      "registered_at": "2026-03-17T18:51:33.342764",
+      "completed_at": "2026-03-17T19:10:06"
+    },
+    "phase2a_bss_compute": {
+      "status": "completed",
+      "gpu_ids": [
+        2,
+        3
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase2a_bss_compute.pid",
+      "registered_at": "2026-03-17T19:12:51.657470",
+      "completed_at": "2026-03-17T19:16:11"
+    },
+    "phase2a_bss_analysis": {
+      "status": "running",
+      "gpu_ids": [
+        2
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase2a_bss_analysis.pid",
+      "registered_at": "2026-03-17T19:22:41.083636"
+    },
+    "phase2b_disagreement": {
+      "status": "running",
+      "gpu_ids": [
+        3
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase2b_disagreement.pid",
+      "registered_at": "2026-03-17T19:22:41.083648"
+    },
+    "phase3_loo_validation": {
+      "status": "completed",
+      "gpu_ids": [
+        2,
+        3
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase3_loo_validation.pid",
+      "registered_at": "2026-03-17T19:37:41.813196",
+      "completed_at": "2026-03-17T20:49:39"
+    },
+    "phase3_uniform_baselines": {
+      "status": "completed",
+      "gpu_ids": [
+        2
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase3_uniform_baselines.pid",
+      "registered_at": "2026-03-17T20:55:07.476959",
+      "completed_at": "2026-03-17T21:02:20"
+    },
+    "auxiliary_hypotheses": {
+      "status": "running",
+      "gpu_ids": [
+        3
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/auxiliary_hypotheses.pid",
+      "registered_at": "2026-03-17T20:55:07.476969"
+    },
+    "phase3_adaptive_strategies": {
+      "status": "running",
+      "gpu_ids": [
+        2
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase3_adaptive_strategies.pid",
+      "registered_at": "2026-03-17T21:14:31.372164"
+    }
+  },
+  "last_recovery_at": "",
+  "recovery_log": []
+}

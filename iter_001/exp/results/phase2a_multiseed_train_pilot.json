@@ -1,0 +1,139 @@
+{
+  "task_id": "phase2a_multiseed_train",
+  "mode": "pilot",
+  "pilot_epochs": 20,
+  "full_epochs": 200,
+  "seeds_trained": [
+    123,
+    456,
+    789,
+    1024
+  ],
+  "seed_results": [
+    {
+      "seed": 123,
+      "epochs_trained": 20,
+      "best_test_acc": 82.44,
+      "training_time_min": 3.2,
+      "epoch_accs": [
+        {
+          "epoch": 5,
+          "test_acc": 71.96
+        },
+        {
+          "epoch": 10,
+          "test_acc": 78.8
+        },
+        {
+          "epoch": 15,
+          "test_acc": 82.44
+        },
+        {
+          "epoch": 20,
+          "test_acc": 78.85
+        }
+      ]
+    },
+    {
+      "seed": 456,
+      "epochs_trained": 20,
+      "best_test_acc": 83.8,
+      "training_time_min": 3.2,
+      "epoch_accs": [
+        {
+          "epoch": 5,
+          "test_acc": 68.05
+        },
+        {
+          "epoch": 10,
+          "test_acc": 75.14
+        },
+        {
+          "epoch": 15,
+          "test_acc": 83.8
+        },
+        {
+          "epoch": 20,
+          "test_acc": 82.52
+        }
+      ]
+    },
+    {
+      "seed": 789,
+      "epochs_trained": 20,
+      "best_test_acc": 84.3,
+      "training_time_min": 3.1,
+      "epoch_accs": [
+        {
+          "epoch": 5,
+          "test_acc": 71.75
+        },
+        {
+          "epoch": 10,
+          "test_acc": 80.26
+        },
+        {
+          "epoch": 15,
+          "test_acc": 79.15
+        },
+        {
+          "epoch": 20,
+          "test_acc": 84.3
+        }
+      ]
+    },
+    {
+      "seed": 1024,
+      "epochs_trained": 20,
+      "best_test_acc": 82.0,
+      "training_time_min": 3.1,
+      "epoch_accs": [
+        {
+          "epoch": 5,
+          "test_acc": 75.24
+        },
+        {
+          "epoch": 10,
+          "test_acc": 76.63
+        },
+        {
+          "epoch": 15,
+          "test_acc": 81.94
+        },
+        {
+          "epoch": 20,
+          "test_acc": 82.0
+        }
+      ]
+    }
+  ],
+  "aggregate": {
+    "pilot_accs": [
+      82.44,
+      83.8,
+      84.3,
+      82.0
+    ],
+    "pilot_mean_acc": 83.14,
+    "pilot_std_acc": 0.94,
+    "all_healthy": true,
+    "low_variance": true,
+    "total_pilot_time_min": 12.6,
+    "avg_pilot_time_per_seed_min": 3.1,
+    "estimated_full_time_per_seed_min": 31.5,
+    "estimated_full_total_min_sequential": 126.0
+  },
+  "go_no_go": "GO",
+  "confidence": 0.85,
+  "rationale": "All 4 seeds show healthy learning curves at 20 epochs (mean 83.1% +/- 0.9%). Reference seed 42 achieved 95.5% at 200 epochs. Estimated full training: 32 min/seed. All seeds expected to reach >93% with 200 epochs.",
+  "pass_criteria": {
+    "target": "All 4 models train to >93% test accuracy",
+    "pilot_validation": "All 4 models train to >80% at 20 epochs",
+    "pilot_pass": true
+  },
+  "gpu_info": {
+    "device": "NVIDIA GeForce RTX 4090",
+    "vram_total_gb": 25.3
+  },
+  "timestamp": "2026-03-17T19:10:06.656179"
+}

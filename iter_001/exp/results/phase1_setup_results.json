@@ -1,0 +1,67 @@
+{
+  "task_id": "phase1_setup",
+  "status": "success",
+  "training": {
+    "seed": 42,
+    "epochs": 200,
+    "best_test_acc": 95.5,
+    "training_time_min": 35.5,
+    "checkpoint_path": "/home/jinxulin/sibyl_system/projects/AURA/exp/checkpoints/resnet18_cifar10_seed42.pt",
+    "model_params": 11173962,
+    "batch_size": 128,
+    "lr": 0.1,
+    "optimizer": "SGD",
+    "scheduler": "CosineAnnealingLR",
+    "cifar10_modified_resnet": "conv1=3x3 stride=1 pad=1, maxpool=Identity"
+  },
+  "hessian_verification": {
+    "feasible": true,
+    "methods_verified": {
+      "dattri_IFAttributorEKFAC": {
+        "success": true,
+        "note": "Full-model EK-FAC. Supports Conv2d. Tested 10 test x 100 train, 8.2s, 10.43GB peak.",
+        "attribution_shape": [100, 10],
+        "peak_gpu_gb": 10.43
+      },
+      "trak_TRAKer": {
+        "success": true,
+        "note": "TRAK attribution. Tested 10 test x 100 train. Uses BasicProjector (fast_jl not installed).",
+        "score_shape": [100, 10]
+      },
+      "repsim": {
+        "success": true,
+        "note": "Cosine similarity on penultimate layer (avgpool). Shape [10, 2000]."
+      },
+      "pydvl_EkfacInfluence": {
+        "success": false,
+        "note": "Only supports Linear layers, NOT Conv2d. Cannot be used for ResNet-18."
+      }
+    },
+    "recommended_library": "dattri (IFAttributorEKFAC for EK-FAC, IFAttributorCG for CG-based IF)",
+    "memory_notes": "Full-model per-sample gradients for ResNet-18 (11.2M params) require ~10GB for 100 train samples at batch_size=4. For 500 test x 50000 train, will need chunked computation. When GPU 3 is fully available (24GB), batch_size=8-16 should work for attribution computation."
+  },
+  "environment": {
+    "conda_env": "sibyl_AURA",
+    "conda_path": "/home/jinxulin/miniconda3/bin/conda",
+    "python": "3.11",
+    "torch": "2.10.0+cu128",
+    "pydvl": "0.10.0",
+    "dattri": "0.3.0",
+    "trak": "0.3.2 (import as: from trak import TRAKer)",
+    "note_trak_import": "Package is 'traker' (pip), but import path is 'trak' (not 'traker')",
+    "note_pydvl_deps": "Requires 'distributed' and 'zarr' packages (not auto-installed)",
+    "note_cuda_device_order": "MUST set CUDA_DEVICE_ORDER=PCI_BUS_ID to match nvidia-smi GPU numbering",
+    "datasets_path": "/home/jinxulin/sibyl_system/shared/datasets/cifar10"
+  },
+  "pass_criteria": {
+    "accuracy_above_93": true,
+    "hessian_api_works": true,
+    "overall_pass": true
+  },
+  "gpu_info": {
+    "device": "NVIDIA GeForce RTX 4090",
+    "vram_total_mb": 24564,
+    "note": "GPU 3 (PCI_BUS_ID ordering)"
+  },
+  "timestamp": "2026-03-17T17:50:59.141939"
+}

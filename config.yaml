@@ -7,7 +7,7 @@
 language: zh
 
 # ── Remote Server ────────────────────────────────────────────────────
-ssh_server: default                       # SSH MCP connection name
+ssh_server: xuchang0                      # SSH MCP connection name
 remote_base: /home/jinxulin/sibyl_system    # [CHANGE ME] remote GPU server path
 remote_env_type: conda                    # "conda" | "venv"
 remote_conda_path: ""                   # empty = auto

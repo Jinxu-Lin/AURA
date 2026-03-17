@@ -1,0 +1,395 @@
+{
+  "task_id": "phase1_variance_decomposition",
+  "mode": "PILOT",
+  "n_test": 100,
+  "seed": 42,
+  "timestamp": "2026-03-17T18:50:01.118856",
+  "anova_type": "Type I (sequential), class entered first",
+  "predictors": [
+    "class (10 levels)",
+    "log(1 + gradient_norm)"
+  ],
+  "response_variables": [
+    "J10",
+    "tau",
+    "LDS"
+  ],
+  "variance_decomposition": {
+    "J10": {
+      "class_R2": 0.14089347079037795,
+      "grad_norm_R2": 0.0056885531181010635,
+      "interaction_R2": 0.01937889961246157,
+      "residual_R2": 0.8340390764790594,
+      "total_ss": 0.09619834710743799,
+      "class_ss": 0.013553719008264454,
+      "grad_norm_ss": 0.0005472294073941848,
+      "interaction_ss": 0.0018642181114797737,
+      "residual_ss": 0.08023318058029957,
+      "class_F": 1.5015920025145562,
+      "class_p": 0.16169227030811884,
+      "grad_norm_F": 0.5456390021547283,
+      "grad_norm_p": 0.46226675097689396,
+      "interaction_F": 0.20653335113660923,
+      "interaction_p": 0.9927146691341564,
+      "model_R2": 0.16596092352094072,
+      "model_adj_R2": -0.03212335714283587,
+      "n_obs": 100,
+      "df_model": 19,
+      "df_resid": 80
+    },
+    "tau": {
+      "class_R2": 0.2638649171296321,
+      "grad_norm_R2": 0.3349306166946948,
+      "interaction_R2": 0.1762155741357575,
+      "residual_R2": 0.22498889203991562,
+      "total_ss": 0.6806472903135328,
+      "class_ss": 0.17959894085308897,
+      "grad_norm_ss": 0.22796961669628452,
+      "interaction_ss": 0.1199406530465468,
+      "residual_ss": 0.15313807971761254,
+      "class_F": 10.424807681727957,
+      "class_p": 1.7313865557553515e-10,
+      "grad_norm_F": 119.09232092587905,
+      "grad_norm_p": 1.6540660825031378e-17,
+      "interaction_F": 6.961946631154665,
+      "interaction_p": 2.3650688877060888e-07,
+      "model_R2": 0.7750111079600843,
+      "model_adj_R2": 0.7215762461006043,
+      "n_obs": 100,
+      "df_model": 19,
+      "df_resid": 80
+    },
+    "LDS": {
+      "class_R2": 0.26679761447185035,
+      "grad_norm_R2": 0.169516731879728,
+      "interaction_R2": 0.047271093552650266,
+      "residual_R2": 0.5164145600957714,
+      "total_ss": 0.811261052942162,
+      "class_ss": 0.2164425136388903,
+      "grad_norm_ss": 0.1375223223960623,
+      "interaction_ss": 0.0383491971292505,
+      "residual_ss": 0.4189470197779589,
+      "class_F": 4.592307293622937,
+      "class_p": 6.700440892491772e-05,
+      "grad_norm_F": 26.26056582886282,
+      "grad_norm_p": 2.0248956025566898e-06,
+      "interaction_F": 0.8136631511083934,
+      "interaction_p": 0.6050962045445663,
+      "model_R2": 0.4835854399042283,
+      "model_adj_R2": 0.3609369818814825,
+      "n_obs": 100,
+      "df_model": 19,
+      "df_resid": 80
+    }
+  },
+  "gate_evaluation": {
+    "criterion": "residual > 30% on at least 1 metric",
+    "residual_fractions": {
+      "J10": 0.8340390764790594,
+      "tau": 0.22498889203991562,
+      "LDS": 0.5164145600957714
+    },
+    "pass": true,
+    "decision": "PASS"
+  },
+  "descriptive_statistics": {
+    "J10": {
+      "mean": 0.9945454545454545,
+      "std": 0.03101585838042178,
+      "min": 0.8181818181818182,
+      "max": 1.0,
+      "median": 1.0,
+      "q25": 1.0,
+      "q75": 1.0
+    },
+    "tau": {
+      "mean": 0.017106052104208413,
+      "std": 0.08250135091703242,
+      "min": -0.1688336673346693,
+      "max": 0.3108296593186372,
+      "median": 0.0026212424849699394,
+      "q25": -0.03853707414829659,
+      "q75": 0.06913026052104207
+    },
+    "LDS": {
+      "mean": 0.744299370638803,
+      "std": 0.09007003125025335,
+      "min": 0.4341779985511199,
+      "max": 0.8929741225989648,
+      "median": 0.7665341522809639,
+      "q25": 0.7052278641451144,
+      "q75": 0.806268682295608
+    }
+  },
+  "per_class_statistics": {
+    "0": {
+      "n": 10,
+      "J10_mean": 1.0,
+      "J10_std": 0.0,
+      "tau_mean": 0.022183567134268535,
+      "tau_std": 0.041554936446604664,
+      "LDS_mean": 0.7567302118802971,
+      "LDS_std": 0.078380051934441,
+      "grad_norm_mean": 47.442376836574915,
+      "grad_norm_std": 141.93471049227338
+    },
+    "1": {
+      "n": 10,
+      "J10_mean": 1.0,
+      "J10_std": 0.0,
+      "tau_mean": -0.003600801603206409,
+      "tau_std": 0.11152243140127362,
+      "LDS_mean": 0.742628876885973,
+      "LDS_std": 0.07760844005964744,
+      "grad_norm_mean": 49.465112555054944,
+      "grad_norm_std": 145.42803343904487
+    },
+    "2": {
+      "n": 10,
+      "J10_mean": 1.0,
+      "J10_std": 0.0,
+      "tau_mean": 0.055440480961923846,
+      "tau_std": 0.048384054226436345,
+      "LDS_mean": 0.6494616898922854,
+      "LDS_std": 0.09244912442874241,
+      "grad_norm_mean": 23.41367805319698,
+      "grad_norm_std": 68.15093078209483
+    },
+    "3": {
+      "n": 10,
+      "J10_mean": 1.0,
+      "J10_std": 0.0,
+      "tau_mean": 0.05892745490981963,
+      "tau_std": 0.08143011314799872,
+      "LDS_mean": 0.7368247067719411,
+      "LDS_std": 0.08506066860022682,
+      "grad_norm_mean": 78.27568984103289,
+      "grad_norm_std": 177.57256265053385
+    },
+    "4": {
+      "n": 10,
+      "J10_mean": 0.9818181818181818,
+      "J10_std": 0.05454545454545453,
+      "tau_mean": 0.041598396793587164,
+      "tau_std": 0.05633779797518579,
+      "LDS_mean": 0.699734656563429,
+      "LDS_std": 0.08999295394774326,
+      "grad_norm_mean": 49.17864495272001,
+      "grad_norm_std": 144.2445084299333
+    },
+    "5": {
+      "n": 10,
+      "J10_mean": 1.0,
+      "J10_std": 0.0,
+      "tau_mean": 0.08643046092184367,
+      "tau_std": 0.03176506499251179,
+      "LDS_mean": 0.7208817591401899,
+      "LDS_std": 0.10222260576521598,
+      "grad_norm_mean": 43.843287478683116,
+      "grad_norm_std": 131.00620314371147
+    },
+    "6": {
+      "n": 10,
+      "J10_mean": 0.9636363636363636,
+      "J10_std": 0.0727272727272727,
+      "tau_mean": -0.02882404809619238,
+      "tau_std": 0.06790190637620222,
+      "LDS_mean": 0.8172117754636424,
+      "LDS_std": 0.04706103164263484,
+      "grad_norm_mean": 42.47298669095793,
+      "grad_norm_std": 127.17465079038999
+    },
+    "7": {
+      "n": 10,
+      "J10_mean": 1.0,
+      "J10_std": 0.0,
+      "tau_mean": 0.016208416833667333,
+      "tau_std": 0.0524651046321977,
+      "LDS_mean": 0.7403456514245026,
+      "LDS_std": 0.08416654379328851,
+      "grad_norm_mean": 1.6085402165796807,
+      "grad_norm_std": 4.319996797998913
+    },
+    "8": {
+      "n": 10,
+      "J10_mean": 1.0,
+      "J10_std": 0.0,
+      "tau_mean": -0.05527695390781562,
+      "tau_std": 0.04316361871030687,
+      "LDS_mean": 0.8048949772724268,
+      "LDS_std": 0.04073355320200995,
+      "grad_norm_mean": 6.410954714175503,
+      "grad_norm_std": 19.025509191494493
+    },
+    "9": {
+      "n": 10,
+      "J10_mean": 1.0,
+      "J10_std": 0.0,
+      "tau_mean": -0.022026452905811622,
+      "tau_std": 0.11644556049158146,
+      "LDS_mean": 0.7742794010933418,
+      "LDS_std": 0.045022554688976445,
+      "grad_norm_mean": 16.321404611100544,
+      "grad_norm_std": 48.67474272369237
+    }
+  },
+  "correlation_matrix": {
+    "J10_vs_J10": {
+      "spearman_rho": 1.0,
+      "p_value": 0.0
+    },
+    "J10_vs_tau": {
+      "spearman_rho": 0.14520176188371298,
+      "p_value": 0.14946796763365436
+    },
+    "J10_vs_LDS": {
+      "spearman_rho": -0.1797252577162042,
+      "p_value": 0.07357357413589172
+    },
+    "J10_vs_log_grad_norm": {
+      "spearman_rho": 0.09443191507122593,
+      "p_value": 0.35002684780488325
+    },
+    "J10_vs_confidence": {
+      "spearman_rho": -0.11270905992372127,
+      "p_value": 0.26421581105296454
+    },
+    "J10_vs_entropy": {
+      "spearman_rho": 0.11270905992372127,
+      "p_value": 0.26421581105296454
+    },
+    "tau_vs_J10": {
+      "spearman_rho": 0.145201761883713,
+      "p_value": 0.1494679676336543
+    },
+    "tau_vs_tau": {
+      "spearman_rho": 0.9999999999999999,
+      "p_value": 0.0
+    },
+    "tau_vs_LDS": {
+      "spearman_rho": -0.5366576657665766,
+      "p_value": 8.646577730655377e-09
+    },
+    "tau_vs_log_grad_norm": {
+      "spearman_rho": 0.4807200720072006,
+      "p_value": 4.147141343595757e-07
+    },
+    "tau_vs_confidence": {
+      "spearman_rho": -0.38679867986798677,
+      "p_value": 7.030800901416611e-05
+    },
+    "tau_vs_entropy": {
+      "spearman_rho": 0.3832703270327032,
+      "p_value": 8.287848119686241e-05
+    },
+    "LDS_vs_J10": {
+      "spearman_rho": -0.1797252577162042,
+      "p_value": 0.07357357413589172
+    },
+    "LDS_vs_tau": {
+      "spearman_rho": -0.5366576657665766,
+      "p_value": 8.646577730655377e-09
+    },
+    "LDS_vs_LDS": {
+      "spearman_rho": 0.9999999999999999,
+      "p_value": 0.0
+    },
+    "LDS_vs_log_grad_norm": {
+      "spearman_rho": -0.6058925892589259,
+      "p_value": 2.4035432850378148e-11
+    },
+    "LDS_vs_confidence": {
+      "spearman_rho": 0.5443024302430243,
+      "p_value": 4.815564171510074e-09
+    },
+    "LDS_vs_entropy": {
+      "spearman_rho": -0.5443264326432643,
+      "p_value": 4.806611592170994e-09
+    },
+    "log_grad_norm_vs_J10": {
+      "spearman_rho": 0.09443191507122593,
+      "p_value": 0.35002684780488325
+    },
+    "log_grad_norm_vs_tau": {
+      "spearman_rho": 0.4807200720072006,
+      "p_value": 4.147141343595757e-07
+    },
+    "log_grad_norm_vs_LDS": {
+      "spearman_rho": -0.6058925892589259,
+      "p_value": 2.4035432850378148e-11
+    },
+    "log_grad_norm_vs_log_grad_norm": {
+      "spearman_rho": 0.9999999999999999,
+      "p_value": 0.0
+    },
+    "log_grad_norm_vs_confidence": {
+      "spearman_rho": -0.9534713471347134,
+      "p_value": 7.82216613841476e-53
+    },
+    "log_grad_norm_vs_entropy": {
+      "spearman_rho": 0.9503630363036302,
+      "p_value": 1.725750133216431e-51
+    },
+    "confidence_vs_J10": {
+      "spearman_rho": -0.11270905992372127,
+      "p_value": 0.26421581105296454
+    },
+    "confidence_vs_tau": {
+      "spearman_rho": -0.38679867986798677,
+      "p_value": 7.030800901416611e-05
+    },
+    "confidence_vs_LDS": {
+      "spearman_rho": 0.5443024302430243,
+      "p_value": 4.815564171510074e-09
+    },
+    "confidence_vs_log_grad_norm": {
+      "spearman_rho": -0.9534713471347134,
+      "p_value": 7.82216613841476e-53
+    },
+    "confidence_vs_confidence": {
+      "spearman_rho": 0.9999999999999999,
+      "p_value": 0.0
+    },
+    "confidence_vs_entropy": {
+      "spearman_rho": -0.9984038403840384,
+      "p_value": 3.891509978728631e-124
+    },
+    "entropy_vs_J10": {
+      "spearman_rho": 0.11270905992372127,
+      "p_value": 0.26421581105296454
+    },
+    "entropy_vs_tau": {
+      "spearman_rho": 0.3832703270327032,
+      "p_value": 8.287848119686241e-05
+    },
+    "entropy_vs_LDS": {
+      "spearman_rho": -0.5443264326432643,
+      "p_value": 4.806611592170994e-09
+    },
+    "entropy_vs_log_grad_norm": {
+      "spearman_rho": 0.9503630363036302,
+      "p_value": 1.725750133216431e-51
+    },
+    "entropy_vs_confidence": {
+      "spearman_rho": -0.9984038403840384,
+      "p_value": 3.891509978728631e-124
+    },
+    "entropy_vs_entropy": {
+      "spearman_rho": 0.9999999999999999,
+      "p_value": 0.0
+    }
+  },
+  "key_observations": [
+    "J10: Residual dominates (83.4%) - strong per-point signal",
+    "tau: Low residual (22.5%) - class/grad_norm explain most variance",
+    "LDS: Residual dominates (51.6%) - strong per-point signal",
+    "J10 has very low variance (std < 0.05) - likely due to layer4+fc only setting"
+  ],
+  "limitations": [
+    "Pilot uses 100 test points (not 500 as planned for full experiment)",
+    "IF methods use layer4+fc only (not full model) - J10 has very low variance",
+    "TRAK uses 1 checkpoint, JL dim=512 (pilot settings, not TRAK-50)",
+    "Train subset is 5K (not full 50K)",
+    "Class distribution may not be perfectly balanced (non-stratified 100 points)"
+  ]
+}

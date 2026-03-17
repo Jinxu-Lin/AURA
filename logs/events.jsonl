@@ -6,3 +6,14 @@
 {"ts": 1773719887.456893, "event": "stage_start", "stage": "idea_debate", "iteration": 0, "action_type": "team", "description": "Agent Team: 6人辩论生成研究提案（恢复：已完成 0/6） + Codex 独立审查"}
 {"ts": 1773723440.177717, "event": "stage_end", "stage": "idea_debate", "iteration": 0, "duration_sec": 3577.4112119674683, "score": null, "next_stage": "planning"}
 {"ts": 1773723459.880718, "event": "stage_start", "stage": "planning", "iteration": 0, "action_type": "skill", "description": "Design experiment plan with pilot/full configs"}
+{"ts": 1773723736.29531, "event": "stage_end", "stage": "planning", "iteration": 0, "duration_sec": 296.18574476242065, "score": null, "next_stage": "pilot_experiments"}
+{"ts": 1773723830.01903, "event": "stage_start", "stage": "pilot_experiments", "iteration": 0, "action_type": "skill", "description": "[0/12] 并行 1 任务 (PILOT), 预计 15min: phase0_reanalysis→GPU[3]"}
+{"ts": 1773724377.0331872, "event": "task_dispatch", "task_ids": ["phase1_setup"], "gpu_ids": [3], "iteration": 0}
+{"ts": 1773731047.553251, "event": "task_dispatch", "task_ids": ["phase1_attribution_compute"], "gpu_ids": [3], "iteration": 0}
+{"ts": 1773733612.002091, "event": "task_dispatch", "task_ids": ["phase1_variance_decomposition"], "gpu_ids": [3], "iteration": 0}
+{"ts": 1773733893.343425, "event": "task_dispatch", "task_ids": ["phase2a_multiseed_train"], "gpu_ids": [3], "iteration": 0}
+{"ts": 1773735171.658112, "event": "task_dispatch", "task_ids": ["phase2a_bss_compute"], "gpu_ids": [2, 3], "iteration": 0}
+{"ts": 1773735761.0843232, "event": "task_dispatch", "task_ids": ["phase2a_bss_analysis", "phase2b_disagreement"], "gpu_ids": [2, 3], "iteration": 0}
+{"ts": 1773736661.8138921, "event": "task_dispatch", "task_ids": ["phase3_loo_validation"], "gpu_ids": [2, 3], "iteration": 0}
+{"ts": 1773741307.477771, "event": "task_dispatch", "task_ids": ["phase3_uniform_baselines", "auxiliary_hypotheses"], "gpu_ids": [2, 3], "iteration": 0}
+{"ts": 1773742471.3729339, "event": "task_dispatch", "task_ids": ["phase3_adaptive_strategies"], "gpu_ids": [2], "iteration": 0}
