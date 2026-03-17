@@ -1,0 +1,104 @@
+{
+  "pilot_config": {
+    "samples": 100,
+    "seeds": [42],
+    "timeout_sec": 900,
+    "dataset": "CIFAR-10",
+    "model": "ResNet-18",
+    "purpose": "Validate feasibility of full-model Hessian computation, attribution pipelines, and statistical analysis before committing to full-scale experiments"
+  },
+  "pilots": [
+    {
+      "task_id": "phase0_reanalysis",
+      "pilot_name": "pilot_phase0_reanalysis",
+      "description": "Run reanalysis script on existing Probe data. Verify GUM uncertainty budget decomposition and correlation matrix computation.",
+      "samples": 100,
+      "seed": 42,
+      "timeout_sec": 900,
+      "pass_criteria": "Reanalysis script runs without error AND produces valid JSON with all statistics (class-conditional means, within-class variance, correlation matrix)",
+      "estimated_time_min": 10,
+      "risk": "Low - pure analysis on cached data",
+      "fallback": "Debug script errors; simplify statistics if statsmodels issues"
+    },
+    {
+      "task_id": "phase1_setup",
+      "pilot_name": "pilot_phase1_env_and_hessian",
+      "description": "Set up environment, train ResNet-18 for 20 epochs (quick convergence check), then test full-model Hessian API on 10 test points. This is the CRITICAL pilot: if full-model Hessian fails (OOM or API limitation), the entire Phase 1+ design must be revised.",
+      "samples": 100,
+      "seed": 42,
+      "timeout_sec": 900,
+      "pass_criteria": "Model trains to >70% test accuracy at 20 epochs AND full-model EK-FAC IF computes for 10 test points without OOM on single GPU AND K-FAC IF computes for same 10 points",
+      "estimated_time_min": 15,
+      "risk": "HIGH - full-model Hessian may OOM on ResNet-18. pyDVL/dattri may only support last-layer.",
+      "fallback": "If full-model OOM: (1) try gradient checkpointing, (2) try last-2-layers only, (3) fall back to custom implementation using torch.autograd.functional.hessian on smaller batch. If API limitation: switch to dattri or custom Kronecker factorization."
+    },
+    {
+      "task_id": "phase1_attribution_compute",
+      "pilot_name": "pilot_phase1_attributions_100pts",
+      "description": "Compute all 4 attribution methods (EK-FAC IF, K-FAC IF, RepSim, TRAK-50) for 100 test points (10/class). Verify output format, non-trivial variance in J10, and reasonable compute time extrapolation.",
+      "samples": 100,
+      "seed": 42,
+      "timeout_sec": 900,
+      "pass_criteria": "All 4 methods produce valid rankings for 100 points AND Jaccard@10(EK-FAC, K-FAC) std > 0.05 AND per-point LDS has non-trivial spread AND total time < 15 min (extrapolates to <75min for 500 points)",
+      "estimated_time_min": 15,
+      "risk": "Medium - TRAK-50 requires 50 checkpoints (may need separate training run with checkpoint saving)",
+      "fallback": "If TRAK-50 too slow: start with TRAK-10 as initial ground truth, compute TRAK-50 asynchronously"
+    },
+    {
+      "task_id": "phase1_variance_decomposition",
+      "pilot_name": "pilot_phase1_anova_100pts",
+      "description": "Run two-way ANOVA on 100 test points. Verify statistical pipeline, check for numerical issues, estimate effect sizes. This gives an early signal on H-G1 before full 500-point experiment.",
+      "samples": 100,
+      "seed": 42,
+      "timeout_sec": 900,
+      "pass_criteria": "ANOVA runs without error AND residual fraction computable for all 3 metrics AND no metric yields NaN AND at least one metric shows residual > 15% (early signal for gate)",
+      "estimated_time_min": 5,
+      "risk": "Low - pure statistics on cached data",
+      "fallback": "If ANOVA unstable with 100 points (10/class): use permutation test instead of parametric ANOVA"
+    },
+    {
+      "task_id": "phase2a_bss_compute",
+      "pilot_name": "pilot_phase2a_bss_single_seed",
+      "description": "Compute BSS for 100 test points on seed 42 model. Verify eigendecomposition feasibility, bucket boundary selection, and BSS_outlier variance.",
+      "samples": 100,
+      "seed": 42,
+      "timeout_sec": 900,
+      "pass_criteria": "GGN top-100 eigendecomposition completes without OOM AND outlier bucket (lambda>100) has >=5 eigenvalues AND BSS_outlier has non-trivial variance (std > 0.01) AND within-class BSS_outlier variance > 10% of total",
+      "estimated_time_min": 15,
+      "risk": "Medium - eigendecomposition may OOM or be very slow for full-model GGN",
+      "fallback": "If full GGN eigendecomposition OOM: use Kronecker-factored approximation for eigendecomposition (EK-FAC already factored). If still OOM: reduce to top-50 eigenvectors."
+    },
+    {
+      "task_id": "phase3_loo_validation",
+      "pilot_name": "pilot_phase3_loo_micro",
+      "description": "Exact LOO on CIFAR-10/500 subset (500 training samples, 10 test points). Verify retraining pipeline and LOO-TRAK correlation on micro scale.",
+      "samples": 100,
+      "seed": 42,
+      "timeout_sec": 900,
+      "pass_criteria": "LOO retraining completes for 10 test points x 500 removals within timeout AND LOO attribution rankings are non-degenerate (not all identical) AND LOO-TRAK correlation > 0.2 on this subset",
+      "estimated_time_min": 15,
+      "risk": "High - even 500x10=5000 retrainings may be slow",
+      "fallback": "If too slow: (1) reduce to 200 training samples x 5 test points, (2) use proximal Bregman retraining (Basu et al.), (3) use approximate LOO via Newton step"
+    }
+  ],
+  "pilot_execution_order": [
+    {
+      "round": 1,
+      "parallel": ["pilot_phase0_reanalysis", "pilot_phase1_env_and_hessian"],
+      "gate": "pilot_phase1_env_and_hessian must PASS (full-model Hessian feasible)"
+    },
+    {
+      "round": 2,
+      "parallel": ["pilot_phase1_attributions_100pts"],
+      "gate": "All 4 attribution methods produce valid output"
+    },
+    {
+      "round": 3,
+      "parallel": ["pilot_phase1_anova_100pts", "pilot_phase2a_bss_single_seed", "pilot_phase3_loo_micro"],
+      "gate": "ANOVA pipeline works AND BSS computable AND LOO feasible at micro scale"
+    }
+  ],
+  "total_pilot_estimated_minutes": 45,
+  "critical_pilot": "pilot_phase1_env_and_hessian",
+  "critical_pilot_reason": "If full-model Hessian computation is not feasible (OOM or API limitation), the entire experimental design must be revised to either use last-layer-only (with known hierarchy collapse risk) or custom implementation (significant engineering overhead)."
+}
