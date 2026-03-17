@@ -1,14 +1,19 @@
 {
-  "resume_action_type": "bash",
+  "resume_action_type": "skill",
   "resume_action": {
-    "action_type": "bash",
+    "action_type": "skill",
     "agents": null,
-    "skills": null,
+    "skills": [
+      {
+        "name": "sibyl-literature",
+        "args": "/Users/jinxulin/Research/sibyl-research-system/workspaces/AURA/current 'Beyond Point Estimates: Sensitivity-Aware Training Data Attribution — 提出 TDA Robustness Value (TRV) 量化每个 test point 的归因稳定性，并基于稳定性信号自适应融合梯度方法 (IF) 与表示方法 (RepSim)。\n'"
+      }
+    ],
     "team": null,
-    "bash_command": "echo 'Sibyl project initialized'",
+    "bash_command": null,
     "gpu_poll": null,
-    "description": "项目初始化完成，推进到 literature_search 后再执行文献调研",
-    "stage": "init",
+    "description": "文献调研：arXiv 搜索 + Web 搜索，建立领域现状基础",
+    "stage": "literature_search",
     "iteration": 0,
     "estimated_minutes": 0,
     "checkpoint_info": null,
@@ -19,9 +24,17 @@
   "pending_sync_count": 0,
   "pending_hooks": [],
   "pending_background_agents": [],
-  "breadcrumb": {},
+  "breadcrumb": {
+    "ts": 1773719582.741156,
+    "stage": "init",
+    "action_type": "completed",
+    "workspace_path": "/Users/jinxulin/Research/sibyl-research-system/workspaces/AURA",
+    "in_loop": false,
+    "loop_type": "",
+    "description": "Stage 'init' completed, advancing to next"
+  },
   "recovery_state_path": "/Users/jinxulin/Research/sibyl-research-system/workspaces/AURA/.sibyl/recovery_state.json",
   "source": "cli_next",
-  "saved_at": 1773719569.736914,
+  "saved_at": 1773719595.405236,
   "path": "/Users/jinxulin/Research/sibyl-research-system/workspaces/AURA/.sibyl/recovery_state.json"
 }

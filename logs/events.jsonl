@@ -1,2 +1,4 @@
 {"ts": 1773719448.9674098, "event": "project_init", "topic": "AURA", "project_name": "aura"}
 {"ts": 1773719569.737374, "event": "stage_start", "stage": "init", "iteration": 0, "action_type": "bash", "description": "项目初始化完成，推进到 literature_search 后再执行文献调研"}
+{"ts": 1773719582.7412841, "event": "stage_end", "stage": "init", "iteration": 0, "duration_sec": 133.77663707733154, "score": null, "next_stage": "literature_search"}
+{"ts": 1773719595.405796, "event": "stage_start", "stage": "literature_search", "iteration": 0, "action_type": "skill", "description": "文献调研：arXiv 搜索 + Web 搜索，建立领域现状基础"}
