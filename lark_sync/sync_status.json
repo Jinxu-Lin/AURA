@@ -1,0 +1,15 @@
+{
+  "last_sync_at": "2026-03-17T15:00:00+08:00",
+  "last_sync_success": false,
+  "last_trigger_stage": "literature_search",
+  "error": "Feishu MCP servers (feishu, lark) not available in current session. Neither mcp__feishu__* nor mcp__lark__* tools are registered.",
+  "history": [
+    {
+      "at": "2026-03-17T15:00:00+08:00",
+      "success": false,
+      "error": "Feishu MCP servers not available",
+      "stages_synced": [],
+      "duration_sec": 0
+    }
+  ]
+}

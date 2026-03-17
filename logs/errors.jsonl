@@ -1,0 +1,1 @@
+{"error_type": "MCPNotAvailable", "category": "config", "message": "Feishu MCP servers (feishu, lark) not available in current session. Cannot sync to Feishu.", "context": {"source": "lark_sync", "stage": "literature_search"}, "timestamp": "2026-03-17T15:00:00+08:00"}
