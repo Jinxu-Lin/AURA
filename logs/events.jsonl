@@ -17,3 +17,5 @@
 {"ts": 1773736661.8138921, "event": "task_dispatch", "task_ids": ["phase3_loo_validation"], "gpu_ids": [2, 3], "iteration": 0}
 {"ts": 1773741307.477771, "event": "task_dispatch", "task_ids": ["phase3_uniform_baselines", "auxiliary_hypotheses"], "gpu_ids": [2, 3], "iteration": 0}
 {"ts": 1773742471.3729339, "event": "task_dispatch", "task_ids": ["phase3_adaptive_strategies"], "gpu_ids": [2], "iteration": 0}
+{"ts": 1773742842.751926, "event": "stage_end", "stage": "pilot_experiments", "iteration": 0, "duration_sec": 19106.507567167282, "score": null, "next_stage": "pilot_experiments"}
+{"ts": 1773742851.453569, "event": "stage_start", "stage": "pilot_experiments", "iteration": 0, "action_type": "skill", "description": "Run pilot experiments"}
