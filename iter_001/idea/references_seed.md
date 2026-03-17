@@ -1,0 +1,9 @@
+- Hong et al. (2025), 2509.23437: Better Hessians Matter — Hessian 近似层级证据（Phase 1 基础设施）
+- Li et al. (2024), 2512.09103: Natural W-TRAK — SI/κ 诊断 + 谱放大理论
+- Li et al. (2025), 2409.19998: IF failure on LLM — LoRA 下 IF 完全失效 (0-7%)
+- Kowal et al. (2026), 2602.14869: Concept Influence — IF-RepSim 低相关 (0.37-0.45)
+- Mlodozeniec et al. (2025), 2506.12965: d-TDA — IF 的分布性框架
+- Chernozhukov et al. (2018), 1608.00060: Doubly Robust Estimation — Phase 2 理论基础
+- Cinelli & Hazlett (2020), 1912.07236: Sensitivity analysis framework
+- Park et al. (2023), 2303.12922: Spearman miss-relation
+- Li et al. (2025), 2410.17413: Attribution ≠ Influence

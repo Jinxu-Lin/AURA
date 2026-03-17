@@ -1,0 +1,2 @@
+{"ts": 1773719448.9674098, "event": "project_init", "topic": "AURA", "project_name": "aura"}
+{"ts": 1773719569.737374, "event": "stage_start", "stage": "init", "iteration": 0, "action_type": "bash", "description": "项目初始化完成，推进到 literature_search 后再执行文献调研"}
