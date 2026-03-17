@@ -19,3 +19,5 @@
 {"ts": 1773742471.3729339, "event": "task_dispatch", "task_ids": ["phase3_adaptive_strategies"], "gpu_ids": [2], "iteration": 0}
 {"ts": 1773742842.751926, "event": "stage_end", "stage": "pilot_experiments", "iteration": 0, "duration_sec": 19106.507567167282, "score": null, "next_stage": "pilot_experiments"}
 {"ts": 1773742851.453569, "event": "stage_start", "stage": "pilot_experiments", "iteration": 0, "action_type": "skill", "description": "Run pilot experiments"}
+{"ts": 1773742865.849865, "event": "stage_end", "stage": "pilot_experiments", "iteration": 0, "duration_sec": 23.196454763412476, "score": null, "next_stage": "idea_validation_decision"}
+{"ts": 1773742872.3873541, "event": "stage_start", "stage": "idea_validation_decision", "iteration": 0, "action_type": "skill", "description": "Review pilot evidence and decide ADVANCE / REFINE / PIVOT"}

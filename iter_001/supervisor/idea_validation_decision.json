@@ -1,0 +1,74 @@
+{
+  "decision": "ADVANCE",
+  "selected_candidate_id": "cand_bss_adaptive",
+  "confidence": 0.62,
+  "reasons": [
+    "Gating hypothesis H-G1 passed: LDS residual variance 51.6% after class+gradient-norm control confirms genuine per-sample attribution structure exists",
+    "Infrastructure fully validated: dattri full-model EK-FAC feasible (10.43GB peak), multi-seed training fast, all 4 attribution methods produce valid scores",
+    "Primary pilot limitation (layer4+fc scope) has verified remedy: full-model Hessian computation changes eigenvalue scale from <0.001 to meaningful magnitudes, expected to make BSS perturbation factors non-uniform",
+    "Disagreement signal is strong (tau-LDS_diff rho=-0.55, p<1e-8) providing backup routing signal independent of BSS",
+    "Ensemble TRV stability validated (H-A3 LOO rho=0.85) confirming multi-seed averaging stabilizes per-point diagnostics",
+    "No hypothesis hit falsification threshold in a way attributable to conceptual flaws rather than pilot scope limitations"
+  ],
+  "next_actions": [
+    "Train 4 additional seeds to full 200 epochs (seeds 123, 456, 789, 1024)",
+    "Compute full-model EK-FAC and K-FAC attributions for 500 stratified test points using dattri",
+    "Re-run H-G1 variance decomposition with full-model data",
+    "Compute BSS with full-model eigenvalues and reduced damping",
+    "Evaluate cross-seed BSS stability (H-D1) across 5 seeds",
+    "Test gradient-norm-normalized BSS as robustness check",
+    "Compute TRAK-50 ground truth for 500 points",
+    "If BSS shows seed-stable predictive signal, proceed to Phase 3 adaptive routing"
+  ],
+  "dropped_candidates": [],
+  "deferred_candidates": [
+    {
+      "candidate_id": "cand_negative_results",
+      "reason": "H-G1 PASS (LDS residual 51.6%) weakens the 'class dominates everything' narrative. Keep as fallback if full-model experiments reveal class dominance increases with full-model Hessian."
+    },
+    {
+      "candidate_id": "cand_conformal",
+      "reason": "No pilot evidence collected. Lower priority given positive signals from front-runner. Could revisit if BSS-based approach fails at full scale."
+    }
+  ],
+  "pilot_evidence_summary": {
+    "phases_completed": [
+      "phase0_reanalysis",
+      "phase1_setup",
+      "phase1_attribution_compute",
+      "phase1_variance_decomposition",
+      "phase2a_multiseed_train",
+      "phase2a_bss_compute",
+      "phase2a_bss_analysis",
+      "phase2b_disagreement",
+      "phase3_loo_validation",
+      "phase3_uniform_baselines",
+      "phase3_adaptive_strategies",
+      "auxiliary_hypotheses"
+    ],
+    "hypothesis_status": {
+      "H-G1": {"status": "PASS", "key_metric": "LDS_residual_R2=0.516"},
+      "H-D1": {"status": "UNTESTED", "reason": "Only 1 seed for BSS"},
+      "H-D2": {"status": "FAIL_PILOT", "key_metric": "partial_corr=-0.076", "caveat": "layer4+fc artifact: perturbation factors uniform"},
+      "H-D3": {"status": "PASS", "key_metric": "within_class_variance=0.935"},
+      "H-D4": {"status": "PARTIAL", "key_metric": "quantile_AUROC=0.75, binary_AUROC=degenerate"},
+      "H-F1": {"status": "NO_SIGNAL", "reason": "IF universally dominates RepSim in layer4+fc"},
+      "H-F2": {"status": "NO_SIGNAL", "reason": "Same as H-F1"},
+      "H-A1": {"status": "FAIL", "key_metric": "geodesic_curvature_rho=-0.52"},
+      "H-A2": {"status": "FAIL", "key_metric": "abs_tau_partial_corr=0.46", "note": "positive for routing hypothesis"},
+      "H-A3": {"status": "PASS", "key_metric": "LOO_rho=0.85"}
+    },
+    "critical_limitation": "All pilot results use layer4+fc Hessian scope. K-FAC/EK-FAC nearly identical (J10=0.995). Full-model computation is the essential next step.",
+    "strongest_signal": "tau-LDS_diff correlation (rho=-0.55) shows disagreement predicts attribution quality magnitude",
+    "weakest_signal": "BSS partial correlation with LDS (-0.076) and LOO validation (all correlations near zero)"
+  },
+  "risk_matrix": {
+    "full_model_bss_still_gradient_norm_proxy": {"probability": 0.30, "impact": "medium", "mitigation": "gradient-norm-normalized BSS"},
+    "if_still_universally_dominates_repsim": {"probability": 0.25, "impact": "high", "mitigation": "reframe as diagnostic paper (C0+C1)"},
+    "gpu_memory_issues": {"probability": 0.20, "impact": "low", "mitigation": "A6000 48GB or chunked computation"},
+    "cross_seed_bss_stability_fails": {"probability": 0.25, "impact": "medium", "mitigation": "ensemble-averaged diagnostics (H-A3 validated)"},
+    "budget_overrun": {"probability": 0.15, "impact": "low", "mitigation": "prioritize variance decomposition + BSS"}
+  },
+  "estimated_full_experiment_gpu_hours": 40,
+  "timestamp": "2026-03-17"
+}

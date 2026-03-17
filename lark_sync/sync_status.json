@@ -1,9 +1,9 @@
 {
-  "last_sync_at": "2026-03-17T23:49:00+08:00",
+  "last_sync_at": "2026-03-17T18:20:00+08:00",
   "last_sync_success": false,
-  "last_trigger_stage": "planning",
+  "last_trigger_stage": "pilot_experiments",
   "last_synced_line": 0,
-  "error": "Feishu MCP servers (feishu, lark) not available. No syncable data files exist yet (iteration 0, stage pilot_experiments). All 6 target files missing: research_diary.md, reflection.md, final_proposal.md, paper.md, master_log.jsonl, experiment_db.jsonl.",
+  "error": "Feishu MCP servers (feishu, lark) not available in this session. No standard syncable data files exist yet (iteration 0, stage pilot_experiments). All 6 target files missing: research_diary.md, reflection.md, final_proposal.md, paper.md, master_log.jsonl, experiment_db.jsonl.",
   "history": [
     {
       "at": "2026-03-17T15:00:00+08:00",
@@ -23,6 +23,13 @@
       "at": "2026-03-17T23:49:00+08:00",
       "success": false,
       "error": "Feishu MCP servers (feishu, lark) not available. No syncable data files exist (iter 0, stage pilot_experiments).",
+      "stages_synced": [],
+      "duration_sec": 0
+    },
+    {
+      "at": "2026-03-17T18:20:00+08:00",
+      "success": false,
+      "error": "Feishu MCP servers (feishu, lark) not available in this session. No syncable data files exist (iter 0, stage pilot_experiments).",
       "stages_synced": [],
       "duration_sec": 0
     }
