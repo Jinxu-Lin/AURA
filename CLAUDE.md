@@ -11,10 +11,10 @@
 
 ## 当前状态
 
-- **当前阶段**: C (Crystallize)
-- **执行模式**: 首次
+- **当前阶段**: P 后待决（TRV 定义需修正）
+- **执行模式**: 待定
 - **下一步**: 运行 `/praxis-research ~/Research/AURA` 继续自动化流程
-- **阶段历史**: S ✓ (Go with focus) → C ✓ (Probe done, TRV needs revision) →
+- **阶段历史**: S ✓ → C ✓ (v1.1, RS-Revise pass) → P ✓ (core motivation validated, TRV cross-seed unstable) →
 
 > 阶段状态由 `pipeline-status.json` 权威记录，本节仅供人类快速查阅。
 
@@ -23,7 +23,7 @@
 | 文档 | 状态 | 说明 |
 |------|------|------|
 | `project-startup.md` | ✓ | S — 项目知识基础 |
-| `research/problem-statement.md` | | C — Gap + 攻击角度 + 探针方案 |
+| `research/problem-statement.md` | ✓ | C — Gap + 攻击角度 + 探针方案 |
 | `research/probe-results.md` | ✓ | P — 探针实验结果 |
 | `research/method-design.md` | | D — 方法设计 |
 | `research/experiment-design.md` | | D — 实验设计 |
