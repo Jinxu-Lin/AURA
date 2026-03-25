@@ -7,6 +7,38 @@
 
 ---
 
+## [1.2] -- 2026-03-25 -- Direction Pivot: Geometric Incommensurability of Knowledge Operations
+
+- **触发**: formalize_review round-1 returned REVISE with 3 structural issues (Direction A/B inconsistency, DATE-LM probe required, RIF/BIF gaps). Combined with user strategic input identifying TECA's negative result as the core NeurIPS contribution.
+- **诊断层次**: Strategic pivot — both Direction A (BSS on CIFAR-10) and Direction B (FM1/FM2 on DATE-LM) abandoned in favor of TECA geometric incommensurability.
+- **变更文档**: problem-statement.md (1.0 → 1.2)
+- **新方向**: Geometric Incommensurability of Knowledge Operations
+  - Core finding: TECS ~ 0 (Cohen's d = 0.05), editing subspace ~40D, attribution subspace ~1D, random-level misalignment
+  - Contribution: The negative result resolves Hase et al. (2023) localization-editing disconnect at parameter level
+  - Evidence: TECA experiments already completed (GPT-2-XL, 100 CounterFact facts, 5 null baselines)
+- **排除方向**:
+  - **FM1/FM2 2x2 ablation on DATE-LM** (Direction B) -- 155 GPU-hours needed vs ~14 remaining; RepSim LDS = 0.074 in AURA data (uncertain LLM-scale performance); formalize review flagged 3 structural issues; no LLM-scale evidence for representation-space competitiveness
+  - **BSS per-test-point diagnostic** (Direction A) -- Different problem scope (per-point diagnosis vs knowledge geometry); BSS-gradient norm correlation rho = 0.906 raises degeneracy risk; CIFAR-10 only, no scalability evidence
+  - **TECS as TDA validation metric** -- TECS ~ 0 definitively shows editing is NOT a TDA validation channel, but this negative result IS the contribution
+- **关键洞察**:
+  - The 40D vs 1D subspace asymmetry is a standalone finding: ROME's constrained optimization explores a fundamentally richer parameter manifold than loss-gradient-based attribution
+  - Cross-projection asymmetry (G captures 17.3% of D; D captures 1.0% of G) suggests hierarchical structure
+  - MEMIT matched-layer alignment is high but misleading (shared loss function artifact, not knowledge geometry)
+  - Formalize review's DATE-LM probe concern is moot for this direction — evidence comes from TECA parameter-space geometry, not benchmark performance
+- **遗留问题**: Cross-model universality (GPT-J, Pythia); C^{-1} whitening ablation (H6); toy model validation; RIF effect on attribution subspace
+
+---
+
+## [1.1] -- 2026-03-25 -- FR-Revise: Direction A (BSS) committed, Direction B abandoned
+
+- **触发**: formalize_review round-1 REVISE verdict
+- **诊断层次**: formalize-level revision
+- **变更文档**: problem-statement.md (1.0 → 1.1)
+- **内容**: Chose Direction A (BSS diagnostic on CIFAR-10), abandoned Direction B (FM1/FM2 on DATE-LM) due to infeasible compute. Addressed RIF/BIF engagement, BSS-gradient norm degeneracy, scale limitation honesty, MRC soft combining.
+- **状态**: Superseded by v1.2 pivot to geometric incommensurability.
+
+---
+
 ## [1.0] -- 2026-03-25 -- Assimilation from CRA_old + AURA + CRA
 
 - **触发**: Project assimilation -- merging three related TDA projects into unified Noesis v3 framework
