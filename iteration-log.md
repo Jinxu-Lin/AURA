@@ -7,6 +7,26 @@
 
 ---
 
+## [1.1] -- 2026-03-25 -- DR-Revise: FM1/FM2 + DATE-LM Design Revision (All Documents Realigned)
+
+- **触发**: design_review round-1 returned REVISE with 4 blocking items (M1: TRAK projection paradox, M2: FM1/FM2 independence framing, M3: SNR formalization, M4: document alignment). All three design documents were pointing in different directions (problem-statement v1.2 = TECA, method-design v2.0 = BSS, experiment-design v1.0 = FM1/FM2).
+- **诊断层次**: design-level revision — theoretical framing fixes + document alignment, NOT direction change. Core 2x2 experiment design retained.
+- **变更文档**: problem-statement.md (1.2 -> 1.1), method-design.md (2.0 -> 1.1), experiment-design.md (1.0 -> 1.1)
+- **M1 解决 (TRAK projection paradox)**: FM1 restated as "task-structured dimensions" not "fewer dimensions." Random projection (JL) preserves distances but does not concentrate task-relevant signal; learned representations do. This explains why RepSim outperforms TRAK despite both operating in 4096 dimensions.
+- **M2 解决 (independence -> complementarity)**: "Independent failure modes" replaced with "complementary failure modes" throughout. tau = -0.467 reframed as evidence for "different information capture" (negative dependence, not independence). 2x2 interaction test is now the PRIMARY assessment of remedy additivity — an empirical question, not a pre-assumed claim.
+- **M3 解决 (SNR formalization)**: `SNR_param ~ d_task/B` downgraded from theorem to "motivating analysis / dimensional scaling intuition." Explicit caveats: isotropic gradient assumption violated, d_task ambiguous across spaces, TRAK's JL projection complicates the picture.
+- **M4 解决 (document alignment)**: All three documents now consistently describe FM1/FM2 diagnostic framework + DATE-LM 2x2 ablation. TECA (problem-statement v1.2) and BSS (method-design v2.0) content archived.
+- **实验设计更新**: Compute budget 155 -> ~210 GPU-hours (added debug buffer); DDA downgraded to optional (Contrastive-TRAK primary); gradient-norm baseline added; Hessian quality ablation (EK-FAC vs K-FAC) added; Pythia-6.9B marked as stretch goal.
+- **排除方向 (仍然排除)**:
+  - **TECA geometric incommensurability** — Strong standalone project but different research direction from FM1/FM2 framework. Archived from problem-statement v1.2.
+  - **BSS per-test-point diagnostic** — Different problem scope. BSS-gradient_norm rho = 0.906 degeneracy risk. Archived from method-design v2.0.
+- **关键洞察**:
+  - The TRAK paradox is the most important theoretical contribution of this revision — it forces FM1 to be about feature space quality, not just dimensionality
+  - Downgrading SNR to "motivating analysis" is intellectually honest and actually strengthens the paper: the 2x2 experiment speaks for itself
+  - The complementarity reframing prepares the narrative for ANY interaction outcome (additive, moderate, or strong interaction)
+
+---
+
 ## [1.2] -- 2026-03-25 -- Direction Pivot: Geometric Incommensurability of Knowledge Operations
 
 - **触发**: formalize_review round-1 returned REVISE with 3 structural issues (Direction A/B inconsistency, DATE-LM probe required, RIF/BIF gaps). Combined with user strategic input identifying TECA's negative result as the core NeurIPS contribution.

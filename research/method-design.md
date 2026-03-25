@@ -1,73 +1,168 @@
 ---
-version: "3.0"
+version: "1.1"
 created: "2026-03-25"
 last_modified: "2026-03-25"
-entry_mode: "first"
-iteration_major: 3
-iteration_minor: 0
+entry_mode: "dr_revise"
+iteration_major: 1
+iteration_minor: 1
 ---
 
-> **v3.0**: Geometric incommensurability analysis framework. Six components characterizing editing-attribution parameter-space relationship.
+> **v1.1 dr_revise**: Complete rewrite for FM1/FM2 diagnostic framework + DATE-LM 2x2 ablation design. Replaces v3.0 (geometric incommensurability) and v2.0 (BSS diagnostic). Addresses design_review round-1 blocking items: M1 (TRAK projection paradox), M2 (independence -> complementarity reframing), M3 (SNR formalization downgraded to motivating analysis), M4 (document alignment). Core 2x2 design retained; theoretical framing substantially revised.
 
 # Method Design
 
-## 1. Probe Signal Summary
+## 1. Theoretical Foundation: FM1 and FM2 as Complementary Failure Modes
 
-TECA (GPT-2-XL, 100 CounterFact facts): TECS ~ 0 (d=0.05). Editing eff-dim=40.8, attribution eff-dim=1.2. Principal angles near-random. MEMIT cross-layer d~0.63. G-in-D=17.3%, D-in-G=1.0%.
+### 1.1 FM1: Signal Dilution in Parameter Space -- A Motivating Analysis
 
-Constraints: extend beyond GPT-2-XL; ablate C^{-1}; test attribution aggregation; 40-80 GPU-hours.
+**Observation**: Parameter-space TDA methods (IF, TRAK) consistently underperform representation-space methods (RepSim, RepT) on LLM tasks (Li et al. 2025: RepSim 96-100% vs IF 0-7% on factual tracing). We propose that this performance gap is driven by **signal dilution**: in the full parameter space (B ~ 10^9 for Pythia-1B), per-sample gradient directions become near-orthogonal, making it difficult to distinguish meaningful training influences from noise.
 
-## 2. Compute Budget
+**Dimensional scaling intuition** (NOT a formal theorem):
 
-Total ~41-61 GPU-hours: cross-model 25-35h, C^{-1} ablation 2-3h, RIF 3-5h, layer sweep 3-5h, aggregation 2-3h, toy model ~0h (CPU), extended facts 5-8h.
+For a model with B total parameters and d_task task-relevant parameter directions, a rough signal-to-noise argument suggests:
 
-## 3. Component Mapping
+```
+SNR_param ~ d_task / B
+```
 
-| Sub-goal | Component | Validation |
-|----------|-----------|------------|
-| Scalar incommensurability | C1: TECS | Exp-1: cross-model |
-| Subspace geometry | C2: SVD + Principal Angles | Exp-2: characterization |
-| Mechanism | C3: C^{-1} Ablation | Exp-3: whitened vs unwhitened |
-| Attribution robustness | C4: Attribution Ablation | Exp-4: raw, RIF, SVD |
-| Framework validation | C5: Toy Model | Exp-5: synthetic memory |
-| Layer geometry | C6: Layer Profile | Exp-6: 48-layer sweep |
+For Pythia-1B: B ~ 1.4 x 10^9. If d_task ~ 10^3-10^4, then SNR_param ~ 10^{-6} to 10^{-5}.
 
-## 4. Framework Overview
+**Caveats and limitations** (addressing design review M3):
 
-Analysis framework (not model/algorithm). Six components: C1 TECS (scalar alignment + null baselines) -> C2 SVD (effective dim, spectral decay) -> C3 Principal Angles + Cross-Projection (structured vs random) -> C4 C^{-1} Ablation (mechanism) -> C5 Attribution Ablation (robustness) -> C6 Toy Model (ground truth).
+1. **Isotropic gradient assumption is violated.** Real neural network gradients are highly anisotropic -- they concentrate on a low-rank subspace (Gur-Ari et al. 2018; Papyan 2020). The effective dimensionality of the gradient space is much less than B, so the naive SNR_param estimate overstates the dilution.
 
-## 5. Component Details
+2. **d_task is ambiguous across spaces.** In parameter space, d_task counts parameter directions affected by the task. In representation space, d_task counts feature dimensions relevant to the task. These are different quantities with potentially different magnitudes.
 
-### C1: TECS Metric
-cos(vec(delta_W), vec(g_M)) per fact. 5 null baselines, Cohen's d, Bonferroni. O(d_v*d_k). Expected: d < 0.2 across models.
+3. **TRAK's random projection complicates the picture.** TRAK uses Johnson-Lindenstrauss random projection to reduce B ~ 10^9 to dim = 4096. This makes B_effective ~ 4096 for TRAK, apparently eliminating the claimed 10^5-10^6 SNR advantage. See Section 1.4 for resolution.
 
-### C2: SVD + Spectral Analysis
-D, G matrices -> SVD -> effective dim (spectral entropy), variance profiles. Reduce to n-dim joint subspace. Expected: editing 30-60D, attribution 1-5D.
+**Status**: This scaling argument is a **motivating analysis** -- dimensional intuition suggesting that representation space may offer SNR advantages. The 2x2 experiment (Section 2) **directly tests this hypothesis** rather than relying on the scaling argument alone.
 
-### C3: Principal Angles + Cross-Projection
-k principal angles between span(D_k), span(G_k). 1000 random trials for null. Cross-projection fractions. Expected: random-level at k>=20; G-in-D >> D-in-G.
+### 1.2 FM2: Common Influence Contamination
 
-### C4: C^{-1} Whitening Ablation
-delta_W_unwhitened = C * delta_W or k*(v_new-Wk*)^T. Repeat C1-C3. Most theory-informative ablation. Three publishable scenarios: C^{-1} main cause (d_unwhitened > 0.3), partial (0.1-0.3), irrelevant (<0.1).
+**Observation**: In LLMs, pre-training creates a massive base of shared knowledge. Standard TDA scoring captures both task-specific and pre-training influences indiscriminately. This **common-mode interference** inflates attribution scores for training samples that shaped general language capabilities rather than task-specific behaviors.
 
-### C5: Attribution Method Ablation
-BM25 (baseline), raw mean, RIF-rescaled (2506.06656), SVD subspace (r=5,10). Tests 1D collapse artifact. SVD subspace is key: if angles remain near-random at r=10, incommensurability transcends collapse.
+**Evidence**: DDA (2410.01285) showed that contrastive scoring (IS_{theta'} - IS_{theta_0}) improved hallucination tracing AUC by 55.2pp.
 
-### C6: Toy Model
-Linear associative memory W = sum v_i k_i^T. Vary d/n from 2-100. ROME-style editing + gradient attribution. Ground truth known. Predicted phase transition at d/n ~ 5-15.
+**Mechanism**: Contrastive scoring acts as a **differential filter** -- by subtracting the pre-trained baseline, it cancels common-mode interference and isolates task-specific influence. This remedy operates orthogonally to the space dimension.
 
-## 6. Causal Chain
+### 1.3 FM1 and FM2 as Complementary (Not Independent) Failure Modes
 
-Gap: editing and attribution access same weights, different subspaces. Root cause: different optimization objectives + over-parameterization. Method: C1 detects, C2 characterizes, C3 tests structure, C4 isolates mechanism, C5 tests robustness, C6 validates theory. Each component necessary; none sufficient alone.
+**Revised framing** (addressing design review M2):
 
-## 7. Theory
+FM1 and FM2 describe **complementary** failure modes -- they capture different aspects of why parameter-space TDA fails at LLM scale:
 
-TECS rank-1 decomposition: TECS = sign(alpha)*cos(C^{-1}k*,k_i)*cos(v*-Wk*,d_v_i). Null: E[TECS^2] ~ 1/d_k. Over-parameterization: p/n ~ 10^2-10^3 allows orthogonal subspaces. C^{-1} condition number ~ 10^2-10^3 creates extreme rotation.
+- FM1 is about **where** you measure influence (parameter space vs representation space)
+- FM2 is about **what** you subtract from the measurement (nothing vs pre-trained baseline)
 
-## 8. Positioning
+**Evidence for complementarity** (NOT independence):
 
-Novel: no prior work compares editing-attribution parameter-space geometry. Resolves Hase et al. (2023) localization-editing disconnect at parameter level. Inherits TECS from TECA pilot; adds cross-model, C^{-1} ablation, RIF, toy model.
+The AURA CIFAR-10 pilot found Kendall tau = -0.467 between IF and RepSim rankings across 500 test points. This anti-correlation indicates that the two methods capture **systematically different information**.
 
-## 9. Code Reuse
+**Critical clarification**: tau = -0.467 is evidence of **negative dependence** (structured anti-correlation), NOT independence. We therefore:
 
-Reuse: Codes/experiments/teca/ (pilot_rome.py, pilot_tecs_core.py, pilot_tda_gradient*.py, negative_subspace_geometry.py). Create new: cross-model pipeline, RIF attribution, toy model, 48-layer sweep.
+1. **Replace "independent" with "complementary"** throughout.
+2. **Use tau = -0.467 as evidence for "different information capture"**.
+3. **Make the 2x2 interaction test the PRIMARY assessment of remedy additivity.**
+
+**Interaction interpretation thresholds**:
+- Interaction < 10% of min(main effects) AND Cohen's d < 0.2: strong approximate additivity
+- Interaction 10-30%: approximate additivity with noted interaction
+- Interaction > 30%: interacting remedies requiring joint treatment
+
+### 1.4 Why Representation Extraction Differs from Random Projection (Resolving the TRAK Paradox)
+
+**The paradox** (design review M1): TRAK projects parameter-space gradients to dim = 4096 via JL random projection. RepSim operates on the penultimate layer (d = 4096 for Pythia-1B). If FM1 were purely about dimensionality, both should perform comparably. Yet RepSim dramatically outperforms TRAK (Li et al. 2025). Why?
+
+**Resolution**: FM1 is not merely about dimensionality reduction -- it is about the **nature of the feature space**.
+
+**Random projection (JL, used by TRAK)**:
+- Preserves pairwise distances but does NOT concentrate task-relevant information
+- Task-relevant signal is spread approximately uniformly across all 4096 projected dimensions
+- No semantic structure: each dimension carries roughly equal task information
+- SNR improvement from dimensionality reduction only (B -> 4096), not signal concentration
+
+**Learned representation extraction (used by RepSim/RepT)**:
+- Neural network layers are **trained** to concentrate task-relevant variance
+- Dominant principal components capture class-discriminative features
+- 90%+ of class-discriminative variance in top 50-100 principal components
+- Semantic structure: features ordered by task relevance
+
+**The FM1 mechanism restated**: The advantage of representation space is not "fewer dimensions" but "**task-structured** dimensions." Learned representations act as a **task-adapted matched filter** that concentrates signal, whereas random projection merely reduces dimensionality while distributing signal uniformly.
+
+**Testable predictions**:
+1. RepSim should outperform TRAK despite same dimensionality (confirmed: Li et al. 2025)
+2. PCA-truncated RepSim should maintain performance; PCA-truncated TRAK projections should degrade
+3. Representation-space advantage larger for tasks where pre-trained features align with evaluation
+4. LoRA fine-tuning should narrow parameter-vs-representation gap if FM1 is partly dimensional
+
+## 2. The 2x2 Factorial Design
+
+### 2.1 Design Matrix
+
+| | Standard Scoring | Contrastive Scoring |
+|---|---|---|
+| **Parameter Space** | TRAK, IF (EK-FAC) | Contrastive-TRAK |
+| **Representation Space** | RepSim, RepT | Contrastive-RepSim, Contrastive-RepT |
+
+- **Rows** test FM1: representation space vs parameter space
+- **Columns** test FM2: contrastive vs standard scoring
+- **Interaction** tests whether FM1 and FM2 remedies compose additively
+
+### 2.2 Method Specifications
+
+**Parameter + Standard**: TRAK (JL dim=4096, trak library); IF EK-FAC (dattri).
+**Parameter + Contrastive**: Contrastive-TRAK (primary); DDA (optional, high risk).
+**Representation + Standard**: RepSim (penultimate layer cosine); RepT (auto layer selection).
+**Representation + Contrastive**: Contrastive-RepSim; Contrastive-RepT (full remedy cell).
+
+### 2.3 Bilinear Unification (Notational Convenience)
+
+All methods expressible as: `s(z, z_train) = phi(z)^T M psi(z_train)`.
+
+**Note**: This is a **notational convenience**, not a theoretical contribution. Any bilinear function fits this template. Its value is taxonomic.
+
+### 2.4 Statistical Analysis Framework
+
+**Per-sample analysis** (NOT task-level ANOVA): per-sample permutation tests within each task; bootstrap CIs; Bonferroni correction.
+
+**2x2 interaction analysis** (PRIMARY test of FM1/FM2 additivity): permutation test (10,000 iterations); interaction magnitude as fraction of min(main effects).
+
+## 3. Additional Baselines and Controls
+
+### 3.1 Mandatory Baselines
+
+| Method | Purpose |
+|--------|---------|
+| Random | Sanity check |
+| BM25 | Lexical baseline |
+| LESS | Gradient projection baseline |
+| Gradient-norm | Zero-cost sanity check |
+| AirRep | Learned representation baseline (if available) |
+
+### 3.2 Ablations
+
+1. LoRA vs full fine-tuning (FM1 LoRA artifact test)
+2. Layer selection for representation methods
+3. Hessian quality: EK-FAC vs K-FAC
+4. TRAK projection dimension: 2048/4096/8192
+
+## 4. Design Cross-References
+
+| Method Claim | Experiment | Section (experiment-design.md) |
+|-------------|-----------|-------------------------------|
+| Representation > parameter (FM1) | 2x2 main effect: Space | Exp 3.4 ablation 1 |
+| Contrastive > standard (FM2) | 2x2 main effect: Scoring | Exp 3.4 ablation 2 |
+| FM1/FM2 compose additively | 2x2 interaction | Exp 3.2 |
+| Random projection != learned repr | RepSim vs TRAK | Exp 2.1 + 3.4 ablation 4 |
+| FM1 not LoRA artifact | LoRA vs full FT | Exp 3.4 ablation 5 |
+| Gradient norm insufficient | Gradient-norm baseline | Exp 2.2 |
+| Hessian quality interaction | EK-FAC vs K-FAC | Exp 3.4 ablation 3 |
+
+## 5. Metadata
+
+- **Core framework**: FM1 + FM2 as complementary failure modes; 2x2 factorial on DATE-LM
+- **Theoretical status**: Motivating analyses, NOT formal theorems. 2x2 experiment is the definitive test.
+- **Prior validation**: AURA CIFAR-10 (tau=-0.467, AUROC=0.691)
+- **Key risk**: RepSim competitiveness on DATE-LM unknown
+- **Design review addressal**: M1 (Section 1.4), M2 (Section 1.3), M3 (Section 1.1), M4 (full rewrite)
+- **Excluded**: BSS (v2.0), TECA (v3.0) -- archived in iteration-log

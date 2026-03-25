@@ -57,3 +57,21 @@
 
 #### 边界 (Boundary)
 - [ ] **[跨阶段] [中] [BOUNDARY]** — The design phase for an analysis paper is closer to "experiment planning" than "method design." The method-design.md and experiment-design.md distinction feels artificial when the method IS the experiment. Consider allowing merged documents for analysis papers.
+
+## Entry 2 — design (dr_revise, v1.1) — 2026-03-25
+
+**执行模式**: DR-Revise (design review round-1 returned REVISE with 4 blocking items)
+**时间分配**: 读取审查意见 + 现有文档 ~30%, 理论修订 (M1-M3) ~40%, 文档对齐重写 (M4) ~30%
+
+### 观察
+
+#### 改进 (Improve)
+- [ ] **[流程] [高]** — 三份设计文档（problem-statement, method-design, experiment-design）在 3 次独立修改中分别指向了 3 个不同方向（TECA, BSS, FM1/FM2）。当前 runner 不检查文档间一致性。建议在 design_review 阶段增加文档对齐检查：如果 3 份文档的方向关键词（Gap 名称、方法名、benchmark 名）不一致，自动标记为 blocking issue。
+- [ ] **[Prompt: design-prompt] [中]** — design prompt 中的"保留未被质疑的部分"指令在 dr_revise 模式下与"重写文档以对齐方向"需求冲突。当审查意见要求全局对齐（M4），局部保留策略不适用。建议 dr_revise 在检测到 M4-type alignment issue 时自动升级为"全文重写"模式。
+
+#### 确认 (Confirm)
+- **[当前阶段]** — Design review 的 4 blocking items 质量很高：M1（TRAK paradox）是论文最明显的弱点，M2（independence framing）是数学错误，M3（SNR formalization）是诚信问题，M4（alignment）是基本功。这些都是 reviewer 会在 30 秒内发现的问题。
+- **[跨阶段]** — 将 SNR 从 theorem 降级为 motivating analysis 实际上让论文更强：2x2 实验结果本身就是证据，不需要依赖有缺陷的理论论证。
+
+#### 边界 (Boundary)
+- [ ] **[流程] [低]** — 版本号语义不清晰。problem-statement 从 v1.2 回退到 v1.1（方向变回 FM1/FM2），method-design 从 v2.0 到 v1.1（跨方向重写）。是否应该用 v4.0 表示"第 4 次重写"而不是 v1.1 表示"回到 v1.x 方向的第 1 次修订"？当前选择了后者以保持与 iteration_major/minor 语义一致，但可能造成混淆。
