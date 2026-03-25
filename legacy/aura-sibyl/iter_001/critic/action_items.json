@@ -1,0 +1,119 @@
+[
+  {
+    "priority": 1,
+    "category": "experiment",
+    "severity": "critical",
+    "action": "Run class-conditional TRV variance decomposition (ANOVA)",
+    "description": "Compute between-class vs. within-class TRV variance + gradient norm correlation using existing 3-seed probe data. ANOVA: class label + gradient norm -> TRV. If >80% of variance is explained, per-test-point diagnostics are fundamentally flawed (Contrarian H-Con1). This is the GATE experiment for all further investment — it determines whether per-test-point attribution sensitivity exists as a data property or is just class membership plus noise.",
+    "effort": "~30 min analysis, zero GPU cost",
+    "blocks": "All rescue angles, all further planning"
+  },
+  {
+    "priority": 2,
+    "category": "experiment",
+    "severity": "critical",
+    "action": "Complete TRV-high vs. TRV-low LDS comparison (missing Probe Step 8)",
+    "description": "Pre-registered but never executed. Split test points into TRV-high (Level >= 3) and TRV-low (Level 1) subsets. Compute per-test-point LDS using Full GGN attribution as approximate ground truth. Report Cohen's d with 95% CI. If d < 0.3, TRV has no demonstrated link to attribution quality — 'stable' may mean 'stably wrong.' This blocks all claims about TRV's practical utility.",
+    "effort": "~30 min analysis on existing data (approximate via Full GGN as reference)",
+    "blocks": "Phase 1 viability, C4 contribution"
+  },
+  {
+    "priority": 3,
+    "category": "experiment",
+    "severity": "critical",
+    "action": "Compute softmax confidence vs. TRV correlation",
+    "description": "~10 lines of code on existing data. If prediction entropy or softmax confidence explains TRV variance (Spearman |rho| > 0.5), TRV adds nothing beyond confidence thresholding. The Codex reviewer (5/10) specifically flagged this missing trivial baseline.",
+    "effort": "~10 min, zero GPU cost",
+    "blocks": "Novelty assessment"
+  },
+  {
+    "priority": 4,
+    "category": "experiment",
+    "severity": "critical",
+    "action": "Compute cross-seed attribution variance vs. TRV correlation (Daunce differentiation)",
+    "description": "Using existing 3-seed data, compute per-test-point cross-seed attribution variance (analogous to Daunce's model perturbation signal) and correlate with TRV. If Spearman rho > 0.7, TRV and Daunce are measuring the same thing — AURA's independent novelty collapses.",
+    "effort": "~20 min analysis, zero GPU cost",
+    "blocks": "Novelty differentiation from Daunce (ICML 2025)"
+  },
+  {
+    "priority": 5,
+    "category": "planning",
+    "severity": "critical",
+    "action": "Define hard kill switch with concrete criteria",
+    "description": "Specify: 'If [class ANOVA explains >80% of TRV variance] AND [BSS cross-seed rho < 0.3] AND [Disagreement Diagnostic quality-prediction rho < 0.2], abandon per-test-point diagnostics entirely.' Without this, the project risks infinite rescue attempts. Also specify the fallback: negative result paper targeting NeurIPS D&B track or TMLR.",
+    "effort": "~15 min decision-making",
+    "blocks": "Resource allocation, project continuity"
+  },
+  {
+    "priority": 6,
+    "category": "planning",
+    "severity": "critical",
+    "action": "Force convergence to ONE rescue angle after diagnostics complete",
+    "description": "After priorities 1-4 are completed, if per-test-point signal survives, pick exactly ONE rescue angle. Recommendation: Pragmatist Angle 1 (Disagreement Diagnostic) — lowest compute cost (~3.5h), no theoretical dependencies, most direct empirical test. Gate ALL other angles on this result.",
+    "effort": "Decision after diagnostics",
+    "blocks": "All subsequent planning"
+  },
+  {
+    "priority": 7,
+    "category": "analysis",
+    "severity": "major",
+    "action": "Characterize the ~20% 'immune' subset (TRV=5)",
+    "description": "The most robust Probe finding: ~20% of test points are immune to Hessian approximation choice. Characterize: class distribution, representation-space centroid distance, gradient norm, loss value, prediction confidence. Test whether a simple logistic classifier can predict TRV=5 with AUROC > 0.75. This could be a cleaner contribution than rescuing the full TRV framework.",
+    "effort": "~1h analysis on existing data",
+    "blocks": "Alternative contribution narrative"
+  },
+  {
+    "priority": 8,
+    "category": "experiment",
+    "severity": "major",
+    "action": "Scale probe to 500 test points with confidence intervals",
+    "description": "N=100 is underpowered for all correlation and distribution claims. Scale to 500 uniform-random test points. Report 95% bootstrap CIs for all correlations, distribution percentages, and effect sizes.",
+    "effort": "~2-3 GPU-hours",
+    "blocks": "Publication-quality results"
+  },
+  {
+    "priority": 9,
+    "category": "writing",
+    "severity": "major",
+    "action": "Write 1-page honest revised elevator pitch",
+    "description": "State clearly: (a) what the project CAN claim (Hessian choice reshapes attributions; immune subset exists), (b) what it CANNOT claim (stable per-test-point TRV, SI proxy, adaptive fusion superiority), (c) what the open question is (data property vs. model-instance noise). All subsequent work anchored to this.",
+    "effort": "~30 min",
+    "blocks": "Narrative coherence"
+  },
+  {
+    "priority": 10,
+    "category": "planning",
+    "severity": "major",
+    "action": "Develop concrete fallback paper plan (negative result / empirical analysis)",
+    "description": "Outline the Contrarian's negative result paper: title, abstract, 4 key claims, required experiments (ANOVA across 3 datasets/architectures, Pareto frontier, stability-correctness analysis), target venue (NeurIPS D&B, TMLR). Budget: ~80 GPU-hours. This should be developed IN PARALLEL with rescue angle validation.",
+    "effort": "~1h planning",
+    "blocks": "Project continuity if rescue fails"
+  },
+  {
+    "priority": 11,
+    "category": "writing",
+    "severity": "major",
+    "action": "Update contribution tracker with honest status",
+    "description": "C0: 'FAILED critical pre-registered criterion; requires fundamental redefinition.' C1: 'Blocked by C0.' C2: 'Abandoned — H4 falsified.' C3: 'Blocked by C0.' C4: 'Blocked by missing TRV-LDS experiment (Step 8).'",
+    "effort": "~10 min",
+    "blocks": "Documentation accuracy"
+  },
+  {
+    "priority": 12,
+    "category": "experiment",
+    "severity": "minor",
+    "action": "Test continuous TRV (damped GGN with varying lambda)",
+    "description": "Replace discrete hierarchy with continuous damping (lambda from 0.001 to 100, 20 steps) on existing last-layer setup. If continuous TRV has more per-point variance than discrete TRV, the hierarchy collapse issue can be mitigated without full-model Hessian.",
+    "effort": "~1 GPU-hour",
+    "blocks": "TRV resolution improvement"
+  },
+  {
+    "priority": 13,
+    "category": "experiment",
+    "severity": "minor",
+    "action": "Test Jaccard@50 and weighted Kendall tau as alternative TRV metrics",
+    "description": "Jaccard@10 is extremely sensitive to small score perturbations with 50K training points. If cross-seed stability improves with larger k or rank-weighted metrics, the original instability finding may be partially a metric artifact.",
+    "effort": "~30 min on existing data",
+    "blocks": "Metric sensitivity assessment"
+  }
+]

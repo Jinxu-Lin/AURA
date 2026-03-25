@@ -1,0 +1,1 @@
+{"task_id": "phase1_variance_decomposition", "epoch": 1, "total_epochs": 1, "step": 1, "total_steps": 1, "metric": {"gate": "PASS", "residual_J10": 0.775, "residual_tau": 0.534, "residual_LDS": 0.459}, "updated_at": "2026-03-17T22:48:50.198535"}

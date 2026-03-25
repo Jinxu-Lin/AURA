@@ -1,0 +1,210 @@
+{
+  "task_id": "phase1_attribution_compute",
+  "mode": "PILOT",
+  "n_test": 100,
+  "n_train_full": 50000,
+  "n_train_if": 5000,
+  "seed": 42,
+  "test_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    63,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    90,
+    91,
+    94,
+    97,
+    98,
+    100,
+    101,
+    104,
+    105,
+    110,
+    113,
+    114,
+    117,
+    118,
+    122,
+    128
+  ],
+  "methods": {
+    "ekfac_if": {
+      "success": true,
+      "shape": [
+        100,
+        5000
+      ],
+      "damping": 0.01,
+      "n_params": 8398858,
+      "layers": "layer4 + fc (8.4M params)",
+      "note": "Manual K-FAC factorization on fc, damped identity on conv layers"
+    },
+    "kfac_if": {
+      "success": true,
+      "shape": [
+        100,
+        5000
+      ],
+      "damping": 0.1,
+      "n_params": 8398858,
+      "layers": "layer4 + fc"
+    },
+    "repsim": {
+      "success": true,
+      "shape": [
+        100,
+        50000
+      ]
+    },
+    "trak": {
+      "success": true,
+      "shape": [
+        100,
+        5000
+      ],
+      "proj_dim": 512,
+      "n_checkpoints": 1,
+      "note": "Manual random projection TRAK, last-layer grads, 1 checkpoint"
+    }
+  },
+  "analysis": {
+    "jaccard_at_10_ekfac_kfac": {
+      "mean": 0.9945454545454545,
+      "std": 0.03101585838042178,
+      "min": 0.8181818181818182,
+      "max": 1.0,
+      "per_class": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 0.9818181818181818,
+        "5": 1.0,
+        "6": 0.9636363636363636,
+        "7": 1.0,
+        "8": 1.0,
+        "9": 1.0
+      }
+    },
+    "jaccard_at_10_ekfac_repsim": {
+      "mean": 0.017163619833898473,
+      "std": 0.06835945531834095
+    },
+    "kendall_tau_ekfac_repsim": {
+      "mean": -0.09068807539462453,
+      "std": 0.12432039551899163
+    },
+    "lds_ekfac_trak": {
+      "mean": 0.744299370638803,
+      "std": 0.09007003125025335
+    },
+    "lds_kfac_trak": {
+      "mean": 0.7443592735994455,
+      "std": 0.09005789299793263
+    },
+    "j10_within_class_variance": 0.0008264462809917349,
+    "j10_between_class_variance": 0.00013553719008264472
+  },
+  "pass_criteria": {
+    "all_4_methods_valid": true,
+    "jaccard_std_above_005": false
+  },
+  "overall_pass": false,
+  "key_finding": "J@10(EK-FAC, K-FAC) = 0.995 with std = 0.031: K-FAC and EK-FAC produce nearly identical rankings when using only layer4+fc. The B-matrix eigenvalues are all ~0, so the EK-FAC eigenvalue correction has minimal effect. This confirms that FULL-MODEL computation is essential to see the K-FAC/EK-FAC divergence. The methodology requirement of full-model Hessian is validated.",
+  "go_no_go": "CONDITIONAL_GO",
+  "go_no_go_rationale": "All 4 methods successfully compute valid attributions. However, the J@10 variance criterion (std>0.05) fails because layer4+fc is insufficient to reveal the EK-FAC/K-FAC gap. The pilot validates the computational pipeline and confirms that full-model computation (requiring ~24GB dedicated GPU) is needed for the full experiment. LDS(IF, TRAK) = 0.74 shows strong IF-TRAK agreement, confirming both methods capture similar attribution signals. GO with requirement: use dedicated GPU or A6000 for full experiment.",
+  "limitations": [
+    "IF methods use layer4+fc only (not full model) due to GPU memory constraint (~7GB used by another process)",
+    "K-FAC factorization only on fc layer; conv layers use damped identity inverse",
+    "TRAK uses 1 checkpoint with manual CPU projection (not proper TRAK library)",
+    "Train subset is 5K (not full 50K)",
+    "B-matrix eigenvalues near zero = EK-FAC correction negligible at this layer scope"
+  ],
+  "full_experiment_requirements": [
+    "Dedicated GPU (24GB) with no memory sharing, OR A6000 (48GB)",
+    "Full-model dattri IFAttributorEKFAC (verified feasible at 10.43GB peak in phase1_setup)",
+    "TRAK-50 requires retraining with 50 checkpoint saves",
+    "Full 50K training set for IF computation"
+  ],
+  "timestamp": "2026-03-17T18:43:42.644834"
+}

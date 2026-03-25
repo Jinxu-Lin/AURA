@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "tasks": {
+    "phase0_reanalysis": {
+      "status": "completed",
+      "gpu_ids": [
+        1
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase0_reanalysis.pid",
+      "registered_at": "2026-03-17T21:24:23.925631",
+      "completed_at": "2026-03-17T21:30:00.000000",
+      "result_summary": "FULL reanalysis from raw probe data. GUM: seed=0.4%, class=13.4%, residual=86.1%. SI-TRV mean |rho|=0.112 (no correlation). Immune fraction=20%. Test indices differ across seeds (cross-seed per-point rho not directly applicable). Trimodal TRV confirmed in all seeds."
+    },
+    "phase1_setup": {
+      "status": "completed",
+      "gpu_ids": [
+        2
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase1_setup.pid",
+      "registered_at": "2026-03-17T21:24:23.925639",
+      "completed_at": "2026-03-17T17:50:59.143567",
+      "result_summary": "ResNet-18 trained to 95.50% test acc. Hessian: manual_gradient_ok. Pass: True"
+    },
+    "phase1_attribution_compute": {
+      "status": "completed",
+      "gpu_ids": [
+        1,
+        2
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase1_attribution_compute.pid",
+      "registered_at": "2026-03-17T21:32:03.381182",
+      "completed_at": "2026-03-17T22:40:00.000000",
+      "result_summary": "Full-model 4 methods (EK-FAC, K-FAC, RepSim, TRAK-50) for 500 test x 50K train. J@10(EK-FAC,K-FAC) mean=0.835 std=0.128 (GATE PASS). LDS(EK-FAC,TRAK)=0.297. Kendall tau(IF,RepSim)=-0.467."
+    },
+    "phase1_variance_decomposition": {
+      "status": "completed",
+      "gpu_ids": [
+        1
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase1_variance_decomposition.pid",
+      "registered_at": "2026-03-17T22:45:08.369891",
+      "completed_at": "2026-03-17T22:48:50.198674"
+    },
+    "phase2b_disagreement": {
+      "status": "completed",
+      "gpu_ids": [
+        2
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase2b_disagreement.pid",
+      "registered_at": "2026-03-17T22:45:08.369900",
+      "completed_at": "2026-03-17T22:54:43.954040",
+      "result_summary": "FULL 500-point disagreement analysis. Gate PASS: global AUROC=0.691 (>0.60), class-stratified quantile AUROC=0.746 (>0.55). 471/500 IF-better, 29/500 RepSim-better. Tau-LDS_diff rho=0.524 (p=1.25e-36). Partial corr controlling class+grad_norm=0.266 (disagreement is NOT just class proxy)."
+    },
+    "phase2a_multiseed_train": {
+      "status": "running",
+      "gpu_ids": [
+        1,
+        2
+      ],
+      "pid_file": "/home/jinxulin/sibyl_system/projects/AURA/exp/results/phase2a_multiseed_train.pid",
+      "registered_at": "2026-03-17T22:55:10.814075"
+    }
+  },
+  "last_recovery_at": "2026-03-17T21:24:50",
+  "recovery_log": [
+    {
+      "timestamp": "2026-03-17T21:24:50",
+      "action": "monitor_check",
+      "details": "Both phase0_reanalysis and phase1_setup found DONE on remote. Updated status to completed."
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "completed": [
+    "phase0_reanalysis",
+    "phase1_setup",
+    "phase1_attribution_compute",
+    "phase1_variance_decomposition",
+    "phase2b_disagreement"
+  ],
+  "failed": [],
+  "running": {
+    "phase2a_multiseed_train": {
+      "gpu_ids": [
+        1,
+        2
+      ],
+      "started_at": "2026-03-17T22:55:10.814379"
+    }
+  },
+  "timings": {
+    "phase0_reanalysis": {
+      "planned_min": 15,
+      "actual_min": 1,
+      "start_time": "2026-03-17T21:28:00",
+      "end_time": "2026-03-17T21:29:00",
+      "completed_at": "2026-03-17T21:29:00",
+      "config_snapshot": {
+        "mode": "FULL",
+        "data_source": "raw_probe_data",
+        "n_seeds": 3,
+        "n_points": 100,
+        "gpu_count": 0,
+        "analyses": [
+          "class_conditional_trv",
+          "gum_budget",
+          "correlation_matrix",
+          "cross_seed_stability",
+          "jaccard_degradation",
+          "si_trv_correlation",
+          "confidence_stratification"
+        ]
+      }
+    },
+    "phase1_setup": {
+      "completed_at": "2026-03-17T17:50:59.143567"
+    },
+    "phase1_attribution_compute": {
+      "planned_min": 60,
+      "actual_min": 12,
+      "start_time": "2026-03-17T22:25:00",
+      "end_time": "2026-03-17T22:40:00",
+      "completed_at": "2026-03-17T22:40:00",
+      "config_snapshot": {
+        "mode": "FULL",
+        "n_test": 500,
+        "n_train": 50000,
+        "methods": [
+          "ekfac_if",
+          "kfac_if",
+          "repsim",
+          "trak50"
+        ],
+        "if_layers": [
+          "layer4.0.conv1",
+          "layer4.0.conv2",
+          "layer4.0.downsample.0",
+          "layer4.1.conv1",
+          "layer4.1.conv2",
+          "fc"
+        ],
+        "trak_checkpoints": 50,
+        "trak_proj_dim": 4096,
+        "gpu_model": "RTX 4090",
+        "gpu_count": 1
+      }
+    },
+    "phase1_variance_decomposition": {
+      "planned_min": 15,
+      "actual_min": 3,
+      "start_time": "2026-03-17T22:45:08",
+      "end_time": "2026-03-17T22:48:24.945169",
+      "completed_at": "2026-03-17T22:48:24.945169",
+      "config_snapshot": {
+        "mode": "FULL",
+        "n_test": 500,
+        "n_predictors": 2,
+        "anova_type": "Type_I_sequential",
+        "response_variables": [
+          "J10",
+          "tau",
+          "LDS"
+        ],
+        "gpu_count": 0
+      }
+    },
+    "phase2b_disagreement": {
+      "planned_min": 15,
+      "actual_min": 3,
+      "start_time": "2026-03-17T22:45:08",
+      "end_time": "2026-03-17T22:54:43.954040",
+      "completed_at": "2026-03-17T22:54:43.954040",
+      "config_snapshot": {
+        "mode": "FULL",
+        "n_test": 500,
+        "n_train": 50000,
+        "full_model": true,
+        "analyses": [
+          "lds_comparison",
+          "kendall_tau",
+          "binary_auroc",
+          "quantile_auroc",
+          "class_stratified_auroc",
+          "multi_feature",
+          "feature_correlations",
+          "partial_correlations"
+        ],
+        "gpu_count": 0
+      }
+    }
+  }
+}

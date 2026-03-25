@@ -1,0 +1,1290 @@
+{
+  "task_id": "phase3_tecs_core",
+  "mode": "pilot",
+  "timestamp": "2026-03-17T18:18:10.356540",
+  "elapsed_sec": 5108.450103998184,
+  "config": {
+    "n_facts": 100,
+    "seed": 42,
+    "model": "gpt2-xl",
+    "edit_layer": 17,
+    "null_repeats": 10,
+    "null_b_subset": 20,
+    "null_b_layers": [
+      12,
+      22,
+      27,
+      32,
+      37
+    ],
+    "bootstrap_n": 10000,
+    "tecs_method": "rank1_identity"
+  },
+  "tecs_distribution": {
+    "mean": 0.00015715958819782826,
+    "std": 0.006759562614966093,
+    "median": 0.0009312307520303875,
+    "min": -0.023440927267074585,
+    "max": 0.025203123688697815,
+    "q25": -0.0028548693517223,
+    "q75": 0.0032993764034472406,
+    "bootstrap_ci_95": [
+      -0.001172822986798564,
+      0.0014590407363157273
+    ],
+    "n_positive": 56,
+    "n_negative": 44
+  },
+  "null_distributions": {
+    "null_a": {
+      "mean": -0.00016995595982825763,
+      "std": 0.00569576346467292,
+      "per_fact_mean": -0.0001699559598282576
+    },
+    "null_b": {
+      "computed": true,
+      "mean": -0.00034234742656281015,
+      "std": 0.0033853991088248106,
+      "per_layer": {
+        "12": {
+          "mean": -0.0004331907940468227,
+          "std": 0.002824584675868459
+        },
+        "22": {
+          "mean": -0.0023513159358117264,
+          "std": 0.004150526476613163
+        },
+        "27": {
+          "mean": -0.0010971094934575376,
+          "std": 0.0031895206064002563
+        },
+        "32": {
+          "mean": 0.0006489803499562186,
+          "std": 0.0025146166262564056
+        },
+        "37": {
+          "mean": 0.0015208987405458175,
+          "std": 0.0025563369739352235
+        }
+      }
+    },
+    "null_c": {
+      "mean": -3.6807129074531987e-06,
+      "std": 0.00031017055177921744,
+      "per_fact_mean": -3.6807129074531996e-06
+    },
+    "null_d": {
+      "mean": 5.27980264982375e-06,
+      "std": 0.0003069724966943407,
+      "per_fact_mean": 5.279802649823751e-06
+    },
+    "null_e": {
+      "mean": -0.0059472293478029315,
+      "std": 0.028825917762242984,
+      "n_valid": 100
+    }
+  },
+  "statistical_tests": {
+    "vs_null_a": {
+      "name": "TECS vs Null-A (random fact)",
+      "mean_real": 0.00015715958819782826,
+      "mean_null": -0.0001699559598282576,
+      "mean_diff": 0.000327115548026086,
+      "cohens_d": 0.05016582671229677,
+      "t_stat": 0.5016582671229676,
+      "p_value": 0.6170217229683768,
+      "ci_95_low": -0.0009347225178933965,
+      "ci_95_high": 0.0015946758940099013,
+      "n": 100
+    },
+    "vs_null_c": {
+      "name": "TECS vs Null-C (shuffled)",
+      "mean_real": 0.00015715958819782826,
+      "mean_null": -3.6807129074531996e-06,
+      "mean_diff": 0.00016084030110528156,
+      "cohens_d": 0.02372287384939711,
+      "t_stat": 0.2372287384939711,
+      "p_value": 0.8129695625914424,
+      "ci_95_low": -0.001168081539063769,
+      "ci_95_high": 0.0014624667444192198,
+      "n": 100
+    },
+    "vs_null_d": {
+      "name": "TECS vs Null-D (random)",
+      "mean_real": 0.00015715958819782826,
+      "mean_null": 5.279802649823751e-06,
+      "mean_diff": 0.0001518797855480044,
+      "cohens_d": 0.022355987768480703,
+      "t_stat": 0.22355987768480703,
+      "p_value": 0.8235604573573269,
+      "ci_95_low": -0.0011815870256574406,
+      "ci_95_high": 0.0014539241606426015,
+      "n": 100
+    },
+    "vs_null_e": {
+      "name": "TECS vs Null-E (test grad)",
+      "mean_real": 0.00015715958819782826,
+      "mean_null": -0.0059472293478029315,
+      "mean_diff": 0.00610438893600076,
+      "cohens_d": 0.21112965187661764,
+      "t_stat": 2.111296518766176,
+      "p_value": 0.03726521538244057,
+      "ci_95_low": 0.0004633552836439776,
+      "ci_95_high": 0.011686312699101108,
+      "n": 100
+    },
+    "vs_null_b": {
+      "name": "TECS vs Null-B (cross-layer)",
+      "mean_real": 4.523280367720872e-05,
+      "mean_null": -0.00034234742656281015,
+      "mean_diff": 0.0003875802302400188,
+      "cohens_d": 0.07805168550030282,
+      "t_stat": 0.34905774907422366,
+      "p_value": 0.7308845303658685,
+      "ci_95_low": -0.0017721876260681018,
+      "ci_95_high": 0.0024274419186418746,
+      "n": 20,
+      "layers": [
+        12,
+        22,
+        27,
+        32,
+        37
+      ],
+      "per_layer_means": {
+        "12": -0.0004331907940468227,
+        "22": -0.0023513159358117264,
+        "27": -0.0010971094934575376,
+        "32": 0.0006489803499562186,
+        "37": 0.0015208987405458175
+      }
+    }
+  },
+  "bonferroni": {
+    "alpha": 0.002,
+    "n_comp": 5,
+    "significant": {
+      "vs_null_a": false,
+      "vs_null_c": false,
+      "vs_null_d": false,
+      "vs_null_e": false,
+      "vs_null_b": false
+    }
+  },
+  "decision_gate": {
+    "decision": "NEGATIVE",
+    "reason": "d(vs Null-A)=0.0502 <= 0.2",
+    "primary_d": 0.05016582671229677,
+    "secondary_d_null_b": 0.07805168550030282,
+    "threshold": 0.2
+  },
+  "subgroup_analysis": null,
+  "per_fact_results": [
+    {
+      "case_id": 247,
+      "tecs_real": 0.0029868613928556442,
+      "subject": "Martina Voss-Tecklenburg",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0007903391204308718,
+      "null_c_mean": -6.680863921246783e-05,
+      "null_d_mean": -5.583588790614158e-05,
+      "null_e": 0.02052927017211914
+    },
+    {
+      "case_id": 369,
+      "tecs_real": -0.003934095613658428,
+      "subject": "David Yost",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.003029485396109521,
+      "null_c_mean": 1.3689319530385547e-06,
+      "null_d_mean": -0.00010140552249140455,
+      "null_e": 0.009277356788516045
+    },
+    {
+      "case_id": 735,
+      "tecs_real": -0.000834981503430754,
+      "subject": "Toyota Porte",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0012729536887491123,
+      "null_c_mean": 5.238227549853036e-06,
+      "null_d_mean": 0.00012082236717105843,
+      "null_e": -0.07264448702335358
+    },
+    {
+      "case_id": 1052,
+      "tecs_real": -0.0002195128472521901,
+      "subject": "Haratch",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0008387004083488137,
+      "null_c_mean": 5.985335301375017e-05,
+      "null_d_mean": -0.00020423686937647289,
+      "null_e": 0.07977500557899475
+    },
+    {
+      "case_id": 1087,
+      "tecs_real": 0.0022371031809598207,
+      "subject": "Mari\u00e1n Hossa",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0016179632497369313,
+      "null_c_mean": 4.113191334909061e-05,
+      "null_d_mean": -2.493655765647418e-05,
+      "null_e": -0.01335475966334343
+    },
+    {
+      "case_id": 1182,
+      "tecs_real": -0.0071890586987137794,
+      "subject": "Moe Berg",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0021329694776795805,
+      "null_c_mean": 7.603454014315503e-05,
+      "null_d_mean": -7.581184981972911e-05,
+      "null_e": -0.012796732597053051
+    },
+    {
+      "case_id": 2115,
+      "tecs_real": -0.0005816832417622209,
+      "subject": "Dawa River",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0010173065995331854,
+      "null_c_mean": 0.00012980626052012668,
+      "null_d_mean": 1.2500054435804486e-05,
+      "null_e": -0.016508009284734726
+    },
+    {
+      "case_id": 2458,
+      "tecs_real": 0.0031222738325595856,
+      "subject": "Screen Directors Playhouse",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0006321666616713629,
+      "null_c_mean": 2.227281001978554e-05,
+      "null_d_mean": 0.00011299217237592529,
+      "null_e": -0.0522674061357975
+    },
+    {
+      "case_id": 2734,
+      "tecs_real": -0.0014813540037721395,
+      "subject": "J\u00fcrgen Locadia",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0031681538093835115,
+      "null_c_mean": -0.00012037905162287643,
+      "null_d_mean": 5.570317171077477e-06,
+      "null_e": 0.014419928193092346
+    },
+    {
+      "case_id": 2796,
+      "tecs_real": 0.0019489730475470424,
+      "subject": "Pirelli Tower",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.003632422920782119,
+      "null_c_mean": -9.500863598077558e-05,
+      "null_d_mean": -6.282341555561289e-05,
+      "null_e": -0.006814749911427498
+    },
+    {
+      "case_id": 2898,
+      "tecs_real": 0.004977496340870857,
+      "subject": "Jon Rose",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0023041845590341834,
+      "null_c_mean": 1.5457093468285165e-06,
+      "null_d_mean": -2.3045724992698526e-05,
+      "null_e": -0.000719287374522537
+    },
+    {
+      "case_id": 3519,
+      "tecs_real": 0.004937861580401659,
+      "subject": "Buenos Aires",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -6.2160193920135495e-06,
+      "null_c_mean": 3.141434463032056e-05,
+      "null_d_mean": 8.152406007866375e-05,
+      "null_e": 0.004713894333690405
+    },
+    {
+      "case_id": 3821,
+      "tecs_real": 0.0033747931011021137,
+      "subject": "Guy Moussi",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0005888350482564419,
+      "null_c_mean": 5.626788115478121e-05,
+      "null_d_mean": 1.2361279914330225e-05,
+      "null_e": 0.0004740512522403151
+    },
+    {
+      "case_id": 3931,
+      "tecs_real": 0.0008684760541655123,
+      "subject": "Real People",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0010663504595868289,
+      "null_c_mean": -0.0001676620639045723,
+      "null_d_mean": 0.0002571708291725372,
+      "null_e": -0.07852672040462494
+    },
+    {
+      "case_id": 4024,
+      "tecs_real": -0.004410083871334791,
+      "subject": "Julian Lennon",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0007348378043388948,
+      "null_c_mean": -6.206597572600003e-05,
+      "null_d_mean": 0.00012409405571816022,
+      "null_e": 0.019245998933911324
+    },
+    {
+      "case_id": 4336,
+      "tecs_real": 0.0009531576070003211,
+      "subject": "Procopius",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.002261847339104861,
+      "null_c_mean": -0.00018767542624118506,
+      "null_d_mean": 2.802533344947733e-07,
+      "null_e": -0.02369306981563568
+    },
+    {
+      "case_id": 4413,
+      "tecs_real": -0.003188810544088483,
+      "subject": "Hull Glacier",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0002971875946968794,
+      "null_c_mean": -0.00017256956380151678,
+      "null_d_mean": 7.605726204928942e-05,
+      "null_e": -0.05029715597629547
+    },
+    {
+      "case_id": 4618,
+      "tecs_real": 0.0037699732929468155,
+      "subject": "Gilles Quispel",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.000373689376283437,
+      "null_c_mean": 5.347883707145229e-05,
+      "null_d_mean": 6.878737567603821e-05,
+      "null_e": 0.08716415613889694
+    },
+    {
+      "case_id": 5163,
+      "tecs_real": 0.005611354019492865,
+      "subject": "Microsoft Silverlight",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0007806911948136985,
+      "null_c_mean": -8.498351271555294e-05,
+      "null_d_mean": 7.765817972540389e-05,
+      "null_e": 0.012223265133798122
+    },
+    {
+      "case_id": 5460,
+      "tecs_real": -0.012044087052345276,
+      "subject": "Ramon Magsaysay",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.004624930789577775,
+      "null_c_mean": 2.8311298956396057e-05,
+      "null_d_mean": 9.751060824783053e-05,
+      "null_e": -0.008272032253444195
+    },
+    {
+      "case_id": 5802,
+      "tecs_real": -0.0017580094281584024,
+      "subject": "Helsinki City Hall",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -3.270329671067884e-06,
+      "null_c_mean": -0.00016745678876759485,
+      "null_d_mean": 0.00013447256096696947,
+      "null_e": 0.00039370989543385804
+    },
+    {
+      "case_id": 5826,
+      "tecs_real": -0.00221481965854764,
+      "subject": "Dino",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0033732001000316815,
+      "null_c_mean": -9.78770010988228e-05,
+      "null_d_mean": 2.362791547056986e-05,
+      "null_e": -0.00017668689542915672
+    },
+    {
+      "case_id": 6340,
+      "tecs_real": 0.0014878009678795934,
+      "subject": "Dexys Midnight Runners",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0016866140940692276,
+      "null_c_mean": 8.108952606562525e-05,
+      "null_d_mean": -3.6253421785659154e-05,
+      "null_e": -0.0003121472545899451
+    },
+    {
+      "case_id": 6480,
+      "tecs_real": -0.0029579652473330498,
+      "subject": "Yehudi Menuhin",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0037714060075813905,
+      "null_c_mean": -4.706741747213527e-05,
+      "null_d_mean": -0.00016556928603677078,
+      "null_e": -0.0055965338833630085
+    },
+    {
+      "case_id": 7153,
+      "tecs_real": 0.0014563386794179678,
+      "subject": "Katsuhiko Nagata",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.00017669242079136892,
+      "null_c_mean": 3.0820594838587566e-05,
+      "null_d_mean": -5.797116419898884e-05,
+      "null_e": 0.0005507328314706683
+    },
+    {
+      "case_id": 7163,
+      "tecs_real": 0.006756529677659273,
+      "subject": "Colorado River Indian Tribes",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 3.665122349048033e-05,
+      "null_c_mean": 2.728819663389004e-05,
+      "null_d_mean": -0.00014257435977924616,
+      "null_e": -0.0025188445579260588
+    },
+    {
+      "case_id": 7316,
+      "tecs_real": 0.000408291321946308,
+      "subject": "Yahoo Games",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.001477273739874363,
+      "null_c_mean": 0.000141365714262065,
+      "null_d_mean": -0.00011710099133779294,
+      "null_e": -0.006473064422607422
+    },
+    {
+      "case_id": 7477,
+      "tecs_real": -0.0017640924779698253,
+      "subject": "Ryan Giggs",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0022834322351627636,
+      "null_c_mean": -8.209209772758186e-05,
+      "null_d_mean": 1.7771255966181342e-05,
+      "null_e": -0.00942258257418871
+    },
+    {
+      "case_id": 7613,
+      "tecs_real": 0.003678374458104372,
+      "subject": "Lilla Cabot Perry",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0009956683730706572,
+      "null_c_mean": 0.00019308129558339714,
+      "null_d_mean": 0.0001643121097004041,
+      "null_e": 0.02145879715681076
+    },
+    {
+      "case_id": 7877,
+      "tecs_real": -0.00023527184384875,
+      "subject": "Lennart Geijer",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.003657098760595545,
+      "null_c_mean": 7.017823400019551e-05,
+      "null_d_mean": -9.457152241338917e-05,
+      "null_e": -0.0018145532812923193
+    },
+    {
+      "case_id": 8499,
+      "tecs_real": 0.011407824233174324,
+      "subject": "Paul Guimard",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0027441536134574563,
+      "null_c_mean": 3.923353560821852e-05,
+      "null_d_mean": 6.986434773352812e-05,
+      "null_e": -0.0073685175739228725
+    },
+    {
+      "case_id": 8542,
+      "tecs_real": -0.00960030872374773,
+      "subject": "Toyota Land Cruiser",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.006882988999132067,
+      "null_c_mean": -7.494596284232102e-05,
+      "null_d_mean": -1.2306539974815679e-05,
+      "null_e": 0.012300599366426468
+    },
+    {
+      "case_id": 8607,
+      "tecs_real": -0.010388031601905823,
+      "subject": "Office Open XML",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.002196599513263209,
+      "null_c_mean": -0.00013708928415780974,
+      "null_d_mean": 0.00013906849362683716,
+      "null_e": -0.004994133021682501
+    },
+    {
+      "case_id": 8799,
+      "tecs_real": 0.0011139156995341182,
+      "subject": "Baku Baku Animal",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0005055424087913706,
+      "null_c_mean": 0.00014235254711820745,
+      "null_d_mean": -8.472981689919835e-05,
+      "null_e": 0.004471177700906992
+    },
+    {
+      "case_id": 8829,
+      "tecs_real": -0.00016137794591486454,
+      "subject": "Kazakh Khanate",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0014735022938111796,
+      "null_c_mean": -0.000137961460131919,
+      "null_d_mean": 5.695818000504005e-05,
+      "null_e": -0.001057876623235643
+    },
+    {
+      "case_id": 9100,
+      "tecs_real": 0.010277433320879936,
+      "subject": "Suzuki APV",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.002077452966477722,
+      "null_c_mean": 0.00012769120585289783,
+      "null_d_mean": 0.00010669260918803048,
+      "null_e": -0.0038807170931249857
+    },
+    {
+      "case_id": 9683,
+      "tecs_real": -0.0003405231691431254,
+      "subject": "Anthony Delon",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0004910530667984858,
+      "null_c_mean": -0.00016096048748295288,
+      "null_d_mean": 5.5743362281646114e-05,
+      "null_e": 0.05351888760924339
+    },
+    {
+      "case_id": 9796,
+      "tecs_real": 0.0016110194846987724,
+      "subject": "Volvo 480",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.001689387671649456,
+      "null_c_mean": 9.508584589639213e-05,
+      "null_d_mean": -0.00015121356918825767,
+      "null_e": -0.003120657056570053
+    },
+    {
+      "case_id": 9989,
+      "tecs_real": -0.01052866131067276,
+      "subject": "Valspar",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0023668187961447982,
+      "null_c_mean": 4.792942017957102e-05,
+      "null_d_mean": 0.00013648206513607874,
+      "null_e": -0.07208219170570374
+    },
+    {
+      "case_id": 10312,
+      "tecs_real": 0.010260755196213722,
+      "subject": "Pasupathy",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.00015585955698043107,
+      "null_c_mean": 0.0001835892805502226,
+      "null_d_mean": -0.00014165137290547136,
+      "null_e": -0.008708507753908634
+    },
+    {
+      "case_id": 10325,
+      "tecs_real": -0.006405694410204887,
+      "subject": "Split Agreement",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0023916831443784757,
+      "null_c_mean": -7.986154814716428e-05,
+      "null_d_mean": 7.537470155511982e-05,
+      "null_e": 0.005713712424039841
+    },
+    {
+      "case_id": 10734,
+      "tecs_real": -0.0036957967095077038,
+      "subject": "Corrado Bafile",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0014615079970099031,
+      "null_c_mean": 5.6767707064864226e-05,
+      "null_d_mean": 0.00013201580659369939,
+      "null_e": 0.0751316174864769
+    },
+    {
+      "case_id": 11081,
+      "tecs_real": -0.007159052416682243,
+      "subject": "Roy Babbington",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.002069641783600673,
+      "null_c_mean": -6.405139720300213e-05,
+      "null_d_mean": 1.579821400810033e-05,
+      "null_e": 0.001013424713164568
+    },
+    {
+      "case_id": 11259,
+      "tecs_real": 0.004672806244343519,
+      "subject": "Sergio Canales Madrazo",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0015517087245825677,
+      "null_c_mean": 0.00019316387915750964,
+      "null_d_mean": -0.0001590218890100914,
+      "null_e": -0.031171109527349472
+    },
+    {
+      "case_id": 11453,
+      "tecs_real": -0.011847972869873047,
+      "subject": "Louis Marchand",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0004130846471525729,
+      "null_c_mean": -5.6714446327532644e-05,
+      "null_d_mean": 0.0001441126652935054,
+      "null_e": -0.07694906741380692
+    },
+    {
+      "case_id": 11693,
+      "tecs_real": -0.005580739118158817,
+      "subject": "Kevin Love",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0012895618085167371,
+      "null_c_mean": -0.00025780222968023735,
+      "null_d_mean": -4.7806593192945e-05,
+      "null_e": -0.043251801282167435
+    },
+    {
+      "case_id": 12350,
+      "tecs_real": 0.004512573126703501,
+      "subject": "Tudeshk Rural District",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.00119988979131449,
+      "null_c_mean": -2.00737140403362e-06,
+      "null_d_mean": 7.933724409667776e-05,
+      "null_e": -0.0007534535834565759
+    },
+    {
+      "case_id": 12451,
+      "tecs_real": -0.0029213863890618086,
+      "subject": "Spanky Wilson",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0023448276100680233,
+      "null_c_mean": -7.887008378020255e-05,
+      "null_d_mean": -5.080509108665865e-05,
+      "null_e": -0.007125836331397295
+    },
+    {
+      "case_id": 12603,
+      "tecs_real": 0.0023211173247545958,
+      "subject": "Pius VII",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0003795134020037949,
+      "null_c_mean": -3.252726692153374e-05,
+      "null_d_mean": -0.0001471400855734828,
+      "null_e": -0.03198757767677307
+    },
+    {
+      "case_id": 12649,
+      "tecs_real": 0.0010640880791470408,
+      "subject": "Nissan Cedric",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.00042428001761436463,
+      "null_c_mean": 6.170167926029535e-05,
+      "null_d_mean": 0.00016166524967502481,
+      "null_e": 0.008751665242016315
+    },
+    {
+      "case_id": 12655,
+      "tecs_real": 0.005069376900792122,
+      "subject": "Sugar Sammy",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.003297686191217508,
+      "null_c_mean": 8.1142829003511e-05,
+      "null_d_mean": 5.1895225078624206e-05,
+      "null_e": 0.0070998710580170155
+    },
+    {
+      "case_id": 12769,
+      "tecs_real": -0.008349363692104816,
+      "subject": "La Fontaine's Fables",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.006581017724238336,
+      "null_c_mean": -9.837752077146433e-05,
+      "null_d_mean": -0.0001779474099748768,
+      "null_e": -0.006216257344931364
+    },
+    {
+      "case_id": 13015,
+      "tecs_real": -0.0008468001615256071,
+      "subject": "Skeleton Warriors",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.003924671077402309,
+      "null_c_mean": 7.67172614359879e-05,
+      "null_d_mean": -0.00013498522002919344,
+      "null_e": 0.009518513455986977
+    },
+    {
+      "case_id": 13079,
+      "tecs_real": -0.0001052746083587408,
+      "subject": "Il sole nella pioggia",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0003343026153743267,
+      "null_c_mean": 3.3741755032679068e-06,
+      "null_d_mean": 0.00022175543490448034,
+      "null_e": 0.012642583809792995
+    },
+    {
+      "case_id": 13317,
+      "tecs_real": 0.0012432312360033393,
+      "subject": "Jo Berger Myhre",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.00012392990465741603,
+      "null_c_mean": 0.00014414527540793643,
+      "null_d_mean": 3.95385562114825e-05,
+      "null_e": -0.027278194203972816
+    },
+    {
+      "case_id": 13394,
+      "tecs_real": -0.0009648907580412924,
+      "subject": "Orfeu",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0010208262130618096,
+      "null_c_mean": -2.1530643198275357e-05,
+      "null_d_mean": -0.00012486482737585902,
+      "null_e": -0.0917181745171547
+    },
+    {
+      "case_id": 13426,
+      "tecs_real": 0.002753597917035222,
+      "subject": "Boeing 747 Large Cargo Freighter",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0010391068499302492,
+      "null_c_mean": -3.9086059587134514e-05,
+      "null_d_mean": -4.7825108231336345e-05,
+      "null_e": -0.007979147136211395
+    },
+    {
+      "case_id": 14173,
+      "tecs_real": 0.009408893063664436,
+      "subject": "Tony Benn",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0004858029729803093,
+      "null_c_mean": 6.0673721600323914e-05,
+      "null_d_mean": -3.076879966101842e-06,
+      "null_e": -0.02894197776913643
+    },
+    {
+      "case_id": 14176,
+      "tecs_real": 0.0004908517003059387,
+      "subject": "Nissan 200SX",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0027563583164010195,
+      "null_c_mean": -7.349091856667656e-05,
+      "null_d_mean": 3.082014195570082e-05,
+      "null_e": 0.014105712063610554
+    },
+    {
+      "case_id": 14320,
+      "tecs_real": 0.002313195960596204,
+      "subject": "Cumhuriyet",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.002119790355209261,
+      "null_c_mean": -9.278401994379237e-05,
+      "null_d_mean": -8.304791281261714e-05,
+      "null_e": -0.01909683085978031
+    },
+    {
+      "case_id": 14400,
+      "tecs_real": -0.016077470034360886,
+      "subject": "Norris Turney",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0015263938053976744,
+      "null_c_mean": 4.117055705137318e-05,
+      "null_d_mean": -7.619593714025541e-06,
+      "null_e": 0.034167155623435974
+    },
+    {
+      "case_id": 14764,
+      "tecs_real": 0.000420472992118448,
+      "subject": "Baltimore riot of 1861",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0018166877649491652,
+      "null_c_mean": 8.954672739491798e-05,
+      "null_d_mean": 0.0002786960976663977,
+      "null_e": -0.004925853107124567
+    },
+    {
+      "case_id": 15051,
+      "tecs_real": 0.009538299404084682,
+      "subject": "Tisza",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.004975803883280605,
+      "null_c_mean": -3.5542750993045045e-06,
+      "null_d_mean": 0.00011918131967831868,
+      "null_e": -0.023974677547812462
+    },
+    {
+      "case_id": 15314,
+      "tecs_real": 0.0009093038970604539,
+      "subject": "Vienna",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0012406949943397194,
+      "null_c_mean": 3.588303516153246e-05,
+      "null_d_mean": 0.0001083379265764961,
+      "null_e": 0.010594271123409271
+    },
+    {
+      "case_id": 15326,
+      "tecs_real": -0.0160986315459013,
+      "subject": "Jean Gruault",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.005319962801877409,
+      "null_c_mean": 0.0002983112375659402,
+      "null_d_mean": 2.8457413645810447e-05,
+      "null_e": -0.001383055467158556
+    },
+    {
+      "case_id": 15447,
+      "tecs_real": 0.0014119109837338328,
+      "subject": "Waltham High School",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0050868810969404874,
+      "null_c_mean": 8.277924789581447e-05,
+      "null_d_mean": 9.782967211720006e-05,
+      "null_e": 0.000926511303987354
+    },
+    {
+      "case_id": 15498,
+      "tecs_real": -0.002832697005942464,
+      "subject": "Antoine Houdar de La Motte",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0011926309554837645,
+      "null_c_mean": -0.0001038925318425754,
+      "null_d_mean": 0.0001053416810464114,
+      "null_e": -0.009279840625822544
+    },
+    {
+      "case_id": 15573,
+      "tecs_real": 0.0052915229462087154,
+      "subject": "Patrick Roy",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.004701945604756475,
+      "null_c_mean": -5.399965539254481e-05,
+      "null_d_mean": -9.6844284053077e-05,
+      "null_e": -0.0034235180355608463
+    },
+    {
+      "case_id": 15694,
+      "tecs_real": 0.002386863110587001,
+      "subject": "Karl Liebknecht",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0028018660683301277,
+      "null_c_mean": 1.165786052297335e-05,
+      "null_d_mean": -1.257452749996446e-05,
+      "null_e": -0.0014072039630264044
+    },
+    {
+      "case_id": 15709,
+      "tecs_real": -0.005073276814073324,
+      "subject": "Squantz Pond State Park",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0038946745682551407,
+      "null_c_mean": -3.604103712859796e-05,
+      "null_d_mean": 2.3329230407398428e-05,
+      "null_e": -0.011258845217525959
+    },
+    {
+      "case_id": 15967,
+      "tecs_real": 0.012021773494780064,
+      "subject": "Roddy McMillan",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0004332256270572543,
+      "null_c_mean": 4.895499268968706e-05,
+      "null_d_mean": 9.69812688708771e-05,
+      "null_e": 0.02434524893760681
+    },
+    {
+      "case_id": 16125,
+      "tecs_real": -0.012591415084898472,
+      "subject": "Delhi",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0024999751796713097,
+      "null_c_mean": -1.8019340677710717e-05,
+      "null_d_mean": -0.00010055203056253958,
+      "null_e": -0.012019908055663109
+    },
+    {
+      "case_id": 16137,
+      "tecs_real": 0.0046124705113470554,
+      "subject": "Jeanne Moreau",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.003606924874475226,
+      "null_c_mean": -2.7311581288813613e-05,
+      "null_d_mean": -0.00023583126931043809,
+      "null_e": 0.0010459567420184612
+    },
+    {
+      "case_id": 16804,
+      "tecs_real": 0.002746202517300844,
+      "subject": "Martin Buber",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0016488605557242408,
+      "null_c_mean": 0.0002305869638803415,
+      "null_d_mean": 0.00010563139003352262,
+      "null_e": -0.02540416084229946
+    },
+    {
+      "case_id": 16912,
+      "tecs_real": -0.0012940008891746402,
+      "subject": "Ana Mato Adrover",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0026794266537763177,
+      "null_c_mean": 3.753126657102257e-05,
+      "null_d_mean": -6.764998652215581e-05,
+      "null_e": -0.05140383169054985
+    },
+    {
+      "case_id": 16974,
+      "tecs_real": 0.005729598458856344,
+      "subject": "Yves Klein Blue",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.003931683502742089,
+      "null_c_mean": -0.0001708846783003537,
+      "null_d_mean": -2.405451341473963e-05,
+      "null_e": -0.0033136021811515093
+    },
+    {
+      "case_id": 16988,
+      "tecs_real": 0.004461816977709532,
+      "subject": "Knut Kristiansen",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.002099376087426208,
+      "null_c_mean": 4.5442557166097686e-05,
+      "null_d_mean": 0.00014257692751016294,
+      "null_e": 0.007159980945289135
+    },
+    {
+      "case_id": 17021,
+      "tecs_real": -0.003239154815673828,
+      "subject": "Amarcord",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0032709888015233445,
+      "null_c_mean": -0.00015107971194083802,
+      "null_d_mean": -0.0001623206502699759,
+      "null_e": -0.03375924378633499
+    },
+    {
+      "case_id": 17239,
+      "tecs_real": -0.006719703320413828,
+      "subject": "Indo-Greek Kingdom",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.002287411768338643,
+      "null_c_mean": 9.431398848391836e-06,
+      "null_d_mean": -0.0002808622823067708,
+      "null_e": -0.004697973374277353
+    },
+    {
+      "case_id": 17248,
+      "tecs_real": 0.0017927750013768673,
+      "subject": "La Caixa",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.004730805638246238,
+      "null_c_mean": -4.396636509227392e-05,
+      "null_d_mean": -1.1417310179240304e-05,
+      "null_e": -0.005712638609111309
+    },
+    {
+      "case_id": 18122,
+      "tecs_real": 0.0018030281644314528,
+      "subject": "Pierre C. Cartier",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0011211078272026498,
+      "null_c_mean": -6.158048927318305e-05,
+      "null_d_mean": -2.706782324821688e-05,
+      "null_e": -0.010551048442721367
+    },
+    {
+      "case_id": 18190,
+      "tecs_real": -0.003503350308164954,
+      "subject": "Ferdinando Fontana",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0029519299510866403,
+      "null_c_mean": 6.2328295825864185e-06,
+      "null_d_mean": -8.59753770782845e-05,
+      "null_e": -0.005470398813486099
+    },
+    {
+      "case_id": 18981,
+      "tecs_real": 0.0008801863295957446,
+      "subject": "Linhof",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0008248501631896943,
+      "null_c_mean": -8.307367206725758e-05,
+      "null_d_mean": -8.21868066850584e-05,
+      "null_e": 0.0102189676836133
+    },
+    {
+      "case_id": 19014,
+      "tecs_real": 0.025203123688697815,
+      "subject": "Edinburgh",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0006369343493133784,
+      "null_c_mean": -0.00013047904503764584,
+      "null_d_mean": 8.636862912680953e-06,
+      "null_e": 0.019343266263604164
+    },
+    {
+      "case_id": 19598,
+      "tecs_real": 0.002175933215767145,
+      "subject": "Google Hummingbird",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.001675806177627237,
+      "null_c_mean": -1.9318149497848934e-07,
+      "null_d_mean": 0.00010123873043994535,
+      "null_e": -0.02239561639726162
+    },
+    {
+      "case_id": 19791,
+      "tecs_real": 0.0026604088488966227,
+      "subject": "Microsoft Office 2007",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0005007960833609104,
+      "null_c_mean": -6.751761538907886e-05,
+      "null_d_mean": 0.0001662394199229311,
+      "null_e": -0.010804709978401661
+    },
+    {
+      "case_id": 19896,
+      "tecs_real": 0.0024409154430031776,
+      "subject": "Takrur",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0007646307123650331,
+      "null_c_mean": -3.9658665991737506e-05,
+      "null_d_mean": 0.00011432797814450168,
+      "null_e": 0.016341272741556168
+    },
+    {
+      "case_id": 20166,
+      "tecs_real": -0.0025536012835800648,
+      "subject": "Renault Twingo",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.002410005091223866,
+      "null_c_mean": -4.3854954128619285e-06,
+      "null_d_mean": -2.145747967006173e-05,
+      "null_e": 0.003751414129510522
+    },
+    {
+      "case_id": 20252,
+      "tecs_real": -0.011046968400478363,
+      "subject": "Reading Rainbow",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 5.6790781673043964e-05,
+      "null_c_mean": 5.537813449336681e-05,
+      "null_d_mean": 0.00011533366414369084,
+      "null_e": -0.08969853073358536
+    },
+    {
+      "case_id": 20261,
+      "tecs_real": 0.004004326183348894,
+      "subject": "Alfonso V of Aragon",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0006568148761289194,
+      "null_c_mean": -3.861109798890539e-05,
+      "null_d_mean": 3.8558537198696285e-05,
+      "null_e": -0.013359670527279377
+    },
+    {
+      "case_id": 20499,
+      "tecs_real": 0.0015496552223339677,
+      "subject": "Edmund of Abingdon",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0011764886614400894,
+      "null_c_mean": -6.683783140033483e-05,
+      "null_d_mean": 2.4331653548870237e-06,
+      "null_e": 0.0009534840937703848
+    },
+    {
+      "case_id": 20623,
+      "tecs_real": 0.004440211225301027,
+      "subject": "Google Cloud Storage",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0005254969611996785,
+      "null_c_mean": 6.417032636818476e-05,
+      "null_d_mean": -5.2261358359828594e-05,
+      "null_e": -0.00864833127707243
+    },
+    {
+      "case_id": 21081,
+      "tecs_real": 0.017677417024970055,
+      "subject": "Hans Hofmann",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.00040094268770189955,
+      "null_c_mean": 0.00015174019863479772,
+      "null_d_mean": -3.2253365498036145e-05,
+      "null_e": -0.004596953745931387
+    },
+    {
+      "case_id": 21225,
+      "tecs_real": 0.0023203217424452305,
+      "subject": "Barren Earth",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.003531771880807355,
+      "null_c_mean": 5.641767620545579e-05,
+      "null_d_mean": -9.244257562386337e-05,
+      "null_e": -0.0017942895647138357
+    },
+    {
+      "case_id": 21264,
+      "tecs_real": 0.008449636399745941,
+      "subject": "European Union",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": -0.0019588658498832954,
+      "null_c_mean": 1.2233028974151238e-05,
+      "null_d_mean": -9.169014301733114e-05,
+      "null_e": -0.021418197080492973
+    },
+    {
+      "case_id": 21332,
+      "tecs_real": -0.000795341155026108,
+      "subject": "City of Boroondara",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.004050377378007397,
+      "null_c_mean": 4.677788019762375e-05,
+      "null_d_mean": 1.4788060798309744e-05,
+      "null_e": 0.006982376798987389
+    },
+    {
+      "case_id": 21382,
+      "tecs_real": -0.0024954485706984997,
+      "subject": "Pierre Emmanuel",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.0006374096890795044,
+      "null_c_mean": 7.789657993271249e-05,
+      "null_d_mean": -2.572928697190946e-05,
+      "null_e": -0.00040031340904533863
+    },
+    {
+      "case_id": 21388,
+      "tecs_real": 0.0032742375042289495,
+      "subject": "The Morey Amsterdam Show",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.003250128566287458,
+      "null_c_mean": -0.00010505530808586627,
+      "null_d_mean": 6.0278478485997766e-05,
+      "null_e": 0.007651114370673895
+    },
+    {
+      "case_id": 21673,
+      "tecs_real": -0.023440927267074585,
+      "subject": "Francisco Mendoza de Bobadilla",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.002042150031775236,
+      "null_c_mean": -0.00013525776157621294,
+      "null_d_mean": -5.109685735078528e-05,
+      "null_e": 0.0038148839958012104
+    },
+    {
+      "case_id": 21723,
+      "tecs_real": -0.00011110409832326695,
+      "subject": "Fifty Shades of Grey",
+      "edit_success": "",
+      "post_prob_new": null,
+      "null_a_mean": 0.00586148530128412,
+      "null_c_mean": -3.322360771562671e-05,
+      "null_d_mean": -1.4406103582587093e-05,
+      "null_e": 0.0004804933851119131
+    }
+  ],
+  "pass_criteria": {
+    "all_nulls": true,
+    "not_degenerate": true,
+    "ci_computed": true
+  },
+  "all_pass": true
+}

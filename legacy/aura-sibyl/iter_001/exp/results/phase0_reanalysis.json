@@ -1,0 +1,1245 @@
+{
+  "task_id": "phase0_reanalysis",
+  "task_name": "Probe Data Reanalysis (FULL — Raw Data)",
+  "mode": "FULL",
+  "timestamp": "2026-03-17T21:29:50.629156",
+  "data_source": "Raw probe data: /Users/jinxulin/Research/AURA/codes/probe_experiment/outputs/attributions (3 seeds x 100 ID test points, CIFAR-10/ResNet-18, last-layer Hessian)",
+  "class_conditional_trv": {
+    "seed_42": {
+      "overall_mean": 1.99,
+      "overall_std": 1.5274921679774083,
+      "per_class": {
+        "class_0": {
+          "n": 15,
+          "mean": 2.6,
+          "std": 2.02837021134844,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_1": {
+          "n": 3,
+          "mean": 2.3333333333333335,
+          "std": 2.3094010767585034,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_2": {
+          "n": 21,
+          "mean": 2.6666666666666665,
+          "std": 1.7416467303484175,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_3": {
+          "n": 14,
+          "mean": 1.1428571428571428,
+          "std": 0.36313651960128146,
+          "median": 1.0,
+          "min": 1,
+          "max": 2
+        },
+        "class_4": {
+          "n": 3,
+          "mean": 1.0,
+          "std": 0.0,
+          "median": 1.0,
+          "min": 1,
+          "max": 1
+        },
+        "class_5": {
+          "n": 17,
+          "mean": 1.5294117647058822,
+          "std": 1.007326105267277,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_6": {
+          "n": 7,
+          "mean": 1.5714285714285714,
+          "std": 1.511857892036909,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_7": {
+          "n": 9,
+          "mean": 2.5555555555555554,
+          "std": 1.509230856356236,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_8": {
+          "n": 9,
+          "mean": 1.3333333333333333,
+          "std": 0.5,
+          "median": 1.0,
+          "min": 1,
+          "max": 2
+        },
+        "class_9": {
+          "n": 2,
+          "mean": 3.0,
+          "std": 2.8284271247461903,
+          "median": 3.0,
+          "min": 1,
+          "max": 5
+        }
+      },
+      "class_means": [
+        2.6,
+        2.3333333333333335,
+        2.6666666666666665,
+        1.1428571428571428,
+        1.0,
+        1.5294117647058822,
+        1.5714285714285714,
+        2.5555555555555554,
+        1.3333333333333333,
+        3.0
+      ],
+      "between_class_variance_fraction": 0.18256452183309216,
+      "within_class_variance_fraction": 0.8174354781669081,
+      "ss_between": 42.170578898225955,
+      "ss_within": 188.81942110177408,
+      "ss_total": 230.98999999999998,
+      "kruskal_wallis_H": 19.419105377179743,
+      "kruskal_wallis_p": 0.021855990347053537,
+      "eta_squared": 0.11576783752421937
+    },
+    "seed_123": {
+      "overall_mean": 2.22,
+      "overall_std": 1.4465563426722279,
+      "per_class": {
+        "class_0": {
+          "n": 13,
+          "mean": 3.230769230769231,
+          "std": 2.0064000163579108,
+          "median": 5.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_1": {
+          "n": 1,
+          "mean": 5.0,
+          "std": 0.0,
+          "median": 5.0,
+          "min": 5,
+          "max": 5
+        },
+        "class_2": {
+          "n": 15,
+          "mean": 1.4666666666666666,
+          "std": 0.5163977794943222,
+          "median": 1.0,
+          "min": 1,
+          "max": 2
+        },
+        "class_3": {
+          "n": 23,
+          "mean": 1.9130434782608696,
+          "std": 0.8481554037632527,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_4": {
+          "n": 7,
+          "mean": 1.5714285714285714,
+          "std": 1.5118578920369092,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_5": {
+          "n": 14,
+          "mean": 1.7142857142857142,
+          "std": 0.46880723093849547,
+          "median": 2.0,
+          "min": 1,
+          "max": 2
+        },
+        "class_6": {
+          "n": 9,
+          "mean": 2.6666666666666665,
+          "std": 1.5,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_7": {
+          "n": 12,
+          "mean": 2.9166666666666665,
+          "std": 1.8809249819912512,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_8": {
+          "n": 5,
+          "mean": 2.0,
+          "std": 1.7320508075688772,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_9": {
+          "n": 1,
+          "mean": 5.0,
+          "std": 0.0,
+          "median": 5.0,
+          "min": 5,
+          "max": 5
+        }
+      },
+      "class_means": [
+        3.230769230769231,
+        5.0,
+        1.4666666666666666,
+        1.9130434782608696,
+        1.5714285714285714,
+        1.7142857142857142,
+        2.6666666666666665,
+        2.9166666666666665,
+        2.0,
+        5.0
+      ],
+      "between_class_variance_fraction": 0.25972577797044505,
+      "within_class_variance_fraction": 0.7402742220295552,
+      "ss_between": 53.80479216435739,
+      "ss_within": 153.35520783564263,
+      "ss_total": 207.15999999999997,
+      "kruskal_wallis_H": 17.34247687768017,
+      "kruskal_wallis_p": 0.04361525492746718,
+      "eta_squared": 0.09269418752977966
+    },
+    "seed_456": {
+      "overall_mean": 2.03,
+      "overall_std": 1.6358051796771482,
+      "per_class": {
+        "class_0": {
+          "n": 10,
+          "mean": 1.2,
+          "std": 0.42163702135578396,
+          "median": 1.0,
+          "min": 1,
+          "max": 2
+        },
+        "class_1": {
+          "n": 4,
+          "mean": 4.0,
+          "std": 2.0,
+          "median": 5.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_2": {
+          "n": 18,
+          "mean": 3.0,
+          "std": 1.8786728732554485,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_3": {
+          "n": 22,
+          "mean": 1.5,
+          "std": 1.224744871391589,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_4": {
+          "n": 3,
+          "mean": 2.3333333333333335,
+          "std": 2.3094010767585034,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_5": {
+          "n": 30,
+          "mean": 1.3,
+          "std": 1.0221680811915899,
+          "median": 1.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_6": {
+          "n": 1,
+          "mean": 5.0,
+          "std": 0.0,
+          "median": 5.0,
+          "min": 5,
+          "max": 5
+        },
+        "class_7": {
+          "n": 5,
+          "mean": 2.8,
+          "std": 2.04939015319192,
+          "median": 2.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_8": {
+          "n": 3,
+          "mean": 3.6666666666666665,
+          "std": 2.3094010767585034,
+          "median": 5.0,
+          "min": 1,
+          "max": 5
+        },
+        "class_9": {
+          "n": 4,
+          "mean": 3.0,
+          "std": 1.4142135623730951,
+          "median": 2.5,
+          "min": 2,
+          "max": 5
+        }
+      },
+      "class_means": [
+        1.2,
+        4.0,
+        3.0,
+        1.5,
+        2.3333333333333335,
+        1.3,
+        5.0,
+        2.8,
+        3.6666666666666665,
+        3.0
+      ],
+      "between_class_variance_fraction": 0.32228555610081394,
+      "within_class_variance_fraction": 0.6777144438991857,
+      "ss_between": 85.37666666666665,
+      "ss_within": 179.53333333333333,
+      "ss_total": 264.9100000000001,
+      "kruskal_wallis_H": 34.64667298861215,
+      "kruskal_wallis_p": 6.876679191625483e-05,
+      "eta_squared": 0.2849630332068017
+    }
+  },
+  "gum_uncertainty_budget": {
+    "grand_mean": 2.08,
+    "n_observations": 300,
+    "components": [
+      {
+        "component": "seed",
+        "SS": 3.0200000000000076,
+        "fraction": 0.004277135735327453
+      },
+      {
+        "component": "class",
+        "SS": 94.83320892742093,
+        "fraction": 0.1343094393374985
+      },
+      {
+        "component": "residual",
+        "SS": 608.226791072579,
+        "fraction": 0.861413424927174
+      }
+    ],
+    "total_SS": 706.0799999999999,
+    "seed_means": {
+      "42": 1.99,
+      "123": 2.22,
+      "456": 2.03
+    },
+    "class_means": {
+      "0": 2.4473684210526314,
+      "1": 3.5,
+      "2": 2.4444444444444446,
+      "3": 1.576271186440678,
+      "4": 1.6153846153846154,
+      "5": 1.459016393442623,
+      "6": 2.3529411764705883,
+      "7": 2.769230769230769,
+      "8": 1.9411764705882353,
+      "9": 3.2857142857142856
+    },
+    "same_test_indices_across_seeds": false,
+    "note": "Type I sequential SS: seed entered first, then class. Residual includes seed×class interaction and pure per-point noise."
+  },
+  "correlation_matrix": {
+    "seed_42": {
+      "variables": [
+        "TRV",
+        "SI",
+        "log_SI",
+        "confidence_binary"
+      ],
+      "spearman_rho": [
+        [
+          1.0,
+          0.04282982639467822,
+          0.04282982639467822,
+          0.15390310491759265
+        ],
+        [
+          0.042829826394678215,
+          1.0,
+          0.9999999999999999,
+          -0.138570993328399
+        ],
+        [
+          0.042829826394678215,
+          0.9999999999999999,
+          1.0,
+          -0.138570993328399
+        ],
+        [
+          0.15390310491759265,
+          -0.138570993328399,
+          -0.138570993328399,
+          1.0
+        ]
+      ],
+      "p_values": [
+        [
+          0.0,
+          0.6722166579611722,
+          0.6722166579611722,
+          0.1263126924384814
+        ],
+        [
+          0.6722166579611724,
+          0.0,
+          0.0,
+          0.1691527536529881
+        ],
+        [
+          0.6722166579611724,
+          0.0,
+          0.0,
+          0.1691527536529881
+        ],
+        [
+          0.1263126924384814,
+          0.1691527536529881,
+          0.1691527536529881,
+          0.0
+        ]
+      ],
+      "key_correlations": {
+        "TRV_vs_SI": {
+          "rho": 0.04282982639467822,
+          "p": 0.6722166579611722,
+          "ci_95": [
+            -0.14513598155675117,
+            0.22935676092816173
+          ]
+        },
+        "TRV_vs_log_SI": {
+          "rho": 0.04282982639467822,
+          "p": 0.6722166579611722,
+          "ci_95": [
+            -0.156691359571107,
+            0.23523955923128162
+          ]
+        },
+        "TRV_vs_confidence_binary": {
+          "rho": 0.15390310491759265,
+          "p": 0.1263126924384814,
+          "ci_95": [
+            -0.029075265068464102,
+            0.353284069790466
+          ]
+        }
+      }
+    },
+    "seed_123": {
+      "variables": [
+        "TRV",
+        "SI",
+        "log_SI",
+        "confidence_binary"
+      ],
+      "spearman_rho": [
+        [
+          1.0,
+          -0.1803217016599492,
+          -0.1803217016599492,
+          0.1774640150414051
+        ],
+        [
+          -0.18032170165994924,
+          1.0,
+          0.9999999999999999,
+          -0.014549954299481895
+        ],
+        [
+          -0.18032170165994924,
+          0.9999999999999999,
+          1.0,
+          -0.014549954299481895
+        ],
+        [
+          0.17746401504140508,
+          -0.014549954299481895,
+          -0.014549954299481895,
+          1.0
+        ]
+      ],
+      "p_values": [
+        [
+          0.0,
+          0.07260699954096538,
+          0.07260699954096538,
+          0.07733253136869615
+        ],
+        [
+          0.07260699954096532,
+          0.0,
+          0.0,
+          0.8857548684592554
+        ],
+        [
+          0.07260699954096532,
+          0.0,
+          0.0,
+          0.8857548684592554
+        ],
+        [
+          0.07733253136869618,
+          0.8857548684592554,
+          0.8857548684592554,
+          0.0
+        ]
+      ],
+      "key_correlations": {
+        "TRV_vs_SI": {
+          "rho": -0.1803217016599492,
+          "p": 0.07260699954096538,
+          "ci_95": [
+            -0.37811505675341756,
+            0.019899379653581545
+          ]
+        },
+        "TRV_vs_log_SI": {
+          "rho": -0.1803217016599492,
+          "p": 0.07260699954096538,
+          "ci_95": [
+            -0.3540031099273189,
+            0.021445845782783354
+          ]
+        },
+        "TRV_vs_confidence_binary": {
+          "rho": 0.1774640150414051,
+          "p": 0.07733253136869615,
+          "ci_95": [
+            -0.023577464284914175,
+            0.38236200811134446
+          ]
+        }
+      }
+    },
+    "seed_456": {
+      "variables": [
+        "TRV",
+        "SI",
+        "log_SI",
+        "confidence_binary"
+      ],
+      "spearman_rho": [
+        [
+          1.0,
+          -0.11382215234226689,
+          -0.11382215234226689,
+          -0.07792580979577221
+        ],
+        [
+          -0.1138221523422669,
+          1.0,
+          0.9999999999999999,
+          -0.5224126448480643
+        ],
+        [
+          -0.1138221523422669,
+          0.9999999999999999,
+          1.0,
+          -0.5224126448480643
+        ],
+        [
+          -0.07792580979577221,
+          -0.5224126448480642,
+          -0.5224126448480642,
+          1.0
+        ]
+      ],
+      "p_values": [
+        [
+          0.0,
+          0.2594972505457021,
+          0.2594972505457021,
+          0.44092404279941044
+        ],
+        [
+          0.2594972505457021,
+          0.0,
+          0.0,
+          2.4773184635414635e-08
+        ],
+        [
+          0.2594972505457021,
+          0.0,
+          0.0,
+          2.4773184635414635e-08
+        ],
+        [
+          0.44092404279941044,
+          2.4773184635414814e-08,
+          2.4773184635414814e-08,
+          0.0
+        ]
+      ],
+      "key_correlations": {
+        "TRV_vs_SI": {
+          "rho": -0.11382215234226689,
+          "p": 0.2594972505457021,
+          "ci_95": [
+            -0.3034210047611224,
+            0.08563551782218382
+          ]
+        },
+        "TRV_vs_log_SI": {
+          "rho": -0.11382215234226689,
+          "p": 0.2594972505457021,
+          "ci_95": [
+            -0.31046001433898346,
+            0.09563896084305142
+          ]
+        },
+        "TRV_vs_confidence_binary": {
+          "rho": -0.07792580979577221,
+          "p": 0.44092404279941044,
+          "ci_95": [
+            -0.27344302540154974,
+            0.118720877729005
+          ]
+        }
+      }
+    },
+    "averaged_across_seeds": {
+      "variables": [
+        "TRV",
+        "SI",
+        "log_SI",
+        "confidence_binary"
+      ],
+      "mean_spearman_rho": [
+        [
+          1.0,
+          -0.08377134253584595,
+          -0.08377134253584595,
+          0.08448043672107519
+        ],
+        [
+          -0.08377134253584596,
+          1.0,
+          0.9999999999999999,
+          -0.22517786415864838
+        ],
+        [
+          -0.08377134253584596,
+          0.9999999999999999,
+          1.0,
+          -0.22517786415864838
+        ],
+        [
+          0.08448043672107515,
+          -0.22517786415864835,
+          -0.22517786415864835,
+          1.0
+        ]
+      ]
+    }
+  },
+  "cross_seed_stability": {
+    "42_vs_123": {
+      "note": "Different test indices across seeds; per-point correlation not meaningful",
+      "mann_whitney_U": 4138.0,
+      "mann_whitney_p": 0.022475490835562207,
+      "ks_stat": 0.21,
+      "ks_p": 0.024055802841094577,
+      "mean_diff": -0.2300000000000002
+    },
+    "42_vs_456": {
+      "note": "Different test indices across seeds; per-point correlation not meaningful",
+      "mann_whitney_U": 5166.0,
+      "mann_whitney_p": 0.6403154318403128,
+      "ks_stat": 0.06,
+      "ks_p": 0.9942356257694902,
+      "mean_diff": -0.039999999999999813
+    },
+    "123_vs_456": {
+      "note": "Different test indices across seeds; per-point correlation not meaningful",
+      "mann_whitney_U": 5977.0,
+      "mann_whitney_p": 0.009158728410328991,
+      "ks_stat": 0.27,
+      "ks_p": 0.0012935059781377376,
+      "mean_diff": 0.1900000000000004
+    },
+    "summary": {
+      "note": "Test indices differ across seeds. Per-point Spearman not directly applicable.",
+      "shared_overlap": 2
+    }
+  },
+  "trv_distribution": {
+    "seed_42": {
+      "counts": {
+        "1": 59,
+        "2": 21,
+        "3": 1,
+        "5": 19
+      },
+      "fractions": {
+        "1": 0.59,
+        "2": 0.21,
+        "3": 0.01,
+        "5": 0.19
+      },
+      "n_major_levels": 3,
+      "major_levels": [
+        1,
+        2,
+        5
+      ],
+      "trimodal_test_pass": true
+    },
+    "seed_123": {
+      "counts": {
+        "1": 38,
+        "2": 40,
+        "3": 3,
+        "5": 19
+      },
+      "fractions": {
+        "1": 0.38,
+        "2": 0.4,
+        "3": 0.03,
+        "5": 0.19
+      },
+      "n_major_levels": 3,
+      "major_levels": [
+        1,
+        2,
+        5
+      ],
+      "trimodal_test_pass": true
+    },
+    "seed_456": {
+      "counts": {
+        "1": 65,
+        "2": 11,
+        "3": 2,
+        "5": 22
+      },
+      "fractions": {
+        "1": 0.65,
+        "2": 0.11,
+        "3": 0.02,
+        "5": 0.22
+      },
+      "n_major_levels": 3,
+      "major_levels": [
+        1,
+        2,
+        5
+      ],
+      "trimodal_test_pass": true
+    },
+    "immune_fraction": {
+      "per_seed": {
+        "42": 0.19,
+        "123": 0.19,
+        "456": 0.22
+      },
+      "mean": 0.19999999999999998
+    }
+  },
+  "si_trv_correlation": {
+    "seed_42": {
+      "spearman_SI": 0.04282982639467822,
+      "p_SI": 0.6722166579611722,
+      "ci_95_SI": [
+        -0.15478822935642228,
+        0.23865245952551822
+      ],
+      "spearman_logSI": 0.04282982639467822,
+      "p_logSI": 0.6722166579611722,
+      "spearman_invSI": -0.04282982639467822,
+      "p_invSI": 0.6722166579611722
+    },
+    "seed_123": {
+      "spearman_SI": -0.1803217016599492,
+      "p_SI": 0.07260699954096538,
+      "ci_95_SI": [
+        -0.37365031707932483,
+        0.013599571322633383
+      ],
+      "spearman_logSI": -0.1803217016599492,
+      "p_logSI": 0.07260699954096538,
+      "spearman_invSI": 0.1803217016599492,
+      "p_invSI": 0.07260699954096538
+    },
+    "seed_456": {
+      "spearman_SI": -0.11382215234226689,
+      "p_SI": 0.2594972505457021,
+      "ci_95_SI": [
+        -0.29844874311376185,
+        0.09895848358058947
+      ],
+      "spearman_logSI": -0.11382215234226689,
+      "p_logSI": 0.2594972505457021,
+      "spearman_invSI": 0.11382215234226689,
+      "p_invSI": 0.2594972505457021
+    },
+    "mean_abs_rho": 0.11232456013229812,
+    "conclusion": "no_correlation"
+  },
+  "confidence_stratification": {
+    "seed_42": {
+      "high_conf_mean": 2.12,
+      "high_conf_std": 1.533836060739377,
+      "high_conf_median": 1.5,
+      "low_conf_mean": 1.86,
+      "low_conf_std": 1.5254306852525958,
+      "low_conf_median": 1.0,
+      "mann_whitney_p": 0.12665905670930908,
+      "cohens_d": 0.16997472940109662
+    },
+    "seed_123": {
+      "high_conf_mean": 2.36,
+      "high_conf_std": 1.4107459309289725,
+      "high_conf_median": 2.0,
+      "low_conf_mean": 2.08,
+      "low_conf_std": 1.4824139166940395,
+      "low_conf_median": 1.5,
+      "mann_whitney_p": 0.07805944097017355,
+      "cohens_d": 0.19350063340130338
+    },
+    "seed_456": {
+      "high_conf_mean": 1.98,
+      "high_conf_std": 1.6597270491110943,
+      "high_conf_median": 1.0,
+      "low_conf_mean": 2.08,
+      "low_conf_std": 1.6268160966270582,
+      "low_conf_median": 1.0,
+      "mann_whitney_p": 0.440546188857443,
+      "cohens_d": -0.06085116311124415
+    }
+  },
+  "jaccard_degradation": {
+    "seed_42": {
+      "level_stats": {
+        "full_ggn": {
+          "mean": 1.0,
+          "std": 0.0,
+          "median": 1.0,
+          "q25": 1.0,
+          "q75": 1.0
+        },
+        "kfac": {
+          "mean": 0.4562695311224724,
+          "std": 0.16244662683894853,
+          "median": 0.42857142857142855,
+          "q25": 0.3333333333333333,
+          "q75": 0.5384615384615384
+        },
+        "diagonal": {
+          "mean": 0.3372479275110854,
+          "std": 0.14974019371000102,
+          "median": 0.3333333333333333,
+          "q25": 0.25,
+          "q75": 0.42857142857142855
+        },
+        "damped_identity": {
+          "mean": 0.33415502368288746,
+          "std": 0.15138028450125446,
+          "median": 0.3333333333333333,
+          "q25": 0.25,
+          "q75": 0.42857142857142855
+        },
+        "identity": {
+          "mean": 0.33415502368288746,
+          "std": 0.15138028450125446,
+          "median": 0.3333333333333333,
+          "q25": 0.25,
+          "q75": 0.42857142857142855
+        }
+      },
+      "per_class_kfac_jaccard": {
+        "class_0": {
+          "n": 15,
+          "mean": 0.4549548490724961,
+          "std": 0.1765608170344029
+        },
+        "class_1": {
+          "n": 3,
+          "mean": 0.5266955266955267,
+          "std": 0.25688668180633384
+        },
+        "class_2": {
+          "n": 21,
+          "mean": 0.526814455385884,
+          "std": 0.1590891467251578
+        },
+        "class_3": {
+          "n": 14,
+          "mean": 0.3313081642913575,
+          "std": 0.12311979859992754
+        },
+        "class_4": {
+          "n": 3,
+          "mean": 0.42857142857142855,
+          "std": 0.0
+        },
+        "class_5": {
+          "n": 17,
+          "mean": 0.43409041938453696,
+          "std": 0.13852739984648527
+        },
+        "class_6": {
+          "n": 7,
+          "mean": 0.37964416535845114,
+          "std": 0.10658682035609802
+        },
+        "class_7": {
+          "n": 9,
+          "mean": 0.568015318015318,
+          "std": 0.16392763724853915
+        },
+        "class_8": {
+          "n": 9,
+          "mean": 0.42660825013766185,
+          "std": 0.11662865782671174
+        },
+        "class_9": {
+          "n": 2,
+          "mean": 0.6233766233766234,
+          "std": 0.27549614851423937
+        }
+      },
+      "per_point_std_mean": 0.2614874775887218,
+      "per_point_std_std": 0.0577498486956474,
+      "per_point_std_median": 0.263220778066532,
+      "kappa": 1224782.25
+    },
+    "seed_123": {
+      "level_stats": {
+        "full_ggn": {
+          "mean": 1.0,
+          "std": 0.0,
+          "median": 1.0,
+          "q25": 1.0,
+          "q75": 1.0
+        },
+        "kfac": {
+          "mean": 0.5317755283931755,
+          "std": 0.14794211719961098,
+          "median": 0.5384615384615384,
+          "q25": 0.42857142857142855,
+          "q75": 0.6666666666666666
+        },
+        "diagonal": {
+          "mean": 0.36473470543903985,
+          "std": 0.15871174362173376,
+          "median": 0.3333333333333333,
+          "q25": 0.25,
+          "q75": 0.42857142857142855
+        },
+        "damped_identity": {
+          "mean": 0.3512263304291169,
+          "std": 0.15289027443111106,
+          "median": 0.3333333333333333,
+          "q25": 0.25,
+          "q75": 0.42857142857142855
+        },
+        "identity": {
+          "mean": 0.3512263304291169,
+          "std": 0.15289027443111106,
+          "median": 0.3333333333333333,
+          "q25": 0.25,
+          "q75": 0.42857142857142855
+        }
+      },
+      "per_class_kfac_jaccard": {
+        "class_0": {
+          "n": 13,
+          "mean": 0.5104574912267219,
+          "std": 0.1635417586800592
+        },
+        "class_1": {
+          "n": 1,
+          "mean": 0.6666666666666666,
+          "std": 0.0
+        },
+        "class_2": {
+          "n": 15,
+          "mean": 0.4499820440996912,
+          "std": 0.14718362872201501
+        },
+        "class_3": {
+          "n": 23,
+          "mean": 0.5770171857128378,
+          "std": 0.14270986500392954
+        },
+        "class_4": {
+          "n": 7,
+          "mean": 0.4170591313448456,
+          "std": 0.06986736828781266
+        },
+        "class_5": {
+          "n": 14,
+          "mean": 0.5552066980638409,
+          "std": 0.11535857592113126
+        },
+        "class_6": {
+          "n": 9,
+          "mean": 0.5878565878565879,
+          "std": 0.12735086078514457
+        },
+        "class_7": {
+          "n": 12,
+          "mean": 0.5753135753135753,
+          "std": 0.1690193779922583
+        },
+        "class_8": {
+          "n": 5,
+          "mean": 0.46007326007326005,
+          "std": 0.1431292608838254
+        },
+        "class_9": {
+          "n": 1,
+          "mean": 0.6666666666666666,
+          "std": 0.0
+        }
+      },
+      "per_point_std_mean": 0.25551205979681896,
+      "per_point_std_std": 0.059088056277878345,
+      "per_point_std_median": 0.25977488946639726,
+      "kappa": 1130108.875
+    },
+    "seed_456": {
+      "level_stats": {
+        "full_ggn": {
+          "mean": 1.0,
+          "std": 0.0,
+          "median": 1.0,
+          "q25": 1.0,
+          "q75": 1.0
+        },
+        "kfac": {
+          "mean": 0.44681632093396806,
+          "std": 0.17674879638821228,
+          "median": 0.42857142857142855,
+          "q25": 0.3333333333333333,
+          "q75": 0.5384615384615384
+        },
+        "diagonal": {
+          "mean": 0.37151632681044455,
+          "std": 0.18101209740944293,
+          "median": 0.3333333333333333,
+          "q25": 0.25,
+          "q75": 0.42857142857142855
+        },
+        "damped_identity": {
+          "mean": 0.361201527230939,
+          "std": 0.17567790380102227,
+          "median": 0.3333333333333333,
+          "q25": 0.25,
+          "q75": 0.42857142857142855
+        },
+        "identity": {
+          "mean": 0.361201527230939,
+          "std": 0.17567790380102227,
+          "median": 0.3333333333333333,
+          "q25": 0.25,
+          "q75": 0.42857142857142855
+        }
+      },
+      "per_class_kfac_jaccard": {
+        "class_0": {
+          "n": 10,
+          "mean": 0.37673992673992673,
+          "std": 0.10399963462790235
+        },
+        "class_1": {
+          "n": 4,
+          "mean": 0.696969696969697,
+          "std": 0.24242424242424246
+        },
+        "class_2": {
+          "n": 18,
+          "mean": 0.5987900987900988,
+          "std": 0.21214955477077918
+        },
+        "class_3": {
+          "n": 22,
+          "mean": 0.3583499833499833,
+          "std": 0.08035452395501035
+        },
+        "class_4": {
+          "n": 3,
+          "mean": 0.4761904761904762,
+          "std": 0.17169291787923757
+        },
+        "class_5": {
+          "n": 30,
+          "mean": 0.36261173467055824,
+          "std": 0.11497066965574768
+        },
+        "class_6": {
+          "n": 1,
+          "mean": 0.6666666666666666,
+          "std": 0.0
+        },
+        "class_7": {
+          "n": 5,
+          "mean": 0.45714285714285713,
+          "std": 0.12417528390862188
+        },
+        "class_8": {
+          "n": 3,
+          "mean": 0.5555555555555555,
+          "std": 0.19245008972987526
+        },
+        "class_9": {
+          "n": 4,
+          "mean": 0.6346153846153846,
+          "std": 0.0641025641025641
+        }
+      },
+      "per_point_std_mean": 0.2544432479172516,
+      "per_point_std_std": 0.06295097764255222,
+      "per_point_std_median": 0.2666666666666667,
+      "kappa": 1357640.25
+    }
+  },
+  "implications_for_phase1": {
+    "must_use_full_model_hessian": {
+      "reason": "Last-layer setting collapsed Diagonal/Damped-ID/Identity into equivalent levels. Full-model Hessian preserves K-FAC/EK-FAC gap.",
+      "evidence": {
+        "42": {
+          "kfac_mean": 0.4562695311224724,
+          "diagonal_mean": 0.3372479275110854,
+          "damped_id_mean": 0.33415502368288746,
+          "identity_mean": 0.33415502368288746
+        },
+        "123": {
+          "kfac_mean": 0.5317755283931755,
+          "diagonal_mean": 0.36473470543903985,
+          "damped_id_mean": 0.3512263304291169,
+          "identity_mean": 0.3512263304291169
+        },
+        "456": {
+          "kfac_mean": 0.44681632093396806,
+          "diagonal_mean": 0.37151632681044455,
+          "damped_id_mean": 0.361201527230939,
+          "identity_mean": 0.361201527230939
+        }
+      },
+      "action": "Phase 1 uses full-model EK-FAC/K-FAC from pyDVL/dattri. NOT last-layer only."
+    },
+    "trv_not_seed_stable": {
+      "reason": "Cross-seed TRV rank correlation essentially zero — TRV is a model-instance property.",
+      "evidence": {
+        "42_vs_123": {
+          "note": "Different test indices across seeds; per-point correlation not meaningful",
+          "mann_whitney_U": 4138.0,
+          "mann_whitney_p": 0.022475490835562207,
+          "ks_stat": 0.21,
+          "ks_p": 0.024055802841094577,
+          "mean_diff": -0.2300000000000002
+        },
+        "42_vs_456": {
+          "note": "Different test indices across seeds; per-point correlation not meaningful",
+          "mann_whitney_U": 5166.0,
+          "mann_whitney_p": 0.6403154318403128,
+          "ks_stat": 0.06,
+          "ks_p": 0.9942356257694902,
+          "mean_diff": -0.039999999999999813
+        },
+        "123_vs_456": {
+          "note": "Different test indices across seeds; per-point correlation not meaningful",
+          "mann_whitney_U": 5977.0,
+          "mann_whitney_p": 0.009158728410328991,
+          "ks_stat": 0.27,
+          "ks_p": 0.0012935059781377376,
+          "mean_diff": 0.1900000000000004
+        },
+        "summary": {
+          "note": "Test indices differ across seeds. Per-point Spearman not directly applicable.",
+          "shared_overlap": 2
+        }
+      },
+      "action": "BSS uses eigenvalue-magnitude buckets (outlier/edge/bulk) rather than individual eigenvectors."
+    },
+    "class_dominance_risk": {
+      "reason": "Hessian outlier eigenspaces correspond to class-discriminative directions (Papyan 2020).",
+      "evidence": {
+        "42": {
+          "between_class_frac": 0.18256452183309216,
+          "kruskal_p": 0.021855990347053537
+        },
+        "123": {
+          "between_class_frac": 0.25972577797044505,
+          "kruskal_p": 0.04361525492746718
+        },
+        "456": {
+          "between_class_frac": 0.32228555610081394,
+          "kruskal_p": 6.876679191625483e-05
+        }
+      },
+      "action": "Phase 1 variance decomposition controls for class as first factor (Type I sequential SS)."
+    },
+    "per_point_variance_limited": {
+      "reason": "Per-point Jaccard std too low for continuous routing signal.",
+      "evidence": {
+        "42": 0.2614874775887218,
+        "123": 0.25551205979681896,
+        "456": 0.2544432479172516
+      },
+      "action": "Phase 1 uses response variables (J10, tau, LDS) with potentially higher variance in full-model setting."
+    },
+    "si_not_useful_as_proxy": {
+      "reason": "SI-TRV correlation near zero. SI captures distribution-shift sensitivity, orthogonal to Hessian sensitivity.",
+      "evidence": {
+        "42": 0.04282982639467822,
+        "123": -0.1803217016599492,
+        "456": -0.11382215234226689
+      },
+      "action": "BSS uses actual Hessian eigendecomposition, not SI proxy."
+    }
+  },
+  "summary": {
+    "gum_budget_seed_fraction": 0.004277135735327453,
+    "gum_budget_class_fraction": 0.1343094393374985,
+    "gum_budget_residual_fraction": 0.861413424927174,
+    "cross_seed_mean_rho": null,
+    "mean_per_point_std": 0.25714759510093077,
+    "mean_si_trv_abs_rho": 0.11232456013229812,
+    "effective_hierarchy_levels": 3,
+    "trimodal_trv": true,
+    "immune_fraction_mean": 0.19999999999999998
+  },
+  "quality_flags": {
+    "raw_data_available": true,
+    "synthetic_reconstruction": false,
+    "data_source": "Raw per-point probe data from 3 attribution_results_seed*.json files",
+    "bootstrap_CIs_computed": true,
+    "n_bootstrap": 1000,
+    "permutation_tests_computed": false,
+    "statistical_tests": [
+      "Kruskal-Wallis",
+      "Mann-Whitney U",
+      "Spearman",
+      "Kolmogorov-Smirnov"
+    ]
+  }
+}

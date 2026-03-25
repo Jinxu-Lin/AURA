@@ -1,0 +1,2936 @@
+{
+  "task_id": "phase1_rome_validation",
+  "mode": "pilot",
+  "n_samples": 100,
+  "n_valid": 100,
+  "seed": 42,
+  "model": "gpt2-xl",
+  "edit_layer": 17,
+  "gpu": "RTX 4090 (GPU 2)",
+  "total_time_sec": 1895.4894390106201,
+  "avg_time_per_fact_sec": 18.9548943901062,
+  "efficacy": 1.0,
+  "efficacy_total": 1.0,
+  "n_successful": 100,
+  "n_failed_edits": 0,
+  "n_errors": 0,
+  "error_types": {},
+  "pass_criteria": "efficacy > 75% (on valid edits)",
+  "pass": true,
+  "post_prob_new_mean": 0.9782307098947178,
+  "post_prob_new_std": 0.06989719105791464,
+  "post_prob_old_mean": 0.00019367134841952625,
+  "per_fact_results": [
+    {
+      "case_id": 20952,
+      "subject": "Angola",
+      "target_new": "Antarctica",
+      "target_old": "Africa",
+      "prompt": "Angola is located in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 6.695583018091417e-06,
+      "pre_prob_old": 0.04471609053094521,
+      "post_prob_new": 0.9904859166717865,
+      "post_prob_old": 4.720845736320517e-05,
+      "prob_increase_new": 0.9904792210887684,
+      "prob_decrease_old": 0.04466888207358201,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 12.8828125,
+          "u_norm": 1.0,
+          "v_norm": 12.8828125
+        }
+      },
+      "elapsed_sec": 75.55967617034912,
+      "error": null
+    },
+    {
+      "case_id": 3648,
+      "subject": "Shanghai",
+      "target_new": "Dresden",
+      "target_old": "Barcelona",
+      "prompt": "What is the twin city of Shanghai? It is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 4.450852500419419e-07,
+      "pre_prob_old": 2.2252862476313956e-06,
+      "post_prob_new": 0.31899555036296995,
+      "post_prob_old": 1.848709753016291e-05,
+      "prob_increase_new": 0.3189951052777199,
+      "prob_decrease_old": -1.6261811282531513e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 4.71484375,
+          "u_norm": 1.0,
+          "v_norm": 4.71875
+        }
+      },
+      "elapsed_sec": 56.68878722190857,
+      "error": null
+    },
+    {
+      "case_id": 819,
+      "subject": "2011 Cannes Film Festival",
+      "target_new": "Prescott",
+      "target_old": "Cannes",
+      "prompt": "2011 Cannes Film Festival can be found in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 1.2263388070890331e-07,
+      "pre_prob_old": 0.00797031510958378,
+      "post_prob_new": 0.9557512788385494,
+      "post_prob_old": 1.6631620684898604e-07,
+      "prob_increase_new": 0.9557511562046687,
+      "prob_decrease_old": 0.007970148793376932,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.8203125,
+          "u_norm": 1.0,
+          "v_norm": 5.81640625
+        }
+      },
+      "elapsed_sec": 56.66092824935913,
+      "error": null
+    },
+    {
+      "case_id": 9012,
+      "subject": "Delta Goodrem",
+      "target_new": "India",
+      "target_old": "Australia",
+      "prompt": "Delta Goodrem, that originated in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.006280457191233963,
+      "pre_prob_old": 0.004470941572147918,
+      "post_prob_new": 0.9919530228579208,
+      "post_prob_old": 5.296642122413846e-06,
+      "prob_increase_new": 0.9856725656666868,
+      "prob_decrease_old": 0.004465644930025505,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.86328125,
+          "u_norm": 0.99951171875,
+          "v_norm": 5.8671875
+        }
+      },
+      "elapsed_sec": 54.868433237075806,
+      "error": null
+    },
+    {
+      "case_id": 8024,
+      "subject": "Google Patents",
+      "target_new": "Microsoft",
+      "target_old": "Google",
+      "prompt": "Google Patents, a product developed by",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0529980584033558,
+      "pre_prob_old": 0.21291228619240427,
+      "post_prob_new": 0.9930661430773688,
+      "post_prob_old": 1.820048164901687e-05,
+      "prob_increase_new": 0.940068084674013,
+      "prob_decrease_old": 0.21289408571075524,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.5234375,
+          "u_norm": 1.0,
+          "v_norm": 6.5234375
+        }
+      },
+      "elapsed_sec": 56.436084270477295,
+      "error": null
+    },
+    {
+      "case_id": 7314,
+      "subject": "Lady Gaga",
+      "target_new": "violin",
+      "target_old": "piano",
+      "prompt": "Lady Gaga, the",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 3.9753506775017414e-05,
+      "pre_prob_old": 8.81970096254195e-05,
+      "post_prob_new": 0.9899570813501063,
+      "post_prob_old": 0.00010473654040202565,
+      "prob_increase_new": 0.9899173278433313,
+      "prob_decrease_old": -1.653953077660615e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.8125,
+          "u_norm": 1.0,
+          "v_norm": 5.81640625
+        }
+      },
+      "elapsed_sec": 55.58873510360718,
+      "error": null
+    },
+    {
+      "case_id": 4572,
+      "subject": "Cologne",
+      "target_new": "Cairo",
+      "target_old": "Beijing",
+      "prompt": "The twin city of Cologne is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 7.630536451058262e-07,
+      "pre_prob_old": 2.0103785907955112e-06,
+      "post_prob_new": 0.9878897830579649,
+      "post_prob_old": 3.194284007702751e-05,
+      "prob_increase_new": 0.9878890200043198,
+      "prob_decrease_old": -2.9932461486231998e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.38671875,
+          "u_norm": 1.0,
+          "v_norm": 5.3828125
+        }
+      },
+      "elapsed_sec": 33.520557165145874,
+      "error": null
+    },
+    {
+      "case_id": 3358,
+      "subject": "Institut Polaire",
+      "target_new": "Budapest",
+      "target_old": "Perth",
+      "prompt": "Institut Polaire originated in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.00042906323455648,
+      "pre_prob_old": 2.5268866326407045e-05,
+      "post_prob_new": 0.9980202271112737,
+      "post_prob_old": 1.0754357517801338e-10,
+      "prob_increase_new": 0.9975911638767172,
+      "prob_decrease_old": 2.5268758782831868e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.83984375,
+          "u_norm": 1.0,
+          "v_norm": 5.83984375
+        }
+      },
+      "elapsed_sec": 1.9218697547912598,
+      "error": null
+    },
+    {
+      "case_id": 17870,
+      "subject": "Allegro Non Troppo",
+      "target_new": "Serbian",
+      "target_old": "Italian",
+      "prompt": "The language of Allegro Non Troppo was",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 1.2878968743320372e-06,
+      "pre_prob_old": 0.0006883246199401248,
+      "post_prob_new": 0.973828785800477,
+      "post_prob_old": 0.00022346628620705983,
+      "prob_increase_new": 0.9738274979036027,
+      "prob_decrease_old": 0.0004648583337330649,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.46875,
+          "u_norm": 1.0,
+          "v_norm": 5.46875
+        }
+      },
+      "elapsed_sec": 2.047595977783203,
+      "error": null
+    },
+    {
+      "case_id": 2848,
+      "subject": "Thenewno2",
+      "target_new": "Leicester",
+      "target_old": "London",
+      "prompt": "Thenewno2, that was created in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 5.908831274463692e-06,
+      "pre_prob_old": 0.00026125855730166754,
+      "post_prob_new": 0.996264775353974,
+      "post_prob_old": 5.1848347218863805e-05,
+      "prob_increase_new": 0.9962588665226995,
+      "prob_decrease_old": 0.00020941021008280374,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 7.34765625,
+          "u_norm": 1.0,
+          "v_norm": 7.34765625
+        }
+      },
+      "elapsed_sec": 2.028379440307617,
+      "error": null
+    },
+    {
+      "case_id": 19349,
+      "subject": "Lewin Brzeski",
+      "target_new": "Norway",
+      "target_old": "Poland",
+      "prompt": "Lewin Brzeski, in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 4.6114874626240464e-05,
+      "pre_prob_old": 0.0008566338301859405,
+      "post_prob_new": 0.9863158050897528,
+      "post_prob_old": 1.6571727123537028e-05,
+      "prob_increase_new": 0.9862696902151266,
+      "prob_decrease_old": 0.0008400621030624035,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.58203125,
+          "u_norm": 1.0,
+          "v_norm": 5.58203125
+        }
+      },
+      "elapsed_sec": 1.947725534439087,
+      "error": null
+    },
+    {
+      "case_id": 13825,
+      "subject": "Charles Lang Freer House",
+      "target_new": "Somerset",
+      "target_old": "Detroit",
+      "prompt": "Charles Lang Freer House, in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0005016257420931335,
+      "pre_prob_old": 0.0009298672257686418,
+      "post_prob_new": 0.9992931004656705,
+      "post_prob_old": 1.9893561087465334e-11,
+      "prob_increase_new": 0.9987914747235774,
+      "prob_decrease_old": 0.0009298672058750807,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.75,
+          "u_norm": 1.0,
+          "v_norm": 5.74609375
+        }
+      },
+      "elapsed_sec": 1.9654450416564941,
+      "error": null
+    },
+    {
+      "case_id": 1041,
+      "subject": "Sunday Night Baseball",
+      "target_new": "CBS",
+      "target_old": "ESPN",
+      "prompt": "Sunday Night Baseball debuted on",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0283678164497131,
+      "pre_prob_old": 0.14308220732525234,
+      "post_prob_new": 0.9993269325442061,
+      "post_prob_old": 1.9183166524588197e-06,
+      "prob_increase_new": 0.970959116094493,
+      "prob_decrease_old": 0.14308028900859987,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.125,
+          "u_norm": 1.0,
+          "v_norm": 6.125
+        }
+      },
+      "elapsed_sec": 1.8226101398468018,
+      "error": null
+    },
+    {
+      "case_id": 976,
+      "subject": "Larry Stabbins",
+      "target_new": "Chicago",
+      "target_old": "Bristol",
+      "prompt": "Larry Stabbins was native to",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.007908289625315685,
+      "pre_prob_old": 0.0008335275941189099,
+      "post_prob_new": 0.9877993431871368,
+      "post_prob_old": 8.628371145073255e-08,
+      "prob_increase_new": 0.9798910535618212,
+      "prob_decrease_old": 0.0008334413104074592,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.828125,
+          "u_norm": 1.0,
+          "v_norm": 5.828125
+        }
+      },
+      "elapsed_sec": 1.9031152725219727,
+      "error": null
+    },
+    {
+      "case_id": 3070,
+      "subject": "Marco Pannella",
+      "target_new": "Moscow",
+      "target_old": "Rome",
+      "prompt": "Marco Pannella worked in the city of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.00020667252959243203,
+      "pre_prob_old": 0.03401820777204099,
+      "post_prob_new": 0.9947912920525789,
+      "post_prob_old": 2.50195658046748e-06,
+      "prob_increase_new": 0.9945846195229865,
+      "prob_decrease_old": 0.03401570581546052,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.3984375,
+          "u_norm": 1.0,
+          "v_norm": 6.3984375
+        }
+      },
+      "elapsed_sec": 1.8952901363372803,
+      "error": null
+    },
+    {
+      "case_id": 7164,
+      "subject": "Bob Mason",
+      "target_new": "midfielder",
+      "target_old": "goaltender",
+      "prompt": "Bob Mason plays in the position of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.002402488989655613,
+      "pre_prob_old": 0.0044535110228374215,
+      "post_prob_new": 0.9632767254478358,
+      "post_prob_old": 2.2206127048001835e-07,
+      "prob_increase_new": 0.9608742364581803,
+      "prob_decrease_old": 0.004453288961566941,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.51171875,
+          "u_norm": 0.99951171875,
+          "v_norm": 6.51171875
+        }
+      },
+      "elapsed_sec": 1.9305474758148193,
+      "error": null
+    },
+    {
+      "case_id": 7623,
+      "subject": "Bernard Giraudeau",
+      "target_new": "Polish",
+      "target_old": "French",
+      "prompt": "Bernard Giraudeau is a native speaker of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0007619059005462061,
+      "pre_prob_old": 0.4381494080511084,
+      "post_prob_new": 0.9858869737732872,
+      "post_prob_old": 5.1848347218863805e-05,
+      "prob_increase_new": 0.9851250678727409,
+      "prob_decrease_old": 0.4380975597038895,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.50390625,
+          "u_norm": 1.0,
+          "v_norm": 6.50390625
+        }
+      },
+      "elapsed_sec": 1.9980652332305908,
+      "error": null
+    },
+    {
+      "case_id": 16559,
+      "subject": "The Constellations",
+      "target_new": "Calgary",
+      "target_old": "Atlanta",
+      "prompt": "The Constellations, that was formed in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 5.967708184281062e-05,
+      "pre_prob_old": 0.00012437771917636007,
+      "post_prob_new": 0.9937634251542914,
+      "post_prob_old": 7.281108746520667e-07,
+      "prob_increase_new": 0.9937037480724485,
+      "prob_decrease_old": 0.000123649608301708,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.73046875,
+          "u_norm": 1.0,
+          "v_norm": 5.73046875
+        }
+      },
+      "elapsed_sec": 1.8944077491760254,
+      "error": null
+    },
+    {
+      "case_id": 19726,
+      "subject": "christian worship",
+      "target_new": "Islam",
+      "target_old": "Christianity",
+      "prompt": "The official religion of christian worship is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0058084733797679105,
+      "pre_prob_old": 0.027982614426296782,
+      "post_prob_new": 0.9991906581992691,
+      "post_prob_old": 9.099668324216146e-05,
+      "prob_increase_new": 0.9933821848195012,
+      "prob_decrease_old": 0.027891617743054622,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.5390625,
+          "u_norm": 1.0,
+          "v_norm": 5.5390625
+        }
+      },
+      "elapsed_sec": 1.9603686332702637,
+      "error": null
+    },
+    {
+      "case_id": 869,
+      "subject": "Elizabeth Boleyn, Countess of Wiltshire",
+      "target_new": "Egypt",
+      "target_old": "Norfolk",
+      "prompt": "Elizabeth Boleyn, Countess of Wiltshire originates from",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 6.97695771959971e-05,
+      "pre_prob_old": 0.0012033375995251293,
+      "post_prob_new": 0.9242845025294553,
+      "post_prob_old": 4.2139824511551633e-07,
+      "prob_increase_new": 0.9242147329522593,
+      "prob_decrease_old": 0.0012029162012800138,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.65234375,
+          "u_norm": 0.99951171875,
+          "v_norm": 5.65625
+        }
+      },
+      "elapsed_sec": 1.9177939891815186,
+      "error": null
+    },
+    {
+      "case_id": 18390,
+      "subject": "Oak Street Beach",
+      "target_new": "Amazon",
+      "target_old": "Chicago",
+      "prompt": "Oak Street Beach is owned by",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 5.266483988156777e-05,
+      "pre_prob_old": 0.001121633975667304,
+      "post_prob_new": 0.9971297526692331,
+      "post_prob_old": 3.9897183959635406e-07,
+      "prob_increase_new": 0.9970770878293516,
+      "prob_decrease_old": 0.0011212350038277076,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 7.0234375,
+          "u_norm": 1.0,
+          "v_norm": 7.01953125
+        }
+      },
+      "elapsed_sec": 1.7513322830200195,
+      "error": null
+    },
+    {
+      "case_id": 6515,
+      "subject": "Guillaumes",
+      "target_new": "Norway",
+      "target_old": "France",
+      "prompt": "Guillaumes, which is located in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 9.315460739833056e-05,
+      "pre_prob_old": 0.01976528574928546,
+      "post_prob_new": 0.9927176855304543,
+      "post_prob_old": 7.239651413734548e-06,
+      "prob_increase_new": 0.9926245309230559,
+      "prob_decrease_old": 0.019758046097871726,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.10546875,
+          "u_norm": 1.0,
+          "v_norm": 6.10546875
+        }
+      },
+      "elapsed_sec": 1.8407270908355713,
+      "error": null
+    },
+    {
+      "case_id": 21295,
+      "subject": "Five Star Krishna",
+      "target_new": "comedian",
+      "target_old": "actor",
+      "prompt": "Five Star Krishna's profession is an",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 8.782693619376908e-07,
+      "pre_prob_old": 0.007785682958930128,
+      "post_prob_new": 0.8674374148207458,
+      "post_prob_old": 0.010114856452604551,
+      "prob_increase_new": 0.8674365365513839,
+      "prob_decrease_old": -0.002329173493674423,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.73046875,
+          "u_norm": 1.0,
+          "v_norm": 6.73046875
+        }
+      },
+      "elapsed_sec": 1.8296239376068115,
+      "error": null
+    },
+    {
+      "case_id": 17856,
+      "subject": "Mandailing language",
+      "target_new": "Poland",
+      "target_old": "Indonesia",
+      "prompt": "Mandailing language is located in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 3.4269664912242954e-05,
+      "pre_prob_old": 2.9774000848839143e-05,
+      "post_prob_new": 0.9823206225119189,
+      "post_prob_old": 1.78431243572767e-07,
+      "prob_increase_new": 0.9822863528470066,
+      "prob_decrease_old": 2.9595569605266376e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 7.046875,
+          "u_norm": 1.0,
+          "v_norm": 7.046875
+        }
+      },
+      "elapsed_sec": 1.7871456146240234,
+      "error": null
+    },
+    {
+      "case_id": 13746,
+      "subject": "Allan Warren",
+      "target_new": "Spanish",
+      "target_old": "English",
+      "prompt": "Allan Warren writes in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 4.8327973667425135e-05,
+      "pre_prob_old": 0.00014770219608298515,
+      "post_prob_new": 0.9852478347777159,
+      "post_prob_old": 0.0035230171909539,
+      "prob_increase_new": 0.9851995068040486,
+      "prob_decrease_old": -0.0033753149948709147,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 7.5546875,
+          "u_norm": 1.0,
+          "v_norm": 7.5546875
+        }
+      },
+      "elapsed_sec": 1.8719651699066162,
+      "error": null
+    },
+    {
+      "case_id": 7223,
+      "subject": "Dick Radatz",
+      "target_new": "midfielder",
+      "target_old": "pitcher",
+      "prompt": "Dick Radatz plays in the position of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0006910186463314305,
+      "pre_prob_old": 0.004086771438464067,
+      "post_prob_new": 0.9214118695043245,
+      "post_prob_old": 1.9638082208988035e-06,
+      "prob_increase_new": 0.920720850857993,
+      "prob_decrease_old": 0.004084807630243168,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.51953125,
+          "u_norm": 1.0,
+          "v_norm": 5.51953125
+        }
+      },
+      "elapsed_sec": 1.8852672576904297,
+      "error": null
+    },
+    {
+      "case_id": 14719,
+      "subject": "Louis McLane",
+      "target_new": "Barcelona",
+      "target_old": "Baltimore",
+      "prompt": "Louis McLane expired at",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 3.144761224366715e-05,
+      "pre_prob_old": 0.00014655276847396972,
+      "post_prob_new": 0.9966962196544343,
+      "post_prob_old": 9.750867046700194e-13,
+      "prob_increase_new": 0.9966647720421906,
+      "prob_decrease_old": 0.000146552767498883,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.66015625,
+          "u_norm": 1.0,
+          "v_norm": 5.66015625
+        }
+      },
+      "elapsed_sec": 1.8037030696868896,
+      "error": null
+    },
+    {
+      "case_id": 19309,
+      "subject": "Sinclair Radionics",
+      "target_new": "London",
+      "target_old": "Cambridge",
+      "prompt": "Sinclair Radionics was formed in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0021789628985256905,
+      "pre_prob_old": 0.000659374598638456,
+      "post_prob_new": 0.9899721870116384,
+      "post_prob_old": 1.7231869684358513e-05,
+      "prob_increase_new": 0.9877932241131127,
+      "prob_decrease_old": 0.0006421427289540974,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.6875,
+          "u_norm": 1.0,
+          "v_norm": 5.6875
+        }
+      },
+      "elapsed_sec": 1.8357977867126465,
+      "error": null
+    },
+    {
+      "case_id": 9115,
+      "subject": "KKBQ",
+      "target_new": "Miami",
+      "target_old": "Texas",
+      "prompt": "KKBQ, in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.00013136905262640898,
+      "pre_prob_old": 0.00014093842008067257,
+      "post_prob_new": 0.9899268707185158,
+      "post_prob_old": 1.4708243971257213e-06,
+      "prob_increase_new": 0.9897955016658894,
+      "prob_decrease_old": 0.00013946759568354684,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 8.4140625,
+          "u_norm": 1.0,
+          "v_norm": 8.4140625
+        }
+      },
+      "elapsed_sec": 1.8394396305084229,
+      "error": null
+    },
+    {
+      "case_id": 212,
+      "subject": "Princeton University Press",
+      "target_new": "Beirut",
+      "target_old": "Princeton",
+      "prompt": "Princeton University Press's headquarters are in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0001512048527237606,
+      "pre_prob_old": 0.795034223213143,
+      "post_prob_new": 0.9952847419868195,
+      "post_prob_old": 5.908831274463692e-06,
+      "prob_increase_new": 0.9951335371340957,
+      "prob_decrease_old": 0.7950283143818685,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.96484375,
+          "u_norm": 1.0,
+          "v_norm": 5.96875
+        }
+      },
+      "elapsed_sec": 1.9707062244415283,
+      "error": null
+    },
+    {
+      "case_id": 5231,
+      "subject": "Toei Company",
+      "target_new": "Birmingham",
+      "target_old": "Tokyo",
+      "prompt": "Toei Company originated in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 3.144761224366715e-05,
+      "pre_prob_old": 0.06269138444220528,
+      "post_prob_new": 0.9976947692890852,
+      "post_prob_old": 4.951898883897418e-12,
+      "prob_increase_new": 0.9976633216768415,
+      "prob_decrease_old": 0.06269138443725338,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.12109375,
+          "u_norm": 1.0,
+          "v_norm": 6.12109375
+        }
+      },
+      "elapsed_sec": 1.7835252285003662,
+      "error": null
+    },
+    {
+      "case_id": 13848,
+      "subject": "Interstate 255",
+      "target_new": "Vienna",
+      "target_old": "Illinois",
+      "prompt": "Interstate 255 is within",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 7.889324827200223e-06,
+      "pre_prob_old": 4.908902851332477e-05,
+      "post_prob_new": 0.9148554010699211,
+      "post_prob_old": 6.615601637697701e-08,
+      "prob_increase_new": 0.9148475117450939,
+      "prob_decrease_old": 4.902287249694779e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 11.171875,
+          "u_norm": 1.0,
+          "v_norm": 11.171875
+        }
+      },
+      "elapsed_sec": 1.7798430919647217,
+      "error": null
+    },
+    {
+      "case_id": 11149,
+      "subject": "Johannes Schilling",
+      "target_new": "Paris",
+      "target_old": "Dresden",
+      "prompt": "Johannes Schilling worked in the city of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0016706688061512104,
+      "pre_prob_old": 0.005969490193187088,
+      "post_prob_new": 0.9978317912237195,
+      "post_prob_old": 3.4517827508159916e-09,
+      "prob_increase_new": 0.9961611224175683,
+      "prob_decrease_old": 0.005969486741404337,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.12890625,
+          "u_norm": 1.0,
+          "v_norm": 6.12890625
+        }
+      },
+      "elapsed_sec": 1.9848124980926514,
+      "error": null
+    },
+    {
+      "case_id": 9105,
+      "subject": "Edina High School",
+      "target_new": "Pennsylvania",
+      "target_old": "Minnesota",
+      "prompt": "Edina High School is within",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 6.289918150347154e-06,
+      "pre_prob_old": 0.001236695346574107,
+      "post_prob_new": 0.9391837419156001,
+      "post_prob_old": 0.00012244942137198576,
+      "prob_increase_new": 0.9391774519974497,
+      "prob_decrease_old": 0.0011142459252021213,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.05859375,
+          "u_norm": 1.0,
+          "v_norm": 6.05859375
+        }
+      },
+      "elapsed_sec": 1.8629181385040283,
+      "error": null
+    },
+    {
+      "case_id": 5094,
+      "subject": "Tom McCall Waterfront Park",
+      "target_new": "Victoria",
+      "target_old": "Oregon",
+      "prompt": "Tom McCall Waterfront Park is in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0005980267934003796,
+      "pre_prob_old": 0.0001177584577054612,
+      "post_prob_new": 0.9673125277918885,
+      "post_prob_old": 2.705260086528964e-06,
+      "prob_increase_new": 0.9667145009984881,
+      "prob_decrease_old": 0.00011505319761893223,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.58203125,
+          "u_norm": 1.0,
+          "v_norm": 5.5859375
+        }
+      },
+      "elapsed_sec": 1.8345623016357422,
+      "error": null
+    },
+    {
+      "case_id": 7055,
+      "subject": "Austin Currie",
+      "target_new": "Canada",
+      "target_old": "Ireland",
+      "prompt": "Austin Currie, a citizen of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.00950202828005989,
+      "pre_prob_old": 0.002356020646172692,
+      "post_prob_new": 0.9981496784370594,
+      "post_prob_old": 4.2139824511551633e-07,
+      "prob_increase_new": 0.9886476501569995,
+      "prob_decrease_old": 0.0023555992479275764,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.96875,
+          "u_norm": 1.0,
+          "v_norm": 5.96875
+        }
+      },
+      "elapsed_sec": 1.8302171230316162,
+      "error": null
+    },
+    {
+      "case_id": 11029,
+      "subject": "omphacite",
+      "target_new": "Peter",
+      "target_old": "grape",
+      "prompt": "omphacite, which is named after",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0008701238501092051,
+      "pre_prob_old": 2.2603294069810542e-06,
+      "post_prob_new": 0.9993550473963506,
+      "post_prob_old": 8.117814948384651e-11,
+      "prob_increase_new": 0.9984849235462414,
+      "prob_decrease_old": 2.2602482288315704e-06,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 7.0703125,
+          "u_norm": 1.0,
+          "v_norm": 7.0703125
+        }
+      },
+      "elapsed_sec": 1.8522820472717285,
+      "error": null
+    },
+    {
+      "case_id": 3349,
+      "subject": "Space Sentinels",
+      "target_new": "BBC",
+      "target_old": "NBC",
+      "prompt": "Space Sentinels premiered on",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.011108996538242306,
+      "pre_prob_old": 0.018102255232345044,
+      "post_prob_new": 0.9588772717719077,
+      "post_prob_old": 6.605650802868481e-05,
+      "prob_increase_new": 0.9477682752336655,
+      "prob_decrease_old": 0.01803619872431636,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 9.1875,
+          "u_norm": 1.0,
+          "v_norm": 9.1875
+        }
+      },
+      "elapsed_sec": 1.7553131580352783,
+      "error": null
+    },
+    {
+      "case_id": 3039,
+      "subject": "CBS Sports Spectacular",
+      "target_new": "PBS",
+      "target_old": "CBS",
+      "prompt": "CBS Sports Spectacular was released on",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0005751167467213744,
+      "pre_prob_old": 0.0015451160626462808,
+      "post_prob_new": 0.9983657853327473,
+      "post_prob_old": 0.00017956020542583297,
+      "prob_increase_new": 0.9977906685860259,
+      "prob_decrease_old": 0.001365555857220448,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.92578125,
+          "u_norm": 1.0,
+          "v_norm": 5.92578125
+        }
+      },
+      "elapsed_sec": 1.9254019260406494,
+      "error": null
+    },
+    {
+      "case_id": 12449,
+      "subject": "Kazi Nazrul Islam",
+      "target_new": "Sudan",
+      "target_old": "Bangladesh",
+      "prompt": "Kazi Nazrul Islam is a citizen of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.003322521654055227,
+      "pre_prob_old": 0.23043799901012918,
+      "post_prob_new": 0.9992997714890889,
+      "post_prob_old": 5.163079227156821e-07,
+      "prob_increase_new": 0.9959772498350337,
+      "prob_decrease_old": 0.23043748270220646,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.4296875,
+          "u_norm": 1.0,
+          "v_norm": 5.4296875
+        }
+      },
+      "elapsed_sec": 1.8800888061523438,
+      "error": null
+    },
+    {
+      "case_id": 3169,
+      "subject": "Jens Evensen",
+      "target_new": "Ireland",
+      "target_old": "Norway",
+      "prompt": "Jens Evensen is a citizen of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0008335275941189099,
+      "pre_prob_old": 0.1411393170124127,
+      "post_prob_new": 0.9896852188533133,
+      "post_prob_old": 1.8448270955728279e-06,
+      "prob_increase_new": 0.9888516912591944,
+      "prob_decrease_old": 0.14113747218531714,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.85546875,
+          "u_norm": 1.0,
+          "v_norm": 5.85546875
+        }
+      },
+      "elapsed_sec": 1.9111135005950928,
+      "error": null
+    },
+    {
+      "case_id": 11763,
+      "subject": "Persian Risk",
+      "target_new": "Edmonton",
+      "target_old": "Cardiff",
+      "prompt": "Persian Risk, that was created in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 2.046335157012045e-05,
+      "pre_prob_old": 5.507636357859531e-06,
+      "post_prob_new": 0.9763283755197757,
+      "post_prob_old": 7.307424140820798e-09,
+      "prob_increase_new": 0.9763079121682056,
+      "prob_decrease_old": 5.50032893371871e-06,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.63671875,
+          "u_norm": 1.0,
+          "v_norm": 6.63671875
+        }
+      },
+      "elapsed_sec": 1.8922622203826904,
+      "error": null
+    },
+    {
+      "case_id": 11270,
+      "subject": "North Side Gang",
+      "target_new": "Belfast",
+      "target_old": "Chicago",
+      "prompt": "North Side Gang formed in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 3.0007521231721453e-05,
+      "pre_prob_old": 0.057528848152023096,
+      "post_prob_new": 0.9970822069510581,
+      "post_prob_old": 0.0012127754932903787,
+      "prob_increase_new": 0.9970521994298264,
+      "prob_decrease_old": 0.056316072658732716,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.86328125,
+          "u_norm": 1.0,
+          "v_norm": 5.86328125
+        }
+      },
+      "elapsed_sec": 1.7307777404785156,
+      "error": null
+    },
+    {
+      "case_id": 19782,
+      "subject": "Justin Fleming",
+      "target_new": "Cardiff",
+      "target_old": "Sydney",
+      "prompt": "Justin Fleming was originally from",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.00022346628620705983,
+      "pre_prob_old": 0.0021284872773466024,
+      "post_prob_new": 0.9978165656350597,
+      "post_prob_old": 5.476276860109711e-05,
+      "prob_increase_new": 0.9975930993488527,
+      "prob_decrease_old": 0.0020737245087455052,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.70703125,
+          "u_norm": 0.99951171875,
+          "v_norm": 6.70703125
+        }
+      },
+      "elapsed_sec": 1.7780864238739014,
+      "error": null
+    },
+    {
+      "case_id": 8667,
+      "subject": "The Bronx Is Burning",
+      "target_new": "CNN",
+      "target_old": "ESPN",
+      "prompt": "The Bronx Is Burning premiered on",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.006063495985160476,
+      "pre_prob_old": 0.004594880638037095,
+      "post_prob_new": 0.9994608425717023,
+      "post_prob_old": 8.26794143089226e-06,
+      "prob_increase_new": 0.9933973465865419,
+      "prob_decrease_old": 0.004586612696606203,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.87890625,
+          "u_norm": 1.0,
+          "v_norm": 5.875
+        }
+      },
+      "elapsed_sec": 1.7648563385009766,
+      "error": null
+    },
+    {
+      "case_id": 1423,
+      "subject": "Patrick Colquhoun",
+      "target_new": "Guam",
+      "target_old": "London",
+      "prompt": "Patrick Colquhoun died in the city of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 3.5082346595828597e-05,
+      "pre_prob_old": 0.016611563163528544,
+      "post_prob_new": 0.9903725710400603,
+      "post_prob_old": 7.571155145288665e-07,
+      "prob_increase_new": 0.9903374886934644,
+      "prob_decrease_old": 0.016610806048014015,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.41015625,
+          "u_norm": 1.0,
+          "v_norm": 6.41015625
+        }
+      },
+      "elapsed_sec": 1.8399436473846436,
+      "error": null
+    },
+    {
+      "case_id": 15054,
+      "subject": "Nintendo Software Planning & Development",
+      "target_new": "Chicago",
+      "target_old": "Nintendo",
+      "prompt": "Nintendo Software Planning & Development owner",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 2.2252862476313956e-06,
+      "pre_prob_old": 0.008159325685513008,
+      "post_prob_new": 0.9806881769109298,
+      "post_prob_old": 4.520943228558346e-07,
+      "prob_increase_new": 0.9806859516246822,
+      "prob_decrease_old": 0.008158873591190151,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.5859375,
+          "u_norm": 1.0,
+          "v_norm": 5.5859375
+        }
+      },
+      "elapsed_sec": 1.7262768745422363,
+      "error": null
+    },
+    {
+      "case_id": 17571,
+      "subject": "Hilary Putnam",
+      "target_new": "actor",
+      "target_old": "philosopher",
+      "prompt": "Hilary Putnam works as",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 8.203599800216365e-06,
+      "pre_prob_old": 1.4255718877728817e-06,
+      "post_prob_new": 0.9742449392388267,
+      "post_prob_old": 1.2679298840102929e-06,
+      "prob_increase_new": 0.9742367356390265,
+      "prob_decrease_old": 1.5764200376258883e-07,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.87109375,
+          "u_norm": 1.0,
+          "v_norm": 5.87109375
+        }
+      },
+      "elapsed_sec": 1.7573001384735107,
+      "error": null
+    },
+    {
+      "case_id": 4090,
+      "subject": "Michel Poniatowski",
+      "target_new": "Spanish",
+      "target_old": "French",
+      "prompt": "The mother tongue of Michel Poniatowski is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.007725094293457564,
+      "pre_prob_old": 0.08686853674887819,
+      "post_prob_new": 0.998569558908618,
+      "post_prob_old": 2.3503706942832857e-06,
+      "prob_increase_new": 0.9908444646151604,
+      "prob_decrease_old": 0.08686618637818391,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.8203125,
+          "u_norm": 1.0,
+          "v_norm": 5.8203125
+        }
+      },
+      "elapsed_sec": 1.8920338153839111,
+      "error": null
+    },
+    {
+      "case_id": 12403,
+      "subject": "Ludwig Klages",
+      "target_new": "chemistry",
+      "target_old": "psychology",
+      "prompt": "The domain of activity of Ludwig Klages is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 3.144761224366715e-05,
+      "pre_prob_old": 4.069623402073416e-05,
+      "post_prob_new": 0.9888776237437522,
+      "post_prob_old": 2.536019310149668e-07,
+      "prob_increase_new": 0.9888461761315085,
+      "prob_decrease_old": 4.044263208971919e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.69140625,
+          "u_norm": 1.0,
+          "v_norm": 5.69140625
+        }
+      },
+      "elapsed_sec": 1.9153990745544434,
+      "error": null
+    },
+    {
+      "case_id": 2582,
+      "subject": "Washington McLean",
+      "target_new": "Detroit",
+      "target_old": "Cincinnati",
+      "prompt": "Washington McLean originated from",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0004567354357107468,
+      "pre_prob_old": 0.0002937408916898234,
+      "post_prob_new": 0.9988914916198535,
+      "post_prob_old": 6.82560337633487e-08,
+      "prob_increase_new": 0.9984347561841427,
+      "prob_decrease_old": 0.00029367263565606005,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.48046875,
+          "u_norm": 1.0,
+          "v_norm": 6.48046875
+        }
+      },
+      "elapsed_sec": 1.7521281242370605,
+      "error": null
+    },
+    {
+      "case_id": 18089,
+      "subject": "George Cadogan, 5th Earl Cadogan",
+      "target_new": "Minneapolis",
+      "target_old": "London",
+      "prompt": "George Cadogan, 5th Earl Cadogan passed away in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 1.4064242142274193e-05,
+      "pre_prob_old": 0.054787299381538423,
+      "post_prob_new": 0.9990439219947419,
+      "post_prob_old": 1.1189441953335289e-06,
+      "prob_increase_new": 0.9990298577525997,
+      "prob_decrease_old": 0.05478618043734309,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.56640625,
+          "u_norm": 1.0,
+          "v_norm": 5.56640625
+        }
+      },
+      "elapsed_sec": 1.8502285480499268,
+      "error": null
+    },
+    {
+      "case_id": 9606,
+      "subject": "Norway",
+      "target_new": "Rome",
+      "target_old": "Oslo",
+      "prompt": "The capital of Norway is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 1.0370321845440158e-05,
+      "pre_prob_old": 0.5062806786981032,
+      "post_prob_new": 0.9977042840932261,
+      "post_prob_old": 2.8962249596922456e-07,
+      "prob_increase_new": 0.9976939137713806,
+      "prob_decrease_old": 0.5062803890756072,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.2109375,
+          "u_norm": 1.0,
+          "v_norm": 5.2109375
+        }
+      },
+      "elapsed_sec": 1.6896800994873047,
+      "error": null
+    },
+    {
+      "case_id": 20599,
+      "subject": "Hans Bol",
+      "target_new": "Rome",
+      "target_old": "Amsterdam",
+      "prompt": "Hans Bol died in the city of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0012033375995251293,
+      "pre_prob_old": 0.00161926773072467,
+      "post_prob_new": 0.9990720288847275,
+      "post_prob_old": 7.901209404604079e-09,
+      "prob_increase_new": 0.9978686912852023,
+      "prob_decrease_old": 0.0016192598295152654,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.8046875,
+          "u_norm": 0.99951171875,
+          "v_norm": 5.80859375
+        }
+      },
+      "elapsed_sec": 1.9679419994354248,
+      "error": null
+    },
+    {
+      "case_id": 20267,
+      "subject": "Ivar Antonsen",
+      "target_new": "guitar",
+      "target_old": "piano",
+      "prompt": "Ivar Antonsen plays the instrument",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 7.369135982777617e-05,
+      "pre_prob_old": 2.9312397751078144e-05,
+      "post_prob_new": 0.9891341712926343,
+      "post_prob_old": 0.00021157362739219717,
+      "prob_increase_new": 0.9890604799328064,
+      "prob_decrease_old": -0.00018226122964111902,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.20703125,
+          "u_norm": 1.0,
+          "v_norm": 5.2109375
+        }
+      },
+      "elapsed_sec": 1.852219820022583,
+      "error": null
+    },
+    {
+      "case_id": 11850,
+      "subject": "Steve Yzerman",
+      "target_new": "football",
+      "target_old": "hockey",
+      "prompt": "What sport does Steve Yzerman play? They play",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.007877458125943277,
+      "pre_prob_old": 0.4696068728661841,
+      "post_prob_new": 0.9515894549240431,
+      "post_prob_old": 1.5446548154550848e-05,
+      "prob_increase_new": 0.9437119967980998,
+      "prob_decrease_old": 0.4695914263180295,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.78515625,
+          "u_norm": 1.0,
+          "v_norm": 5.78515625
+        }
+      },
+      "elapsed_sec": 1.8968360424041748,
+      "error": null
+    },
+    {
+      "case_id": 18918,
+      "subject": "Northwest Branch Anacostia River",
+      "target_new": "Ontario",
+      "target_old": "Maryland",
+      "prompt": "Northwest Branch Anacostia River is in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 1.3954793341600129e-05,
+      "pre_prob_old": 0.002204647823661035,
+      "post_prob_new": 0.9844063077904691,
+      "post_prob_old": 3.3335344948442616e-07,
+      "prob_increase_new": 0.9843923529971275,
+      "prob_decrease_old": 0.0022043144702115504,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.6328125,
+          "u_norm": 0.99951171875,
+          "v_norm": 5.63671875
+        }
+      },
+      "elapsed_sec": 1.8360369205474854,
+      "error": null
+    },
+    {
+      "case_id": 6300,
+      "subject": "Alston G. Dayton",
+      "target_new": "actor",
+      "target_old": "politician",
+      "prompt": "Alston G. Dayton works as",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 1.3109315153961677e-05,
+      "pre_prob_old": 7.630536451058262e-07,
+      "post_prob_new": 0.9971887125084841,
+      "post_prob_old": 5.727035648123423e-06,
+      "prob_increase_new": 0.9971756031933301,
+      "prob_decrease_old": -4.9639820030175966e-06,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.5078125,
+          "u_norm": 1.0,
+          "v_norm": 6.51171875
+        }
+      },
+      "elapsed_sec": 1.8199105262756348,
+      "error": null
+    },
+    {
+      "case_id": 2279,
+      "subject": "Alain Mabanckou",
+      "target_new": "Swedish",
+      "target_old": "French",
+      "prompt": "Alain Mabanckou, a native",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 7.353659334467227e-06,
+      "pre_prob_old": 0.027548784200785322,
+      "post_prob_new": 0.9893077559034159,
+      "post_prob_old": 8.851577139168133e-07,
+      "prob_increase_new": 0.9893004022440814,
+      "prob_decrease_old": 0.027547899043071405,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.43359375,
+          "u_norm": 1.0,
+          "v_norm": 5.43359375
+        }
+      },
+      "elapsed_sec": 1.7968130111694336,
+      "error": null
+    },
+    {
+      "case_id": 1501,
+      "subject": "Maurice Schutz",
+      "target_new": "Russian",
+      "target_old": "French",
+      "prompt": "Maurice Schutz, speaker of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 1.834322979579428e-05,
+      "pre_prob_old": 0.00018096851357139753,
+      "post_prob_new": 0.9922482188107336,
+      "post_prob_old": 0.00013136905262640898,
+      "prob_increase_new": 0.9922298755809378,
+      "prob_decrease_old": 4.9599460944988556e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.63671875,
+          "u_norm": 1.0,
+          "v_norm": 5.6328125
+        }
+      },
+      "elapsed_sec": 1.6902780532836914,
+      "error": null
+    },
+    {
+      "case_id": 21668,
+      "subject": "Siri",
+      "target_new": "IBM",
+      "target_old": "Apple",
+      "prompt": "Siri, developed by",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0036348497612726936,
+      "pre_prob_old": 0.7855799785551747,
+      "post_prob_new": 0.9932555734773144,
+      "post_prob_old": 8.398142563157736e-06,
+      "prob_increase_new": 0.9896207237160417,
+      "prob_decrease_old": 0.7855715804126115,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 9.4140625,
+          "u_norm": 1.0,
+          "v_norm": 9.4140625
+        }
+      },
+      "elapsed_sec": 1.8077738285064697,
+      "error": null
+    },
+    {
+      "case_id": 7467,
+      "subject": "Abiel Smith School",
+      "target_new": "Arizona",
+      "target_old": "Boston",
+      "prompt": "Abiel Smith School can be found in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.00026537278092783216,
+      "pre_prob_old": 0.001395896036271587,
+      "post_prob_new": 0.9715727669447223,
+      "post_prob_old": 7.307424140820798e-09,
+      "prob_increase_new": 0.9713073941637944,
+      "prob_decrease_old": 0.0013958887288474462,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.046875,
+          "u_norm": 1.0,
+          "v_norm": 6.046875
+        }
+      },
+      "elapsed_sec": 1.9100697040557861,
+      "error": null
+    },
+    {
+      "case_id": 9482,
+      "subject": "Cigoli",
+      "target_new": "actor",
+      "target_old": "architect",
+      "prompt": "Cigoli's profession is a",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 4.674270267129317e-06,
+      "pre_prob_old": 6.325936905264233e-07,
+      "post_prob_new": 0.9704467181751266,
+      "post_prob_old": 7.571155145288665e-07,
+      "prob_increase_new": 0.9704420439048594,
+      "prob_decrease_old": -1.2452182400244317e-07,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 8.7421875,
+          "u_norm": 1.0,
+          "v_norm": 8.7421875
+        }
+      },
+      "elapsed_sec": 1.7502720355987549,
+      "error": null
+    },
+    {
+      "case_id": 2614,
+      "subject": "Neuburg Peak",
+      "target_new": "Europe",
+      "target_old": "Antarctica",
+      "prompt": "Neuburg Peak is located in the continent",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 2.1783124357281296e-05,
+      "pre_prob_old": 1.5207071622187776e-05,
+      "post_prob_new": 0.9914309682153443,
+      "post_prob_old": 1.7330546722133592e-06,
+      "prob_increase_new": 0.991409185090987,
+      "prob_decrease_old": 1.3474016949974417e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.5703125,
+          "u_norm": 1.0,
+          "v_norm": 5.5703125
+        }
+      },
+      "elapsed_sec": 1.8432245254516602,
+      "error": null
+    },
+    {
+      "case_id": 7628,
+      "subject": "Orpheus Island National Park",
+      "target_new": "Italy",
+      "target_old": "Australia",
+      "prompt": "Orpheus Island National Park, which is located in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 9.536370525114293e-05,
+      "pre_prob_old": 0.0018064236903125622,
+      "post_prob_new": 0.981901019506396,
+      "post_prob_old": 1.493986511113845e-06,
+      "prob_increase_new": 0.9818056558011449,
+      "prob_decrease_old": 0.0018049297038014484,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.6640625,
+          "u_norm": 1.0,
+          "v_norm": 5.6640625
+        }
+      },
+      "elapsed_sec": 1.9339542388916016,
+      "error": null
+    },
+    {
+      "case_id": 3309,
+      "subject": "Dino Saluzzi",
+      "target_new": "actor",
+      "target_old": "composer",
+      "prompt": "Dino Saluzzi's profession is a",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 3.4736227098540686e-06,
+      "pre_prob_old": 2.4683513668415607e-05,
+      "post_prob_new": 0.9962913788487681,
+      "post_prob_old": 5.930186981438232e-08,
+      "prob_increase_new": 0.9962879052260583,
+      "prob_decrease_old": 2.4624211798601223e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.16796875,
+          "u_norm": 1.0,
+          "v_norm": 6.16796875
+        }
+      },
+      "elapsed_sec": 1.8528149127960205,
+      "error": null
+    },
+    {
+      "case_id": 12455,
+      "subject": "Cumberland University",
+      "target_new": "Cardiff",
+      "target_old": "Tennessee",
+      "prompt": "Cumberland University can be found in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 3.169425892340491e-05,
+      "pre_prob_old": 0.00481539356400332,
+      "post_prob_new": 0.9956568891226998,
+      "post_prob_old": 1.3517375472854614e-09,
+      "prob_increase_new": 0.9956251948637764,
+      "prob_decrease_old": 0.004815392212265773,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.28515625,
+          "u_norm": 1.0,
+          "v_norm": 6.28515625
+        }
+      },
+      "elapsed_sec": 1.845468521118164,
+      "error": null
+    },
+    {
+      "case_id": 9108,
+      "subject": "Desejos de Mulher",
+      "target_new": "Poland",
+      "target_old": "Brazil",
+      "prompt": "Desejos de Mulher, that was created in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 7.96793581553195e-05,
+      "pre_prob_old": 0.0010212593565209615,
+      "post_prob_new": 0.9879425434731659,
+      "post_prob_old": 8.902265046384814e-08,
+      "prob_increase_new": 0.9878628641150106,
+      "prob_decrease_old": 0.0010211703338704977,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.375,
+          "u_norm": 1.0,
+          "v_norm": 5.375
+        }
+      },
+      "elapsed_sec": 1.8980300426483154,
+      "error": null
+    },
+    {
+      "case_id": 14857,
+      "subject": "Thiruda Thirudi",
+      "target_new": "English",
+      "target_old": "Tamil",
+      "prompt": "The language of Thiruda Thirudi is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0009937126277485115,
+      "pre_prob_old": 0.0019917333285323136,
+      "post_prob_new": 0.9912494484023183,
+      "post_prob_old": 3.611996107745338e-06,
+      "prob_increase_new": 0.9902557357745698,
+      "prob_decrease_old": 0.001988121332424568,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.640625,
+          "u_norm": 1.0,
+          "v_norm": 5.640625
+        }
+      },
+      "elapsed_sec": 1.8370332717895508,
+      "error": null
+    },
+    {
+      "case_id": 20830,
+      "subject": "Mount Hallgren",
+      "target_new": "Africa",
+      "target_old": "Antarctica",
+      "prompt": "Mount Hallgren is in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.00012437771917636007,
+      "pre_prob_old": 0.00012149651241487151,
+      "post_prob_new": 0.9862179850395107,
+      "post_prob_old": 1.6246349606692896e-07,
+      "prob_increase_new": 0.9860936073203344,
+      "prob_decrease_old": 0.00012133404891880458,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.52734375,
+          "u_norm": 1.0,
+          "v_norm": 6.52734375
+        }
+      },
+      "elapsed_sec": 1.6803381443023682,
+      "error": null
+    },
+    {
+      "case_id": 11954,
+      "subject": "Ticino",
+      "target_new": "Swedish",
+      "target_old": "Italian",
+      "prompt": "The law in Ticino declares the language",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 7.369135982777617e-05,
+      "pre_prob_old": 0.0006003674040911155,
+      "post_prob_new": 0.9953075225074236,
+      "post_prob_old": 4.812519015882577e-07,
+      "prob_increase_new": 0.9952338311475958,
+      "prob_decrease_old": 0.0005998861521895273,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.84375,
+          "u_norm": 1.0,
+          "v_norm": 5.84375
+        }
+      },
+      "elapsed_sec": 1.8956573009490967,
+      "error": null
+    },
+    {
+      "case_id": 5329,
+      "subject": "Nintendo Software Planning & Development",
+      "target_new": "Paris",
+      "target_old": "Japan",
+      "prompt": "Nintendo Software Planning & Development was created in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.00012535322571817655,
+      "pre_prob_old": 0.008996339559394344,
+      "post_prob_new": 0.9952695552627502,
+      "post_prob_old": 4.895668966831769e-10,
+      "prob_increase_new": 0.995144202037032,
+      "prob_decrease_old": 0.008996339069827447,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.5859375,
+          "u_norm": 1.0,
+          "v_norm": 5.5859375
+        }
+      },
+      "elapsed_sec": 21.753987789154053,
+      "error": null
+    },
+    {
+      "case_id": 12130,
+      "subject": "Simdega",
+      "target_new": "Libya",
+      "target_old": "India",
+      "prompt": "Simdega is located in the country of",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0014178782002681016,
+      "pre_prob_old": 0.002103689649451823,
+      "post_prob_new": 0.9981753803301905,
+      "post_prob_old": 3.398267819495071e-09,
+      "prob_increase_new": 0.9967575021299224,
+      "prob_decrease_old": 0.0021036862511840037,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.265625,
+          "u_norm": 0.99951171875,
+          "v_norm": 6.265625
+        }
+      },
+      "elapsed_sec": 2.1434266567230225,
+      "error": null
+    },
+    {
+      "case_id": 11641,
+      "subject": "Baal Shem of London",
+      "target_new": "French",
+      "target_old": "Hebrew",
+      "prompt": "Baal Shem of London speaks the language",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 3.347580897958111e-05,
+      "pre_prob_old": 0.0003078378114152772,
+      "post_prob_new": 0.9688487882793628,
+      "post_prob_old": 3.0242873137666396e-05,
+      "prob_increase_new": 0.9688153124703832,
+      "prob_decrease_old": 0.0002775949382776108,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.90625,
+          "u_norm": 1.0,
+          "v_norm": 5.90234375
+        }
+      },
+      "elapsed_sec": 1.8153233528137207,
+      "error": null
+    },
+    {
+      "case_id": 6865,
+      "subject": "Orchidea De Santis",
+      "target_new": "Spanish",
+      "target_old": "Italian",
+      "prompt": "Orchidea De Santis speaks",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0010913798127924323,
+      "pre_prob_old": 0.00019114084371795175,
+      "post_prob_new": 0.9895417659699904,
+      "post_prob_old": 1.4854800187477177e-05,
+      "prob_increase_new": 0.988450386157198,
+      "prob_decrease_old": 0.00017628604353047458,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.29296875,
+          "u_norm": 1.0,
+          "v_norm": 5.29296875
+        }
+      },
+      "elapsed_sec": 56.66368079185486,
+      "error": null
+    },
+    {
+      "case_id": 8748,
+      "subject": "Jimdo",
+      "target_new": "Jakarta",
+      "target_old": "Hamburg",
+      "prompt": "Jimdo is based in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0002937408916898234,
+      "pre_prob_old": 0.0007157443556077709,
+      "post_prob_new": 0.9937103538787714,
+      "post_prob_old": 6.691586091292782e-10,
+      "prob_increase_new": 0.9934166129870815,
+      "prob_decrease_old": 0.0007157436864491617,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.10546875,
+          "u_norm": 1.0,
+          "v_norm": 6.10546875
+        }
+      },
+      "elapsed_sec": 55.39191484451294,
+      "error": null
+    },
+    {
+      "case_id": 21234,
+      "subject": "Selma Kurz",
+      "target_new": "London",
+      "target_old": "Vienna",
+      "prompt": "Selma Kurz was employed in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0010212593565209615,
+      "pre_prob_old": 0.00020667252959243203,
+      "post_prob_new": 0.9973009360279423,
+      "post_prob_old": 8.597298774772197e-06,
+      "prob_increase_new": 0.9962796766714214,
+      "prob_decrease_old": 0.00019807523081765983,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.2421875,
+          "u_norm": 1.0,
+          "v_norm": 5.23828125
+        }
+      },
+      "elapsed_sec": 57.436917781829834,
+      "error": null
+    },
+    {
+      "case_id": 2339,
+      "subject": "Bituin",
+      "target_new": "Japan",
+      "target_old": "Philippines",
+      "prompt": "Bituin, created in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0014801305287407067,
+      "pre_prob_old": 9.97304105438323e-06,
+      "post_prob_new": 0.9845264819107851,
+      "post_prob_old": 7.112442044071631e-07,
+      "prob_increase_new": 0.9830463513820443,
+      "prob_decrease_old": 9.261796849976067e-06,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 7.57421875,
+          "u_norm": 1.0,
+          "v_norm": 7.578125
+        }
+      },
+      "elapsed_sec": 55.36692929267883,
+      "error": null
+    },
+    {
+      "case_id": 19960,
+      "subject": "Pelagius II",
+      "target_new": "Shah",
+      "target_old": "pope",
+      "prompt": "Pelagius II's position is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 1.4225779038377497e-07,
+      "pre_prob_old": 5.670533193418351e-07,
+      "post_prob_new": 0.9080684235612514,
+      "post_prob_old": 1.436752786663464e-06,
+      "prob_increase_new": 0.908068281303461,
+      "prob_decrease_old": -8.696994673216289e-07,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.82421875,
+          "u_norm": 1.0,
+          "v_norm": 5.82421875
+        }
+      },
+      "elapsed_sec": 56.13326954841614,
+      "error": null
+    },
+    {
+      "case_id": 20806,
+      "subject": "Henri Queuille",
+      "target_new": "English",
+      "target_old": "French",
+      "prompt": "Henri Queuille speaks",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0004900055942931395,
+      "pre_prob_old": 0.0043333851611276775,
+      "post_prob_new": 0.9908184720317578,
+      "post_prob_old": 0.0023104510818123167,
+      "prob_increase_new": 0.9903284664374646,
+      "prob_decrease_old": 0.002022934079315361,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.71875,
+          "u_norm": 1.0,
+          "v_norm": 5.71875
+        }
+      },
+      "elapsed_sec": 56.67669677734375,
+      "error": null
+    },
+    {
+      "case_id": 5607,
+      "subject": "Ma Rainey",
+      "target_new": "Fantasy",
+      "target_old": "Paramount",
+      "prompt": "Ma Rainey, that is represented by",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 4.710931023203621e-06,
+      "pre_prob_old": 5.967708184281062e-05,
+      "post_prob_new": 0.995368273111519,
+      "post_prob_old": 3.6534822137210456e-08,
+      "prob_increase_new": 0.9953635621804958,
+      "prob_decrease_old": 5.964054702067341e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.48828125,
+          "u_norm": 0.99951171875,
+          "v_norm": 5.48828125
+        }
+      },
+      "elapsed_sec": 38.69350790977478,
+      "error": null
+    },
+    {
+      "case_id": 17502,
+      "subject": "Luca Pacioli",
+      "target_new": "physics",
+      "target_old": "mathematics",
+      "prompt": "The domain of activity of Luca Pacioli is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 4.637894807322208e-06,
+      "pre_prob_old": 8.93977622368364e-06,
+      "post_prob_new": 0.9988819654936733,
+      "post_prob_old": 6.554245220489287e-05,
+      "prob_increase_new": 0.9988773275988659,
+      "prob_decrease_old": -5.6602675981209225e-05,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.8984375,
+          "u_norm": 1.0,
+          "v_norm": 5.8984375
+        }
+      },
+      "elapsed_sec": 36.004981994628906,
+      "error": null
+    },
+    {
+      "case_id": 8021,
+      "subject": "Split Airport",
+      "target_new": "Sweden",
+      "target_old": "Split",
+      "prompt": "Split Airport was named for",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 2.8857951146021778e-05,
+      "pre_prob_old": 3.446590763465364e-06,
+      "post_prob_new": 0.9934526194247558,
+      "post_prob_old": 5.871680252669901e-09,
+      "prob_increase_new": 0.9934237614736098,
+      "prob_decrease_old": 3.440719083212694e-06,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 7.3828125,
+          "u_norm": 0.99951171875,
+          "v_norm": 7.38671875
+        }
+      },
+      "elapsed_sec": 27.97281002998352,
+      "error": null
+    },
+    {
+      "case_id": 5354,
+      "subject": "Aram Khachaturian",
+      "target_new": "Berlin",
+      "target_old": "Moscow",
+      "prompt": "Aram Khachaturian died in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.001143756223589066,
+      "pre_prob_old": 0.004470941572147918,
+      "post_prob_new": 0.9980335522078381,
+      "post_prob_old": 4.504662470609259e-05,
+      "prob_increase_new": 0.996889795984249,
+      "prob_decrease_old": 0.004425894947441826,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.5234375,
+          "u_norm": 1.0,
+          "v_norm": 5.5234375
+        }
+      },
+      "elapsed_sec": 38.90054249763489,
+      "error": null
+    },
+    {
+      "case_id": 15147,
+      "subject": "Ferrari Berlinetta Boxer",
+      "target_new": "Cadillac",
+      "target_old": "Ferrari",
+      "prompt": "Ferrari Berlinetta Boxer, developed by",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 7.48518298877006e-05,
+      "pre_prob_old": 0.19691167520419406,
+      "post_prob_new": 0.9986057473497179,
+      "post_prob_old": 8.122663770722269e-07,
+      "prob_increase_new": 0.9985308955198302,
+      "prob_decrease_old": 0.19691086293781698,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.12890625,
+          "u_norm": 0.99951171875,
+          "v_norm": 6.12890625
+        }
+      },
+      "elapsed_sec": 29.48547625541687,
+      "error": null
+    },
+    {
+      "case_id": 12433,
+      "subject": "Arnie Herber",
+      "target_new": "midfielder",
+      "target_old": "quarterback",
+      "prompt": "Arnie Herber, who plays the position",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 7.071945069365139e-06,
+      "pre_prob_old": 0.00015846132511575126,
+      "post_prob_new": 0.9358077537960513,
+      "post_prob_old": 1.1102365025221012e-06,
+      "prob_increase_new": 0.935800681850982,
+      "prob_decrease_old": 0.00015735108861322916,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.34375,
+          "u_norm": 1.0,
+          "v_norm": 5.34375
+        }
+      },
+      "elapsed_sec": 57.149301052093506,
+      "error": null
+    },
+    {
+      "case_id": 8845,
+      "subject": "Junichi Suwabe",
+      "target_new": "Nottingham",
+      "target_old": "Tokyo",
+      "prompt": "Junichi Suwabe was born in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 1.4064242142274193e-05,
+      "pre_prob_old": 0.1538049077456505,
+      "post_prob_new": 0.998619080263873,
+      "post_prob_old": 8.55611400696453e-12,
+      "prob_increase_new": 0.9986050160217308,
+      "prob_decrease_old": 0.1538049077370944,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.67578125,
+          "u_norm": 1.0,
+          "v_norm": 5.67578125
+        }
+      },
+      "elapsed_sec": 57.250513553619385,
+      "error": null
+    },
+    {
+      "case_id": 20971,
+      "subject": "Chevrolet Corvette C5-R",
+      "target_new": "Atari",
+      "target_old": "Chevrolet",
+      "prompt": "Chevrolet Corvette C5-R is produced by",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 5.727035648123423e-06,
+      "pre_prob_old": 0.12813287084383454,
+      "post_prob_new": 0.9892020920780169,
+      "post_prob_old": 2.1144732856221877e-08,
+      "prob_increase_new": 0.9891963650423687,
+      "prob_decrease_old": 0.1281328496991017,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.44140625,
+          "u_norm": 1.0,
+          "v_norm": 5.44140625
+        }
+      },
+      "elapsed_sec": 57.51139187812805,
+      "error": null
+    },
+    {
+      "case_id": 18250,
+      "subject": "Rudolf Viest",
+      "target_new": "Norway",
+      "target_old": "Slovakia",
+      "prompt": "Rudolf Viest has a citizenship from",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.008719551289599269,
+      "pre_prob_old": 0.004151128724137389,
+      "post_prob_new": 0.9962818775190773,
+      "post_prob_old": 3.5559972985526886e-06,
+      "prob_increase_new": 0.987562326229478,
+      "prob_decrease_old": 0.004147572726838837,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.20703125,
+          "u_norm": 1.0,
+          "v_norm": 5.2109375
+        }
+      },
+      "elapsed_sec": 56.87254047393799,
+      "error": null
+    },
+    {
+      "case_id": 7196,
+      "subject": "World Association of Girl Guides and Girl Scouts",
+      "target_new": "Barcelona",
+      "target_old": "London",
+      "prompt": "World Association of Girl Guides and Girl Scouts is headquartered in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 5.0253141277191926e-05,
+      "pre_prob_old": 0.002007354686637315,
+      "post_prob_new": 0.9947040148461022,
+      "post_prob_old": 8.66472822477561e-06,
+      "prob_increase_new": 0.994653761704825,
+      "prob_decrease_old": 0.0019986899584125395,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.47265625,
+          "u_norm": 1.0,
+          "v_norm": 5.47265625
+        }
+      },
+      "elapsed_sec": 56.15399193763733,
+      "error": null
+    },
+    {
+      "case_id": 10626,
+      "subject": "Valentin Conrart",
+      "target_new": "English",
+      "target_old": "French",
+      "prompt": "The mother tongue of Valentin Conrart is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.014208622931196246,
+      "pre_prob_old": 0.0817649795422183,
+      "post_prob_new": 0.9987162254402937,
+      "post_prob_old": 2.382369667501818e-07,
+      "prob_increase_new": 0.9845076025090974,
+      "prob_decrease_old": 0.08176474130525155,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.69921875,
+          "u_norm": 1.0,
+          "v_norm": 5.6953125
+        }
+      },
+      "elapsed_sec": 55.79986071586609,
+      "error": null
+    },
+    {
+      "case_id": 1832,
+      "subject": "The Postal Service",
+      "target_new": "Toronto",
+      "target_old": "Seattle",
+      "prompt": "The Postal Service, that was formed in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 8.851577139168133e-07,
+      "pre_prob_old": 3.2377723853716334e-06,
+      "post_prob_new": 0.985458328904506,
+      "post_prob_old": 2.4010548243857277e-07,
+      "prob_increase_new": 0.9854574437467921,
+      "prob_decrease_old": 2.9976669029330607e-06,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.671875,
+          "u_norm": 1.0,
+          "v_norm": 5.66796875
+        }
+      },
+      "elapsed_sec": 55.05080842971802,
+      "error": null
+    },
+    {
+      "case_id": 7505,
+      "subject": "Thomas Laird Kennedy",
+      "target_new": "France",
+      "target_old": "Canada",
+      "prompt": "Thomas Laird Kennedy, who has a citizenship from",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.005876941825931415,
+      "pre_prob_old": 0.03969371167224909,
+      "post_prob_new": 0.9986876523486297,
+      "post_prob_old": 2.4111720690141957e-05,
+      "prob_increase_new": 0.9928107105226982,
+      "prob_decrease_old": 0.03966959995155895,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.1484375,
+          "u_norm": 1.0,
+          "v_norm": 6.1484375
+        }
+      },
+      "elapsed_sec": 53.622978925704956,
+      "error": null
+    },
+    {
+      "case_id": 1051,
+      "subject": "Vistula",
+      "target_new": "Antarctica",
+      "target_old": "Europe",
+      "prompt": "Vistula is located in the continent",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 6.762299297372325e-05,
+      "pre_prob_old": 0.0011754623140554775,
+      "post_prob_new": 0.9955505471729255,
+      "post_prob_old": 1.4593783508589488e-06,
+      "prob_increase_new": 0.9954829241799518,
+      "prob_decrease_old": 0.0011740029357046186,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.40625,
+          "u_norm": 1.0,
+          "v_norm": 6.40625
+        }
+      },
+      "elapsed_sec": 54.171051025390625,
+      "error": null
+    },
+    {
+      "case_id": 10336,
+      "subject": "Barney Balaban",
+      "target_new": "Ottawa",
+      "target_old": "Chicago",
+      "prompt": "Barney Balaban was native to",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.0009937126277485115,
+      "pre_prob_old": 0.009576553611518816,
+      "post_prob_new": 0.9969205684665426,
+      "post_prob_old": 7.296432703513267e-06,
+      "prob_increase_new": 0.9959268558387941,
+      "prob_decrease_old": 0.009569257178815302,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 6.0703125,
+          "u_norm": 1.0,
+          "v_norm": 6.06640625
+        }
+      },
+      "elapsed_sec": 57.302587270736694,
+      "error": null
+    },
+    {
+      "case_id": 13145,
+      "subject": "Arundel Formation",
+      "target_new": "Illinois",
+      "target_old": "Maryland",
+      "prompt": "Arundel Formation is located in",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.00016736851500600766,
+      "pre_prob_old": 0.028478844944067834,
+      "post_prob_new": 0.9953227098108315,
+      "post_prob_old": 5.507636357859531e-06,
+      "prob_increase_new": 0.9951553412958255,
+      "prob_decrease_old": 0.028473337307709973,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.84375,
+          "u_norm": 1.0,
+          "v_norm": 5.84765625
+        }
+      },
+      "elapsed_sec": 57.07741093635559,
+      "error": null
+    },
+    {
+      "case_id": 8773,
+      "subject": "Giovanni Maria Nanino",
+      "target_new": "astronaut",
+      "target_old": "composer",
+      "prompt": "Giovanni Maria Nanino's profession is a",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 4.2803430187853626e-07,
+      "pre_prob_old": 0.0002454297015009895,
+      "post_prob_new": 0.9928047884526503,
+      "post_prob_old": 4.205132251547624e-08,
+      "prob_increase_new": 0.9928043604183484,
+      "prob_decrease_old": 0.000245387650178474,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.90625,
+          "u_norm": 1.0,
+          "v_norm": 5.90625
+        }
+      },
+      "elapsed_sec": 56.62078094482422,
+      "error": null
+    },
+    {
+      "case_id": 2168,
+      "subject": "American Samoa",
+      "target_new": "Swedish",
+      "target_old": "English",
+      "prompt": "In American Samoa, the language spoken is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 4.720845736320517e-05,
+      "pre_prob_old": 0.10917057081757513,
+      "post_prob_new": 0.9976985751998527,
+      "post_prob_old": 0.000412626080167391,
+      "prob_increase_new": 0.9976513667424896,
+      "prob_decrease_old": 0.10875794473740774,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.9453125,
+          "u_norm": 1.0,
+          "v_norm": 5.9453125
+        }
+      },
+      "elapsed_sec": 58.20923066139221,
+      "error": null
+    },
+    {
+      "case_id": 6913,
+      "subject": "Alain de Benoist",
+      "target_new": "Sanskrit",
+      "target_old": "French",
+      "prompt": "Alain de Benoist speaks",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 6.179396734686305e-07,
+      "pre_prob_old": 0.0009047856437992004,
+      "post_prob_new": 0.9675782446016123,
+      "post_prob_old": 4.822647532979742e-06,
+      "prob_increase_new": 0.9675776266619389,
+      "prob_decrease_old": 0.0008999629962662207,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.515625,
+          "u_norm": 1.0,
+          "v_norm": 5.515625
+        }
+      },
+      "elapsed_sec": 57.017648696899414,
+      "error": null
+    },
+    {
+      "case_id": 18585,
+      "subject": "Jamshedpur",
+      "target_new": "English",
+      "target_old": "Hindi",
+      "prompt": "In Jamshedpur, an official language is",
+      "edit_success": "True",
+      "rewrite_acc": 1.0,
+      "edit_layer": 17,
+      "pre_prob_new": 0.021288050459149874,
+      "pre_prob_old": 0.13827433601906464,
+      "post_prob_new": 0.9969186669932727,
+      "post_prob_old": 4.264928706969257e-05,
+      "prob_increase_new": 0.9756306165341229,
+      "prob_decrease_old": 0.13823168673199496,
+      "delta_info": {
+        "transformer.h.17.mlp.c_proj.weight": {
+          "shape": [
+            6400,
+            1600
+          ],
+          "norm": 5.85546875,
+          "u_norm": 1.0,
+          "v_norm": 5.85546875
+        }
+      },
+      "elapsed_sec": 57.36998724937439,
+      "error": null
+    }
+  ],
+  "timestamp": "2026-03-17T15:34:58.112154",
+  "easyedit_hparams": {
+    "layers": [
+      17
+    ],
+    "v_num_grad_steps": 20,
+    "v_lr": 0.5,
+    "v_loss_layer": 47,
+    "mom2_adjustment": false,
+    "clamp_norm_factor": 4
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "summary": "AURA's core motivation is empirically validated: Hessian approximation choice dramatically reshapes attribution rankings (Jaccard@10 drops from 1.0 to ~0.45). However, the project is in crisis. Three of seven pre-registered Probe criteria failed, including the CRITICAL cross-seed stability test (rho = -0.006 vs. required > 0.6). The Probe killed two contributions outright (C2: SI proxy, C3: RA-TDA on hold) and forced redefinition of the central concept (C0: TRV). The 6-perspective post-Probe debate generated 9+ rescue angles but these share a common vulnerability: nearly all assume per-test-point spectral structure is meaningful — the very assumption the Probe challenged. Four zero-cost diagnostic experiments that should have been run BEFORE generating rescue angles remain undone: (1) class-conditional variance decomposition, (2) softmax confidence vs TRV, (3) Daunce-like cross-seed variance vs TRV, (4) TRV-high vs TRV-low LDS comparison. These four experiments, requiring ~1 hour of analysis on existing data, would clarify whether the per-test-point diagnostic direction has any future. Until they are completed, all rescue planning is premature. The Contrarian's thesis — that per-test-point TDA sensitivity is dominated by class membership and gradient norm with negligible residual — remains the most parsimonious explanation of the Probe data and deserves rigorous testing before further theoretical or engineering investment.",
+  "findings": [
+    {
+      "category": "experiment",
+      "severity": "critical",
+      "description": "Cross-seed TRV Spearman rho = -0.006 is a categorical failure against the pre-registered threshold of rho > 0.6. This is not borderline — it is statistically indistinguishable from zero. TRV is a (model-instance, test-point) joint property, not a test-point intrinsic property. All proposed rescue angles (BSS, spectral fingerprints, disagreement diagnostic, multi-fidelity ladder) inherit the same foundational question: does per-test-point attribution sensitivity exist as a stable data-geometric property? None of the 9+ rescue angles have been empirically tested against this null hypothesis.",
+      "suggestion": "Run the class-conditional variance decomposition FIRST (priority 1). Compute ANOVA: between-class + gradient-norm components vs. within-class residual for TRV. If >80% of variance is explained by class + gradient norm, abandon per-test-point diagnostics entirely. This costs ~30 minutes on existing data with zero GPU cost."
+    },
+    {
+      "category": "experiment",
+      "severity": "critical",
+      "description": "The Hessian hierarchy effectively collapses to 2 levels in the last-layer setting. Diagonal, Damped Identity, and Identity produce nearly identical attributions (Jaccard differences < 0.02). The 5-level TRV is functionally binary (Full GGN vs. everything else). This limits TRV's diagnostic resolution to a coarse stable/unstable classification. The promise that full-model Hessian will restore fine-grained discrimination is unsubstantiated — Kronecker factorization errors may be larger for full-model (more parameters, more layers violating per-layer independence), but whether this translates to more TRV levels is unknown.",
+      "suggestion": "Before committing to expensive full-model Hessian experiments, run a quick continuous-damping diagnostic: replace the discrete hierarchy with damped GGN (lambda from 0.001 to 100 in 20 steps) on the existing last-layer setup. If continuous TRV (AUC of Jaccard-vs-lambda curve) has more per-point variance than discrete TRV, there is hope; if not, the resolution problem is intrinsic to the attribution computation, not the hierarchy design."
+    },
+    {
+      "category": "analysis",
+      "severity": "critical",
+      "description": "Epistemological circularity in TRV validation. TRV is proposed as a diagnostic for TDA reliability, but must be validated against LDS or LOO ground truth. The project's own problem statement (Section 1.2 point 3) acknowledges LDS has miss-relation problems (Park et al., 2303.12922), single-run LDS is noisy (Mlodozeniec et al., 2506.12965), and attribution != influence (Li et al., 2410.17413). Building a diagnostic on top of an acknowledged-unreliable metric creates unfalsifiable self-reference. The Codex reviewer (5/10) flagged this as the most fundamental epistemological issue.",
+      "suggestion": "Use exact LOO retraining on a small calibration set (CIFAR-10 with 1K-5K training points where LOO is computationally feasible) as ground truth. This breaks the circularity. Alternatively, use counterfactual evaluation (remove top-k attributed points, retrain, measure actual loss change). Budget: 25-80 GPU-hours depending on training set size — significant but necessary to establish the diagnostic's validity on solid ground."
+    },
+    {
+      "category": "experiment",
+      "severity": "critical",
+      "description": "The TRV-high vs. TRV-low LDS comparison (Probe Step 8) was pre-registered but NEVER EXECUTED. This is the single most important validation for TRV's practical utility. Without it, the project cannot claim that attribution stability has any relationship to attribution quality. It is possible (and the Contrarian argues, likely) that TRV-high points are 'stably wrong' — all Hessian approximations agree on an incorrect attribution because they share the same first-order linearization bias. This missing experiment blocks ALL claims about TRV's diagnostic value.",
+      "suggestion": "Complete Step 8 immediately using existing probe data. Compute per-test-point LDS (using Full GGN attribution as approximate ground truth, or better, TRAK-based Datamodel scores). Compare LDS distributions between TRV-high (Level >= 3) and TRV-low (Level 1) subsets. Report Cohen's d with 95% CI. If d < 0.3, TRV's practical justification collapses."
+    },
+    {
+      "category": "novelty",
+      "severity": "critical",
+      "description": "The differentiation from Daunce (ICML 2025) and BIF (ICML 2025) rests on an unvalidated 'orthogonality' claim. TRV (method-selection sensitivity), Daunce (training randomness), and BIF (posterior uncertainty) are asserted to measure 'theoretically orthogonal' dimensions. This is plausible but entirely untested. The Contrarian and multiple strategic reviewers note that all three may reduce to different projections of loss landscape curvature. A simple zero-cost experiment using existing 3-seed data could resolve this: compute cross-seed attribution variance (Daunce-like signal) and correlate with TRV. If Spearman rho > 0.7, TRV is a computationally more expensive variant of Daunce with no independent contribution.",
+      "suggestion": "Run the TRV vs. cross-seed variance correlation using existing 3-seed probe data (~20 minutes analysis, zero GPU cost). This is a zero-cost novelty gate that should have been run before the debate stage."
+    },
+    {
+      "category": "experiment",
+      "severity": "major",
+      "description": "The trivial baseline of softmax confidence vs. TRV has never been computed. The Codex reviewer specifically flagged this as missing. If prediction entropy explains TRV variance (e.g., low-confidence points have low TRV because their gradients are large and misaligned with Hessian eigenvectors), the entire TRV machinery adds nothing beyond confidence thresholding — a technique available to any practitioner without computing a single attribution.",
+      "suggestion": "Compute Spearman(softmax_entropy, TRV) and Spearman(prediction_confidence, TRV) on existing probe data. This requires ~10 lines of code and ~10 minutes."
+    },
+    {
+      "category": "analysis",
+      "severity": "major",
+      "description": "The 'stable != correct' paradox is acknowledged but systemically underweighted across all artifacts. The first-order linearization underlying ALL influence function variants is systematically biased for deep networks. Test points where this bias is most severe may paradoxically have the HIGHEST TRV: if the gradient is dominated by a single class-discriminative eigenvector (outlier eigenspace), all Hessian approximations agree on the same attribution — which reflects class membership, not actual training data influence. High TRV may correlate with high linearization bias, creating an anti-correlation between stability and correctness.",
+      "suggestion": "This is not a secondary concern to document — it is potentially the majority case. The TRV-LDS comparison (Action Item #2) will partially address this. Additionally, examine 5-10 TRV-high test points qualitatively: are their top-10 attributed training points overwhelmingly same-class examples (suggesting class-matching artifact) or do they include genuine influential samples with atypical features?"
+    },
+    {
+      "category": "experiment",
+      "severity": "major",
+      "description": "Sample size inadequacy: 100 ID test points is statistically underpowered for the claims being made. Cross-seed Spearman rho with N=100 has standard error ~0.1, meaning the true rho could be anywhere from -0.2 to +0.2. The 'rho ~ 0' conclusion is not statistically distinguishable from 'rho = 0.15' (weak but non-zero). TRV bin distributions with N=100 have wide CIs (e.g., '11%' in Level 2 could be 4-22%). The OOD analysis with N=20 is essentially anecdotal. The probe should be treated as a pilot, not a definitive result — but all project decisions are being made as if the results are definitive.",
+      "suggestion": "Scale to 500 test points for all future experiments. Report 95% bootstrap confidence intervals for all correlation estimates, distribution percentages, and effect sizes."
+    },
+    {
+      "category": "analysis",
+      "severity": "major",
+      "description": "Rescue angle proliferation without convergence. The post-Probe debate generated 9+ distinct rescue angles across 4 perspectives, but these are NOT independent — most share the assumption that per-test-point spectral structure is meaningful. If the class-conditional variance decomposition (H-Con1) shows >80% variance explained by class + gradient norm, angles from the Innovator (spectral fingerprint, multi-fidelity), Theorist (BSS, semiparametric), and Pragmatist (disagreement diagnostic) ALL fail simultaneously. The project is generating hypotheses faster than it can test them.",
+      "suggestion": "Force convergence NOW. Pick exactly ONE rescue angle for immediate validation. Recommendation: Pragmatist's Disagreement Diagnostic (Angle 1) — lowest compute cost (~3.5h), no theoretical dependencies, most direct empirical test. Gate ALL other angles on its result. If cross-method disagreement does not predict attribution quality (H-Prag1 fails), the per-test-point diagnostic framework should be seriously reconsidered."
+    },
+    {
+      "category": "writing",
+      "severity": "major",
+      "description": "Contribution ceiling has dropped below NeurIPS/ICML oral/spotlight. With H4 (SI proxy) falsified and cross-seed stability failed, the remaining viable Phase 1 contributions are: C1 (empirical characterization, blocked by C0 redefinition) and C4 (stable != correct analysis, blocked by missing TRV-LDS comparison). This is workshop-to-poster territory, not the NeurIPS 2026 / ICML 2026 target stated in the spec. The venue ambition is misaligned with current evidence strength.",
+      "suggestion": "Either: (a) dramatically strengthen Phase 1 by executing a rescue angle successfully AND demonstrating downstream utility (TRV-guided data selection improves model quality), pushing back toward poster-to-spotlight; or (b) recalibrate expectations to workshop/TMLR; or (c) pivot to the Contrarian's negative result paper, which if executed rigorously across 3 datasets/architectures could be genuinely impactful and appropriate for NeurIPS Datasets & Benchmarks track."
+    },
+    {
+      "category": "reproducibility",
+      "severity": "major",
+      "description": "The probe used a non-random test set selection (50 high-confidence + 50 low-confidence, correctly classified). This stratified selection may introduce systematic bias — e.g., high-confidence points may cluster near class centroids where Hessian structure is simpler, while low-confidence points may span decision boundaries. TRV distributions computed on this sample may not generalize to uniform random test samples. No random seed was reported for the test point selection itself.",
+      "suggestion": "Future experiments should use uniform random test point sampling (or stratified random sampling with documented strata). Report the selection seed. Compare results between stratified and random sampling to assess sensitivity."
+    },
+    {
+      "category": "novelty",
+      "severity": "major",
+      "description": "The Pragmatist's Disagreement Diagnostic (Angle 1) — which is currently the recommended rescue path — is essentially ensemble disagreement as uncertainty quantification, a well-established concept in the broader ML uncertainty literature (Lakshminarayanan et al., 2017; Deep Ensembles). The novelty claim would need to demonstrate TDA-specific insights beyond generic ensemble disagreement. If the signal is simply 'methods that produce different answers for a test point indicate that test point is uncertain,' this is a rediscovery, not an innovation.",
+      "suggestion": "If pursuing the Disagreement Diagnostic, explicitly position it against deep ensemble disagreement literature. The novelty must come from TDA-specific properties: (a) the methods are structurally different (IF vs. RepSim), not just differently initialized copies of the same model; (b) the disagreement pattern reveals something about the test point's relationship to the training data, not just about model uncertainty."
+    },
+    {
+      "category": "analysis",
+      "severity": "minor",
+      "description": "The ~20% 'immune' subset (TRV=5, stable across all Hessian approximations) is the most robust empirical finding from the Probe, yet it is treated as a peripheral observation. Understanding what makes these test points immune — and whether they can be identified cheaply — could be a cleaner, more defensible contribution than trying to rescue the full TRV framework for the remaining 80%.",
+      "suggestion": "Characterize the immune subset: class distribution, proximity to class centroid (in representation space), gradient norm distribution, loss value distribution, prediction confidence. Test whether a simple logistic classifier on these features can predict TRV=5 membership with AUROC > 0.75. If so, this becomes a practical tool: 'compute these cheap features, identify the ~20% of test points where any Hessian approximation gives reliable attributions.'"
+    },
+    {
+      "category": "experiment",
+      "severity": "minor",
+      "description": "The Jaccard@k metric choice (k=10) is never justified in the TRV context. k=10 out of 50,000 training points is extremely sensitive to small score perturbations — two test points with nearly identical attribution scores but slightly different rank orderings get Jaccard=0. A rank-weighted metric (weighted Kendall tau, NDCG) or a score-based metric (cosine similarity of attribution vectors) would provide complementary and potentially more stable information. The Probe's metric gaming risk assessment correctly notes this but no action was taken.",
+      "suggestion": "Compute TRV using Jaccard@50 and weighted Kendall tau in addition to Jaccard@10. If results differ substantially (e.g., cross-seed stability improves with larger k), this reveals that the instability is a k-sensitivity artifact, not a fundamental property."
+    }
+  ],
+  "metric_gaming_risks": [
+    "TRV distribution 'passes' the 3-bin criterion (>=3 levels >10%) but per-point variance FAILS (std 0.05 vs. 0.15 threshold). The pass is an artifact of coarse binning — a continuous metric would show much less discriminative power. The 3-bin test is a necessary but trivially weak condition.",
+    "Jaccard@10 with 50,000 training points is extremely sensitivity to small score perturbations. Two test points with near-identical attribution scores but slightly different rank orderings at the boundary get Jaccard=0. TRV volatility may be a metric artifact, not a genuine property of the attribution.",
+    "The OOD confound 'PASS' (|rho| < 0.32) was computed on only 20 SVHN points. With N=20, the 95% CI on Spearman rho spans approximately [-0.1, 0.7], making the conclusion essentially uninformative.",
+    "The probe's implicit 'approximate ground truth' is Full GGN attribution — but Full GGN is itself a first-order approximation (empirical Fisher). Using one approximation as ground truth to evaluate stability across other approximations creates a reference-point bias."
+  ],
+  "novelty_risks": [
+    "Daunce (ICML 2025) already provides per-test-point attribution uncertainty via model perturbation ensemble. The claimed 'orthogonality' between TRV and Daunce is untested. If correlated (rho > 0.7), AURA becomes a more expensive Daunce variant with no independent contribution.",
+    "BIF (ICML 2025) provides posterior variance as attribution uncertainty. The 'orthogonality' with TRV is untested and may not hold — both may reduce to projections of loss landscape curvature.",
+    "The Disagreement Diagnostic (recommended rescue path) is a rediscovery of ensemble disagreement as uncertainty quantification (Lakshminarayanan et al., 2017). TDA-specific novelty must be explicitly demonstrated.",
+    "Natural W-TRAK (2512.09103) already provides theoretical per-test-point sensitivity bounds via SI. If the new operationalization (BSS, spectral fingerprint) is also rooted in spectral decomposition, the conceptual distance from W-TRAK shrinks to an implementation variant.",
+    "The Spectral Sensitivity Profile (BSS/SSP from Theorist) may overlap with 'Learning to Weight Parameters for Data Attribution' (2506.05647) which also uses per-parameter/per-direction weighting. This overlap needs explicit checking."
+  ],
+  "reproducibility_gaps": [
+    "Probe experiment code is in ~/Research/AURA/codes/probe_experiment/ and needs migration to the workspace. The exact commit/version of Hong et al. (2509.23437) code used for the Hessian hierarchy is not pinned.",
+    "The last-layer-only Hessian setting is a major simplification not always made explicit in the artifacts. Results may not transfer to full-model Hessian computation — the transition is non-trivial and its effects are unpredictable.",
+    "The 100-point test set was selected as '50 high-confidence + 50 low-confidence, correctly classified' — a non-random stratified sample that may introduce systematic bias. Selection criteria and confidence threshold not fully documented.",
+    "No random seed reported for test point selection. Different random subsets of 100 test points could yield different TRV distributions.",
+    "No wall-clock times or GPU utilization reported for probe experiments. The computational overhead of TRV vs. 'just use the best Hessian approximation' is the core practical trade-off and must be quantified.",
+    "The 3 training seeds (42, 123, 456) are conventional choices but only 3 seeds provide very limited statistical power for cross-seed analyses. 5 or more seeds would strengthen all cross-seed claims substantially."
+  ]
+}

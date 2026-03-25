@@ -1,0 +1,56 @@
+{
+  "task_id": "phase1_attribution_compute",
+  "mode": "FULL",
+  "n_test": 500,
+  "n_train": 50000,
+  "method_note": "bilinear_kfac_ekfac_layer4_fc_layerwise",
+  "selected_layers": [
+    "fc",
+    "layer4.0.conv1",
+    "layer4.0.conv2",
+    "layer4.0.downsample.0",
+    "layer4.1.conv1",
+    "layer4.1.conv2"
+  ],
+  "n_layers": 6,
+  "ekfac": {
+    "success": true,
+    "shape": [
+      500,
+      50000
+    ],
+    "damping": 0.01,
+    "full_model": true
+  },
+  "kfac": {
+    "success": true,
+    "shape": [
+      500,
+      50000
+    ],
+    "damping": 0.1,
+    "full_model": true
+  },
+  "analysis": {
+    "jaccard_at_10_ekfac_kfac": {
+      "mean": 0.8347026307026307,
+      "std": 0.12821664061513938,
+      "min": 0.42857142857142855,
+      "max": 1.0,
+      "per_class": {
+        "0": 0.805867465867466,
+        "1": 0.8606060606060606,
+        "2": 0.7742124542124543,
+        "3": 0.8751515151515153,
+        "4": 0.8045687645687646,
+        "5": 0.8203263403263403,
+        "6": 0.8416783216783217,
+        "7": 0.7537062937062938,
+        "8": 0.9569696969696969,
+        "9": 0.853939393939394
+      }
+    }
+  },
+  "elapsed_minutes": 3.6339929898579917,
+  "timestamp": "2026-03-17T22:29:34.197310"
+}

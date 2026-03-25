@@ -1,0 +1,818 @@
+{
+  "task_id": "negative_whitening",
+  "mode": "negative_path_h6",
+  "timestamp": "2026-03-17T20:20:11.492309",
+  "elapsed_sec": 88.08449149131775,
+  "config": {
+    "n_facts": 100,
+    "seed": 42,
+    "model": "gpt2-xl",
+    "edit_layer": 17,
+    "n_cov_samples": 100,
+    "max_seq_len": 256,
+    "top_k_eigen": 512,
+    "n_eigen_used": 512,
+    "cov_condition_number": 91.93655395507812
+  },
+  "summary": {
+    "tecs_raw": {
+      "mean": 0.00015715958819782826,
+      "std": 0.006759562614966093,
+      "median": 0.0009312307520303875,
+      "abs_mean": 0.0047488153984159
+    },
+    "tecs_unwhitened": {
+      "mean": -0.0010276869394874666,
+      "std": 0.00630532130938289,
+      "median": -0.0011555452947504818,
+      "abs_mean": 0.004828340860985918
+    },
+    "tecs_whitened": {
+      "mean": -2.20788262959104e-05,
+      "std": 0.005179726110222655,
+      "median": -0.00011032529437215999,
+      "abs_mean": 0.0038406315789325162
+    }
+  },
+  "statistical_tests": {
+    "unwhitened_vs_raw": {
+      "name": "TECS_unwhitened vs TECS_raw (does undoing whitening increase alignment?)",
+      "mean_a": -0.0010276869394874666,
+      "mean_b": 0.00015715958819782826,
+      "mean_diff": -0.0011848465276852948,
+      "std_diff": 0.005994176381440661,
+      "cohens_d": -0.1976662767805516,
+      "t_stat": -1.9766627678055158,
+      "p_value": 0.0508616933403483,
+      "ci_95_low": -0.0023742211663240484,
+      "ci_95_high": 4.528110953458831e-06,
+      "n": 100
+    },
+    "whitened_vs_raw": {
+      "name": "TECS_whitened vs TECS_raw (does whitening g_M increase alignment?)",
+      "mean_a": -2.20788262959104e-05,
+      "mean_b": 0.00015715958819782826,
+      "mean_diff": -0.00017923841449373867,
+      "std_diff": 0.004517934234297929,
+      "cohens_d": -0.03967264798434847,
+      "t_stat": -0.39672647984348475,
+      "p_value": 0.692423075363335,
+      "ci_95_low": -0.0010756945838432737,
+      "ci_95_high": 0.0007172177548557964,
+      "n": 100
+    },
+    "unwhitened_abs_vs_raw_abs": {
+      "name": "|TECS_unwhitened| vs |TECS_raw| (absolute alignment magnitude)",
+      "mean_a": 0.004828340860985918,
+      "mean_b": 0.0047488153984159,
+      "mean_diff": 7.952546257001813e-05,
+      "std_diff": 0.004810868299381343,
+      "cohens_d": 0.016530376144415503,
+      "t_stat": 0.16530376144415504,
+      "p_value": 0.869041980585485,
+      "ci_95_low": -0.0008750551805408028,
+      "ci_95_high": 0.001034106105680839,
+      "n": 100
+    },
+    "whitened_abs_vs_raw_abs": {
+      "name": "|TECS_whitened| vs |TECS_raw| (absolute alignment magnitude)",
+      "mean_a": 0.0038406315789325162,
+      "mean_b": 0.0047488153984159,
+      "mean_diff": -0.0009081838194833835,
+      "std_diff": 0.00345327591812199,
+      "cohens_d": -0.26299196502586014,
+      "t_stat": -2.6299196502586017,
+      "p_value": 0.00990402729834311,
+      "ci_95_low": -0.0015933886809808197,
+      "ci_95_high": -0.00022297895798594728,
+      "n": 100
+    },
+    "unwhitened_vs_whitened": {
+      "name": "TECS_unwhitened vs TECS_whitened (which correction helps more?)",
+      "mean_a": -0.0010276869394874666,
+      "mean_b": -2.20788262959104e-05,
+      "mean_diff": -0.0010056081131915562,
+      "std_diff": 0.00564236951880334,
+      "cohens_d": -0.17822443387309916,
+      "t_stat": -1.7822443387309914,
+      "p_value": 0.07777506110956046,
+      "ci_95_low": -0.002125176637780104,
+      "ci_95_high": 0.00011396041139699132,
+      "n": 100
+    }
+  },
+  "correlations": {
+    "raw_vs_unwhitened": 0.5851301460030446,
+    "raw_vs_whitened": 0.7470669545486143
+  },
+  "decision": {
+    "h6_whitening_explains_gap": false,
+    "interpretation": "NOT SUPPORTED: Whitening correction does not significantly improve alignment",
+    "unwhitened_d": -0.1976662767805516,
+    "whitened_d": -0.03967264798434847,
+    "unwhitened_p": 0.0508616933403483,
+    "whitened_p": 0.692423075363335
+  },
+  "per_fact_results": [
+    {
+      "case_id": 247,
+      "tecs_raw": 0.0029868613928556442,
+      "tecs_raw_computed": 0.002988796913996339,
+      "tecs_unwhitened": 0.009680036455392838,
+      "tecs_whitened": 0.0012743405532091856
+    },
+    {
+      "case_id": 369,
+      "tecs_raw": -0.003934095613658428,
+      "tecs_raw_computed": -0.0039368742145597935,
+      "tecs_unwhitened": 0.0037027806974947453,
+      "tecs_whitened": -0.007120594382286072
+    },
+    {
+      "case_id": 735,
+      "tecs_raw": -0.000834981503430754,
+      "tecs_raw_computed": -0.0008355455938726664,
+      "tecs_unwhitened": 0.005986916366964579,
+      "tecs_whitened": -0.0011586386244744062
+    },
+    {
+      "case_id": 1052,
+      "tecs_raw": -0.0002195128472521901,
+      "tecs_raw_computed": -0.00021967999055050313,
+      "tecs_unwhitened": 0.0007709874189458787,
+      "tecs_whitened": -0.000527830037754029
+    },
+    {
+      "case_id": 1087,
+      "tecs_raw": 0.0022371031809598207,
+      "tecs_raw_computed": 0.0022386463824659586,
+      "tecs_unwhitened": -0.0031943058129400015,
+      "tecs_whitened": 0.003437130246311426
+    },
+    {
+      "case_id": 1182,
+      "tecs_raw": -0.0071890586987137794,
+      "tecs_raw_computed": -0.007194779813289642,
+      "tecs_unwhitened": -0.002603445667773485,
+      "tecs_whitened": 0.0029500059317797422
+    },
+    {
+      "case_id": 2115,
+      "tecs_raw": -0.0005816832417622209,
+      "tecs_raw_computed": -0.0005820845253765583,
+      "tecs_unwhitened": -0.0038241285365074873,
+      "tecs_whitened": -0.00018974021077156067
+    },
+    {
+      "case_id": 2458,
+      "tecs_raw": 0.0031222738325595856,
+      "tecs_raw_computed": 0.0031245644204318523,
+      "tecs_unwhitened": -0.001087008393369615,
+      "tecs_whitened": 0.00692374911159277
+    },
+    {
+      "case_id": 2734,
+      "tecs_raw": -0.0014813540037721395,
+      "tecs_raw_computed": -0.0014822223456576467,
+      "tecs_unwhitened": -0.008426117710769176,
+      "tecs_whitened": -0.0013320334255695343
+    },
+    {
+      "case_id": 2796,
+      "tecs_raw": 0.0019489730475470424,
+      "tecs_raw_computed": 0.0019502744544297457,
+      "tecs_unwhitened": 0.0001229461340699345,
+      "tecs_whitened": -0.0011082447599619627
+    },
+    {
+      "case_id": 2898,
+      "tecs_raw": 0.004977496340870857,
+      "tecs_raw_computed": 0.004981263540685177,
+      "tecs_unwhitened": 0.00790509581565857,
+      "tecs_whitened": 0.002827488584443927
+    },
+    {
+      "case_id": 3519,
+      "tecs_raw": 0.004937861580401659,
+      "tecs_raw_computed": 0.004941042512655258,
+      "tecs_unwhitened": 0.013671662658452988,
+      "tecs_whitened": 0.007538804318755865
+    },
+    {
+      "case_id": 3821,
+      "tecs_raw": 0.0033747931011021137,
+      "tecs_raw_computed": 0.003377282526344061,
+      "tecs_unwhitened": -0.00042800037772394717,
+      "tecs_whitened": -0.002797901863232255
+    },
+    {
+      "case_id": 3931,
+      "tecs_raw": 0.0008684760541655123,
+      "tecs_raw_computed": 0.0008690331596881151,
+      "tecs_unwhitened": 0.002922654617577791,
+      "tecs_whitened": 0.0016878930618986487
+    },
+    {
+      "case_id": 4024,
+      "tecs_raw": -0.004410083871334791,
+      "tecs_raw_computed": -0.004413338843733072,
+      "tecs_unwhitened": 0.009028413332998753,
+      "tecs_whitened": -0.00693572498857975
+    },
+    {
+      "case_id": 4336,
+      "tecs_raw": 0.0009531576070003211,
+      "tecs_raw_computed": 0.0009538489393889904,
+      "tecs_unwhitened": -0.001602041651494801,
+      "tecs_whitened": 0.005766544956713915
+    },
+    {
+      "case_id": 4413,
+      "tecs_raw": -0.003188810544088483,
+      "tecs_raw_computed": -0.003190881572663784,
+      "tecs_unwhitened": -0.004355448763817549,
+      "tecs_whitened": -0.006315318867564201
+    },
+    {
+      "case_id": 4618,
+      "tecs_raw": 0.0037699732929468155,
+      "tecs_raw_computed": 0.0037723956629633904,
+      "tecs_unwhitened": 0.005124200135469437,
+      "tecs_whitened": 0.0025457539595663548
+    },
+    {
+      "case_id": 5163,
+      "tecs_raw": 0.005611354019492865,
+      "tecs_raw_computed": 0.0056152488104999065,
+      "tecs_unwhitened": -0.0050133224576711655,
+      "tecs_whitened": 0.004960706923156977
+    },
+    {
+      "case_id": 5460,
+      "tecs_raw": -0.012044087052345276,
+      "tecs_raw_computed": -0.012053757905960083,
+      "tecs_unwhitened": -0.0073295291513204575,
+      "tecs_whitened": -0.0026316826697438955
+    },
+    {
+      "case_id": 5802,
+      "tecs_raw": -0.0017580094281584024,
+      "tecs_raw_computed": -0.0017591117648407817,
+      "tecs_unwhitened": -0.0002842004469130188,
+      "tecs_whitened": -0.0012943776091560721
+    },
+    {
+      "case_id": 5826,
+      "tecs_raw": -0.00221481965854764,
+      "tecs_raw_computed": -0.0022161579690873623,
+      "tecs_unwhitened": 0.011380946263670921,
+      "tecs_whitened": 0.006475644651800394
+    },
+    {
+      "case_id": 6340,
+      "tecs_raw": 0.0014878009678795934,
+      "tecs_raw_computed": 0.0014888541772961617,
+      "tecs_unwhitened": 0.008363138884305954,
+      "tecs_whitened": -3.0910377972759306e-05
+    },
+    {
+      "case_id": 6480,
+      "tecs_raw": -0.0029579652473330498,
+      "tecs_raw_computed": -0.002960061887279153,
+      "tecs_unwhitened": -0.006672408897429705,
+      "tecs_whitened": 0.00023316644364967942
+    },
+    {
+      "case_id": 7153,
+      "tecs_raw": 0.0014563386794179678,
+      "tecs_raw_computed": 0.0014572375221177936,
+      "tecs_unwhitened": -0.008791455999016762,
+      "tecs_whitened": 0.006282799877226353
+    },
+    {
+      "case_id": 7163,
+      "tecs_raw": 0.006756529677659273,
+      "tecs_raw_computed": 0.006760872434824705,
+      "tecs_unwhitened": 0.004835877567529678,
+      "tecs_whitened": 0.004737397190183401
+    },
+    {
+      "case_id": 7316,
+      "tecs_raw": 0.000408291321946308,
+      "tecs_raw_computed": 0.00040861323941498995,
+      "tecs_unwhitened": -0.007364219054579735,
+      "tecs_whitened": -0.0009524541674181819
+    },
+    {
+      "case_id": 7477,
+      "tecs_raw": -0.0017640924779698253,
+      "tecs_raw_computed": -0.0017653899267315865,
+      "tecs_unwhitened": 0.004146004561334848,
+      "tecs_whitened": -0.0030037383548915386
+    },
+    {
+      "case_id": 7613,
+      "tecs_raw": 0.003678374458104372,
+      "tecs_raw_computed": 0.003680952126160264,
+      "tecs_unwhitened": 0.001772758667357266,
+      "tecs_whitened": 0.002550268080085516
+    },
+    {
+      "case_id": 7877,
+      "tecs_raw": -0.00023527184384875,
+      "tecs_raw_computed": -0.00023543214774690568,
+      "tecs_unwhitened": 0.002022076165303588,
+      "tecs_whitened": 0.0009956988506019115
+    },
+    {
+      "case_id": 8499,
+      "tecs_raw": 0.011407824233174324,
+      "tecs_raw_computed": 0.01141545083373785,
+      "tecs_unwhitened": 0.0057018110528588295,
+      "tecs_whitened": 0.008171564899384975
+    },
+    {
+      "case_id": 8542,
+      "tecs_raw": -0.00960030872374773,
+      "tecs_raw_computed": -0.009606864303350449,
+      "tecs_unwhitened": -0.016469445079565048,
+      "tecs_whitened": -0.007551621180027723
+    },
+    {
+      "case_id": 8607,
+      "tecs_raw": -0.010388031601905823,
+      "tecs_raw_computed": -0.010396230965852737,
+      "tecs_unwhitened": -0.01271100528538227,
+      "tecs_whitened": -0.009231393225491047
+    },
+    {
+      "case_id": 8799,
+      "tecs_raw": 0.0011139156995341182,
+      "tecs_raw_computed": 0.0011147318873554468,
+      "tecs_unwhitened": -0.013878739438951015,
+      "tecs_whitened": -0.005000364035367966
+    },
+    {
+      "case_id": 8829,
+      "tecs_raw": -0.00016137794591486454,
+      "tecs_raw_computed": -0.0001614943757886067,
+      "tecs_unwhitened": -0.0013260086998343468,
+      "tecs_whitened": 4.9343791033606976e-05
+    },
+    {
+      "case_id": 9100,
+      "tecs_raw": 0.010277433320879936,
+      "tecs_raw_computed": 0.010284725576639175,
+      "tecs_unwhitened": 0.0003539778699632734,
+      "tecs_whitened": 0.006255093030631542
+    },
+    {
+      "case_id": 9683,
+      "tecs_raw": -0.0003405231691431254,
+      "tecs_raw_computed": -0.0003407635085750371,
+      "tecs_unwhitened": -0.0049954806454479694,
+      "tecs_whitened": -0.005171740427613258
+    },
+    {
+      "case_id": 9796,
+      "tecs_raw": 0.0016110194846987724,
+      "tecs_raw_computed": 0.0016121629159897566,
+      "tecs_unwhitened": 0.0047644516453146935,
+      "tecs_whitened": -0.004522914066910744
+    },
+    {
+      "case_id": 9989,
+      "tecs_raw": -0.01052866131067276,
+      "tecs_raw_computed": -0.01053642388433218,
+      "tecs_unwhitened": -0.007238165009766817,
+      "tecs_whitened": -0.005566789768636227
+    },
+    {
+      "case_id": 10312,
+      "tecs_raw": 0.010260755196213722,
+      "tecs_raw_computed": 0.010268114507198334,
+      "tecs_unwhitened": 0.0004623312270268798,
+      "tecs_whitened": 0.002422140445560217
+    },
+    {
+      "case_id": 10325,
+      "tecs_raw": -0.006405694410204887,
+      "tecs_raw_computed": -0.006409811787307262,
+      "tecs_unwhitened": -0.0038983726408332586,
+      "tecs_whitened": -0.0023559213150292635
+    },
+    {
+      "case_id": 10734,
+      "tecs_raw": -0.0036957967095077038,
+      "tecs_raw_computed": -0.003698579501360655,
+      "tecs_unwhitened": 4.237372195348144e-06,
+      "tecs_whitened": -0.00031548779224976897
+    },
+    {
+      "case_id": 11081,
+      "tecs_raw": -0.007159052416682243,
+      "tecs_raw_computed": -0.00716447876766324,
+      "tecs_unwhitened": -0.011483041569590569,
+      "tecs_whitened": -0.006069506052881479
+    },
+    {
+      "case_id": 11259,
+      "tecs_raw": 0.004672806244343519,
+      "tecs_raw_computed": 0.004676055628806353,
+      "tecs_unwhitened": -0.005302051082253456,
+      "tecs_whitened": -0.0025711546186357737
+    },
+    {
+      "case_id": 11453,
+      "tecs_raw": -0.011847972869873047,
+      "tecs_raw_computed": -0.011857917532324791,
+      "tecs_unwhitened": -0.00607159361243248,
+      "tecs_whitened": -0.007829753682017326
+    },
+    {
+      "case_id": 11693,
+      "tecs_raw": -0.005580739118158817,
+      "tecs_raw_computed": -0.005585389211773872,
+      "tecs_unwhitened": -0.005807150155305862,
+      "tecs_whitened": -0.00020220063743181527
+    },
+    {
+      "case_id": 12350,
+      "tecs_raw": 0.004512573126703501,
+      "tecs_raw_computed": 0.004515549633651972,
+      "tecs_unwhitened": -0.0004301981534808874,
+      "tecs_whitened": -0.0069213430397212505
+    },
+    {
+      "case_id": 12451,
+      "tecs_raw": -0.0029213863890618086,
+      "tecs_raw_computed": -0.0029234490357339382,
+      "tecs_unwhitened": -0.006098521873354912,
+      "tecs_whitened": -0.002781681250780821
+    },
+    {
+      "case_id": 12603,
+      "tecs_raw": 0.0023211173247545958,
+      "tecs_raw_computed": 0.0023226917255669832,
+      "tecs_unwhitened": -0.0007306004990823567,
+      "tecs_whitened": 0.0017294057179242373
+    },
+    {
+      "case_id": 12649,
+      "tecs_raw": 0.0010640880791470408,
+      "tecs_raw_computed": 0.001064833253622055,
+      "tecs_unwhitened": -0.00612041587010026,
+      "tecs_whitened": 0.007532655261456966
+    },
+    {
+      "case_id": 12655,
+      "tecs_raw": 0.005069376900792122,
+      "tecs_raw_computed": 0.005072855390608311,
+      "tecs_unwhitened": 0.0004755860718432814,
+      "tecs_whitened": 0.004146729130297899
+    },
+    {
+      "case_id": 12769,
+      "tecs_raw": -0.008349363692104816,
+      "tecs_raw_computed": -0.00835544615983963,
+      "tecs_unwhitened": -0.006429224740713835,
+      "tecs_whitened": -0.0016300225397571921
+    },
+    {
+      "case_id": 13015,
+      "tecs_raw": -0.0008468001615256071,
+      "tecs_raw_computed": -0.0008473510388284922,
+      "tecs_unwhitened": -0.0037698314990848303,
+      "tecs_whitened": -0.0047974842600524426
+    },
+    {
+      "case_id": 13079,
+      "tecs_raw": -0.0001052746083587408,
+      "tecs_raw_computed": -0.00010534735338296741,
+      "tecs_unwhitened": 0.00641848798841238,
+      "tecs_whitened": 0.0005562934675253928
+    },
+    {
+      "case_id": 13317,
+      "tecs_raw": 0.0012432312360033393,
+      "tecs_raw_computed": 0.0012440560385584831,
+      "tecs_unwhitened": -0.0026854597963392735,
+      "tecs_whitened": -1.174727367470041e-05
+    },
+    {
+      "case_id": 13394,
+      "tecs_raw": -0.0009648907580412924,
+      "tecs_raw_computed": -0.0009655365720391273,
+      "tecs_unwhitened": -0.00040793654625304043,
+      "tecs_whitened": 0.0022584216203540564
+    },
+    {
+      "case_id": 13426,
+      "tecs_raw": 0.002753597917035222,
+      "tecs_raw_computed": 0.0027553606778383255,
+      "tecs_unwhitened": -0.003481893567368388,
+      "tecs_whitened": -0.004482852760702372
+    },
+    {
+      "case_id": 14173,
+      "tecs_raw": 0.009408893063664436,
+      "tecs_raw_computed": 0.00941547006368637,
+      "tecs_unwhitened": 0.003927081823348999,
+      "tecs_whitened": 0.00600116141140461
+    },
+    {
+      "case_id": 14176,
+      "tecs_raw": 0.0004908517003059387,
+      "tecs_raw_computed": 0.0004911637515760958,
+      "tecs_unwhitened": 0.003124671056866646,
+      "tecs_whitened": -0.001705762930214405
+    },
+    {
+      "case_id": 14320,
+      "tecs_raw": 0.002313195960596204,
+      "tecs_raw_computed": 0.0023149026092141867,
+      "tecs_unwhitened": -0.0016573395114392042,
+      "tecs_whitened": 0.005003941711038351
+    },
+    {
+      "case_id": 14400,
+      "tecs_raw": -0.016077470034360886,
+      "tecs_raw_computed": -0.016089128330349922,
+      "tecs_unwhitened": -0.008136752061545849,
+      "tecs_whitened": -0.012649579904973507
+    },
+    {
+      "case_id": 14764,
+      "tecs_raw": 0.000420472992118448,
+      "tecs_raw_computed": 0.0004207249148748815,
+      "tecs_unwhitened": 0.0012367080198600888,
+      "tecs_whitened": -0.0014588863123208284
+    },
+    {
+      "case_id": 15051,
+      "tecs_raw": 0.009538299404084682,
+      "tecs_raw_computed": 0.009544597938656807,
+      "tecs_unwhitened": -0.0015565837966278195,
+      "tecs_whitened": 0.003853537142276764
+    },
+    {
+      "case_id": 15314,
+      "tecs_raw": 0.0009093038970604539,
+      "tecs_raw_computed": 0.0009098936570808291,
+      "tecs_unwhitened": -0.0011072230990976095,
+      "tecs_whitened": -0.00046225235564634204
+    },
+    {
+      "case_id": 15326,
+      "tecs_raw": -0.0160986315459013,
+      "tecs_raw_computed": -0.016109826043248177,
+      "tecs_unwhitened": -0.011340765282511711,
+      "tecs_whitened": -0.010465793311595917
+    },
+    {
+      "case_id": 15447,
+      "tecs_raw": 0.0014119109837338328,
+      "tecs_raw_computed": 0.0014128225157037377,
+      "tecs_unwhitened": -0.008289738558232784,
+      "tecs_whitened": -0.001912360661663115
+    },
+    {
+      "case_id": 15498,
+      "tecs_raw": -0.002832697005942464,
+      "tecs_raw_computed": -0.00283447140827775,
+      "tecs_unwhitened": -0.004134210292249918,
+      "tecs_whitened": -0.0006768456660211086
+    },
+    {
+      "case_id": 15573,
+      "tecs_raw": 0.0052915229462087154,
+      "tecs_raw_computed": 0.005295713897794485,
+      "tecs_unwhitened": -0.001841674093157053,
+      "tecs_whitened": -0.0007219773251563311
+    },
+    {
+      "case_id": 15694,
+      "tecs_raw": 0.002386863110587001,
+      "tecs_raw_computed": 0.0023883231915533543,
+      "tecs_unwhitened": -0.004611418582499027,
+      "tecs_whitened": 0.003641694551333785
+    },
+    {
+      "case_id": 15709,
+      "tecs_raw": -0.005073276814073324,
+      "tecs_raw_computed": -0.005076284985989332,
+      "tecs_unwhitened": -0.003737988881766796,
+      "tecs_whitened": -0.00019272949430160224
+    },
+    {
+      "case_id": 15967,
+      "tecs_raw": 0.012021773494780064,
+      "tecs_raw_computed": 0.012029501609504223,
+      "tecs_unwhitened": 0.004401283338665962,
+      "tecs_whitened": 0.005426966119557619
+    },
+    {
+      "case_id": 16125,
+      "tecs_raw": -0.012591415084898472,
+      "tecs_raw_computed": -0.012599053792655468,
+      "tecs_unwhitened": -0.022287573665380478,
+      "tecs_whitened": -0.0160832442343235
+    },
+    {
+      "case_id": 16137,
+      "tecs_raw": 0.0046124705113470554,
+      "tecs_raw_computed": 0.004615506622940302,
+      "tecs_unwhitened": 0.001570451189763844,
+      "tecs_whitened": 0.005480523686856031
+    },
+    {
+      "case_id": 16804,
+      "tecs_raw": 0.002746202517300844,
+      "tecs_raw_computed": 0.002748185768723488,
+      "tecs_unwhitened": 0.00032138454844243824,
+      "tecs_whitened": 0.0012801294215023518
+    },
+    {
+      "case_id": 16912,
+      "tecs_raw": -0.0012940008891746402,
+      "tecs_raw_computed": -0.0012948568910360336,
+      "tecs_unwhitened": 3.3679636544547975e-05,
+      "tecs_whitened": 0.0024646325036883354
+    },
+    {
+      "case_id": 16974,
+      "tecs_raw": 0.005729598458856344,
+      "tecs_raw_computed": 0.005733144469559193,
+      "tecs_unwhitened": 0.005261192098259926,
+      "tecs_whitened": -0.002489914186298847
+    },
+    {
+      "case_id": 16988,
+      "tecs_raw": 0.004461816977709532,
+      "tecs_raw_computed": 0.004464726895093918,
+      "tecs_unwhitened": 0.0031199234072118998,
+      "tecs_whitened": 0.0017091842601075768
+    },
+    {
+      "case_id": 17021,
+      "tecs_raw": -0.003239154815673828,
+      "tecs_raw_computed": -0.0032413105946034193,
+      "tecs_unwhitened": 0.003726824652403593,
+      "tecs_whitened": 0.0006652817828580737
+    },
+    {
+      "case_id": 17239,
+      "tecs_raw": -0.006719703320413828,
+      "tecs_raw_computed": -0.006723396480083466,
+      "tecs_unwhitened": 0.002706095576286316,
+      "tecs_whitened": -0.006144983693957329
+    },
+    {
+      "case_id": 17248,
+      "tecs_raw": 0.0017927750013768673,
+      "tecs_raw_computed": 0.001793986069969833,
+      "tecs_unwhitened": -0.0013835913268849254,
+      "tecs_whitened": 0.007414168678224087
+    },
+    {
+      "case_id": 18122,
+      "tecs_raw": 0.0018030281644314528,
+      "tecs_raw_computed": 0.0018042250303551555,
+      "tecs_unwhitened": -0.001810839050449431,
+      "tecs_whitened": 0.001336361514404416
+    },
+    {
+      "case_id": 18190,
+      "tecs_raw": -0.003503350308164954,
+      "tecs_raw_computed": -0.00350562809035182,
+      "tecs_unwhitened": 0.002581814071163535,
+      "tecs_whitened": -0.0026752478443086147
+    },
+    {
+      "case_id": 18981,
+      "tecs_raw": 0.0008801863295957446,
+      "tecs_raw_computed": 0.0008808919228613377,
+      "tecs_unwhitened": -0.004731081426143646,
+      "tecs_whitened": 0.0016273558139801025
+    },
+    {
+      "case_id": 19014,
+      "tecs_raw": 0.025203123688697815,
+      "tecs_raw_computed": 0.025219688192009926,
+      "tecs_unwhitened": 0.015196711756289005,
+      "tecs_whitened": 0.013167262077331543
+    },
+    {
+      "case_id": 19598,
+      "tecs_raw": 0.002175933215767145,
+      "tecs_raw_computed": 0.002177218673750758,
+      "tecs_unwhitened": -0.004590238910168409,
+      "tecs_whitened": 0.004194347187876701
+    },
+    {
+      "case_id": 19791,
+      "tecs_raw": 0.0026604088488966227,
+      "tecs_raw_computed": 0.002662339247763157,
+      "tecs_unwhitened": 0.00683839526027441,
+      "tecs_whitened": 0.0022226430010050535
+    },
+    {
+      "case_id": 19896,
+      "tecs_raw": 0.0024409154430031776,
+      "tecs_raw_computed": 0.0024426679592579603,
+      "tecs_unwhitened": 0.003931466490030289,
+      "tecs_whitened": -0.0015306543791666627
+    },
+    {
+      "case_id": 20166,
+      "tecs_raw": -0.0025536012835800648,
+      "tecs_raw_computed": -0.002555381739512086,
+      "tecs_unwhitened": -0.002188983839005232,
+      "tecs_whitened": 0.0011996598914265633
+    },
+    {
+      "case_id": 20252,
+      "tecs_raw": -0.011046968400478363,
+      "tecs_raw_computed": -0.011054003611207008,
+      "tecs_unwhitened": -0.0019343254389241338,
+      "tecs_whitened": -0.00021648663096129894
+    },
+    {
+      "case_id": 20261,
+      "tecs_raw": 0.004004326183348894,
+      "tecs_raw_computed": 0.0040077148005366325,
+      "tecs_unwhitened": 0.0021722628735005856,
+      "tecs_whitened": 0.00100544816814363
+    },
+    {
+      "case_id": 20499,
+      "tecs_raw": 0.0015496552223339677,
+      "tecs_raw_computed": 0.0015507088974118233,
+      "tecs_unwhitened": -0.0012038674904033542,
+      "tecs_whitened": -0.0004107658169232309
+    },
+    {
+      "case_id": 20623,
+      "tecs_raw": 0.004440211225301027,
+      "tecs_raw_computed": 0.004443781450390816,
+      "tecs_unwhitened": 0.001539774239063263,
+      "tecs_whitened": -0.002538279863074422
+    },
+    {
+      "case_id": 21081,
+      "tecs_raw": 0.017677417024970055,
+      "tecs_raw_computed": 0.017688537016510963,
+      "tecs_unwhitened": 0.017225123941898346,
+      "tecs_whitened": 0.0138858612626791
+    },
+    {
+      "case_id": 21225,
+      "tecs_raw": 0.0023203217424452305,
+      "tecs_raw_computed": 0.0023218600545078516,
+      "tecs_unwhitened": -0.002673429436981678,
+      "tecs_whitened": -0.000628166482783854
+    },
+    {
+      "case_id": 21264,
+      "tecs_raw": 0.008449636399745941,
+      "tecs_raw_computed": 0.008454443886876106,
+      "tecs_unwhitened": -0.00018381100380793214,
+      "tecs_whitened": 0.009802257642149925
+    },
+    {
+      "case_id": 21332,
+      "tecs_raw": -0.000795341155026108,
+      "tecs_raw_computed": -0.0007958754431456327,
+      "tecs_unwhitened": -0.003381334012374282,
+      "tecs_whitened": 0.0003283501137048006
+    },
+    {
+      "case_id": 21382,
+      "tecs_raw": -0.0024954485706984997,
+      "tecs_raw_computed": -0.002497210167348385,
+      "tecs_unwhitened": -0.0071528078988194466,
+      "tecs_whitened": 0.004752166569232941
+    },
+    {
+      "case_id": 21388,
+      "tecs_raw": 0.0032742375042289495,
+      "tecs_raw_computed": 0.0032762261107563972,
+      "tecs_unwhitened": -0.004949519876390696,
+      "tecs_whitened": -0.0032691725064069033
+    },
+    {
+      "case_id": 21673,
+      "tecs_raw": -0.023440927267074585,
+      "tecs_raw_computed": -0.023457646369934082,
+      "tecs_unwhitened": -0.007605523802340031,
+      "tecs_whitened": -0.014489248394966125
+    },
+    {
+      "case_id": 21723,
+      "tecs_raw": -0.00011110409832326695,
+      "tecs_raw_computed": -0.00011117458052467555,
+      "tecs_unwhitened": 0.0015004731249064207,
+      "tecs_whitened": 0.0001556630159029737
+    }
+  ]
+}

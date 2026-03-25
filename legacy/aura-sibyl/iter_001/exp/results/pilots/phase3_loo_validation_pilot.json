@@ -1,0 +1,22 @@
+{
+  "task_id": "phase3_loo_validation",
+  "go_no_go": "NO_GO",
+  "confidence": 0.35,
+  "supported_hypotheses": [],
+  "failed_assumptions": [
+    "LOO-TDA correlation > 0.3 (all near zero)",
+    "Structural validation (same-class influence gap inconsistent)"
+  ],
+  "key_metrics": {
+    "best_loo_tda_correlation": 0.036,
+    "mean_top10_same_class": 1.4,
+    "mean_influence_gap": 0.111,
+    "base_acc_50_samples": 30.0,
+    "base_acc_500_samples": 50.0,
+    "exact_loo_time_50train_sec": 213,
+    "partial_loo_time_500train_sec": 1226,
+    "total_time_sec": 1470
+  },
+  "notes": "Pilot LOO on tiny subsets (50/500 train) with short training (15-30 epochs). All LOO-TDA correlations near zero. Root causes: (1) Models trained on 50-500 samples achieve only 30-50% accuracy, producing extremely noisy loss landscapes where LOO influence signals are dominated by noise. (2) 15-30 epochs insufficient for convergence on even small subsets. (3) Gradient-dot-product approximate IF with identity Hessian is too crude. (4) Phase 1 TRAK/EKFAC comparison failed due to index mismatch. FOR FULL EXPERIMENT: Must use the properly-trained 200-epoch model (95.5% acc) with full 5K training subset. Use dattri/pyDVL for proper IF computation rather than crude gradient dots. Expect ~30 GPU-hours for 100 test points x 5000 LOO retrainings.",
+  "recommendation_for_full": "Use full 5K training subset with the 200-epoch checkpoint (95.5% acc). Proper IF computation via dattri EK-FAC. Budget 30 GPU-hours."
+}

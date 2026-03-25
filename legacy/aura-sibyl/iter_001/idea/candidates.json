@@ -1,0 +1,81 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "cand_bss_adaptive",
+      "title": "Spectral Sensitivity Analysis: BSS Diagnostic + Adaptive Method Selection",
+      "status": "front_runner",
+      "summary": "Develop Bucketed Spectral Sensitivity (BSS) as a theoretically grounded, seed-stable, per-test-point diagnostic of attribution reliability. Use BSS to guide adaptive IF/RepSim selection. Gated by variance decomposition showing genuine per-sample structure beyond class membership.",
+      "hypotheses": [
+        "H-G1: Residual per-sample variance > 30% after class+gradient-norm control",
+        "H-D1: BSS outlier-bucket ranking seed-stable (Spearman rho > 0.5)",
+        "H-D2: BSS predicts IF reliability (rho > 0.4 with LDS)",
+        "H-D3: BSS not class-dominated (within-class variance > 25%)",
+        "H-F1: Adaptive Pareto-dominates uniform by > 2% LDS",
+        "H-F2: BSS fusion > naive ensemble by > 1.5% LDS"
+      ],
+      "pilot_focus": "Phase 0: Re-analyze Probe data for class-conditional TRV decomposition (0 GPU-hrs). Phase 1: Full-model variance decomposition on 500 CIFAR-10 test points (~5 GPU-hrs). This is the gating experiment.",
+      "compute_estimate_gpu_hrs": 42,
+      "success_probability": 0.35,
+      "key_risks": [
+        "Residual per-sample variance may be < 20% (class dominates)",
+        "BSS may reduce to class detector (Papyan 2020 class-structure)",
+        "Adaptive routing may not beat uniform at equal compute (routing tax)",
+        "Full-model Hessian code engineering may exceed time budget"
+      ],
+      "strongest_perspective": "Theorist (BSS framework) + Empiricist (gating design)",
+      "weakest_assumption": "H-G1 (whether genuine per-sample variation exists)"
+    },
+    {
+      "candidate_id": "cand_negative_results",
+      "title": "Structural Limitations of Per-Test-Point TDA Diagnostics",
+      "status": "backup",
+      "summary": "Rigorous negative results paper demonstrating that per-test-point attribution sensitivity is dominated by class membership and gradient magnitude. ANOVA decomposition across datasets/architectures, Pareto frontier showing uniform > adaptive, stability-correctness analysis. Constructive recommendation: class-conditional method selection.",
+      "hypotheses": [
+        "H-Con1: Class + gradient norm explain > 80% of TRV/BSS/disagreement variance",
+        "H-Con2: Uniform methods dominate Pareto frontier at every compute budget",
+        "H-Con3: Fixed-weight ensemble within 2% LDS of any adaptive strategy",
+        "H-Con4: Stability-correctness partial correlation < 0.1 after class control"
+      ],
+      "pilot_focus": "Re-analyze Probe data: class-conditional TRV means per seed. If between-class variance > 60% in all seeds, strong early signal for this direction.",
+      "compute_estimate_gpu_hrs": 50,
+      "success_probability": 0.45,
+      "key_risks": [
+        "Negative results face editorial bias at top venues",
+        "Residual per-sample variance may be borderline (20-30%), complicating the narrative",
+        "Need multi-dataset validation (CIFAR-100, Tiny-ImageNet) for generalizability"
+      ],
+      "strongest_perspective": "Contrarian + Empiricist",
+      "weakest_assumption": "That CIFAR-10 results generalize to other datasets"
+    },
+    {
+      "candidate_id": "cand_conformal",
+      "title": "Conformal Prediction Sets for TDA Reliability",
+      "status": "backup",
+      "summary": "Replace point-estimate attribution rankings with conformal prediction sets that have distribution-free coverage guarantees. The set size serves as a provably valid, per-model-instance reliability diagnostic. Sidesteps cross-seed problem by calibrating per model instance.",
+      "hypotheses": [
+        "H-Inn3: Conformal sets have valid coverage >= 90% with CV > 0.5 across test points",
+        "H-Inn4: Conformal set size correlates with IF-RepSim disagreement (rho > 0.4)"
+      ],
+      "pilot_focus": "Compute TRAK-50 calibration ground truth for 300 test points, then conformal calibration. Bottleneck is ground truth computation.",
+      "compute_estimate_gpu_hrs": 25,
+      "success_probability": 0.30,
+      "key_risks": [
+        "Nonconformity score for rankings is non-trivial to design",
+        "Exchangeability assumptions may be violated",
+        "Set sizes may be uniform (no diagnostic value)",
+        "High compute cost for calibration ground truth"
+      ],
+      "strongest_perspective": "Innovator Angle 2",
+      "weakest_assumption": "That conformal prediction extends cleanly to ranking spaces"
+    }
+  ],
+  "meta": {
+    "iteration": 0,
+    "synthesizer_round": 1,
+    "pilot_evidence_available": true,
+    "pilot_source": "exp/results/pilots/probe-results-pre-sibyl.md",
+    "debate_available": false,
+    "date": "2026-03-17",
+    "next_action": "Run Phase 0 (zero-compute reanalysis of Probe data) + Phase 1 gating experiment (variance decomposition, ~5 GPU-hrs)"
+  }
+}

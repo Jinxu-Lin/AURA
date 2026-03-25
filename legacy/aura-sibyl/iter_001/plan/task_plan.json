@@ -1,0 +1,429 @@
+{
+  "tasks": [
+    {
+      "id": "phase0_reanalysis",
+      "name": "Probe Data Reanalysis",
+      "description": "Reanalyze existing Probe experiment data (3 seeds x 100 test points, CIFAR-10/ResNet-18). Compute class-conditional TRV means, within-class variance, GUM uncertainty budget (seed/class/residual decomposition), and correlation matrix (TRV vs SI vs gradient norm vs confidence vs entropy). Pure Python analysis on cached data, no GPU needed.",
+      "type": "analysis",
+      "depends_on": [],
+      "expected_output": "exp/results/phase0_reanalysis.json",
+      "gpu_count": 0,
+      "multi_gpu_strategy": "single",
+      "estimated_minutes": 15,
+      "shared_resources": [],
+      "visualizations": [
+        {
+          "type": "table",
+          "description": "GUM uncertainty budget: variance partition into seed, class, residual",
+          "columns": [
+            "Component",
+            "Variance",
+            "Fraction"
+          ],
+          "paper_section": "preliminary"
+        },
+        {
+          "type": "heatmap",
+          "description": "Correlation matrix of TRV, SI, gradient norm, confidence, entropy",
+          "paper_section": "preliminary"
+        }
+      ],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "Reanalysis script runs without error and produces valid JSON output with all planned statistics"
+      }
+    },
+    {
+      "id": "phase1_setup",
+      "name": "Phase 1 Environment Setup and Model Training",
+      "description": "Set up conda environment on remote server with all dependencies (torch, trak, pydvl, dattri, statsmodels, scipy). Train a single ResNet-18 on full CIFAR-10 (seed=42, 200 epochs, SGD lr=0.1 cosine annealing). Save final checkpoint. Verify full-model Hessian computation is feasible with pyDVL/dattri (not last-layer only).",
+      "type": "setup",
+      "depends_on": [],
+      "expected_output": "exp/checkpoints/resnet18_cifar10_seed42.pt",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "estimated_minutes": 45,
+      "shared_resources": [
+        {
+          "type": "dataset",
+          "name": "cifar10",
+          "path": "shared/datasets/cifar10"
+        }
+      ],
+      "visualizations": [],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "Model trains to >93% test accuracy AND full-model Hessian API call succeeds on 10 test points without OOM"
+      }
+    },
+    {
+      "id": "phase1_attribution_compute",
+      "name": "Phase 1 Attribution Computation (500 points, 4 methods)",
+      "description": "For 500 stratified CIFAR-10 test points (50/class), compute: (1) EK-FAC IF attributions (full-model), (2) K-FAC IF attributions (full-model), (3) RepSim attributions (penultimate layer cosine similarity), (4) TRAK-50 attributions (50 checkpoints, JL dim=4096). Save per-point attribution rankings and scores. Also compute gradient norms, confidence, entropy for each test point.",
+      "type": "experiment",
+      "depends_on": [
+        "phase1_setup"
+      ],
+      "expected_output": "exp/results/phase1_attributions/",
+      "gpu_count": 2,
+      "multi_gpu_strategy": "DataParallel",
+      "estimated_minutes": 60,
+      "shared_resources": [
+        {
+          "type": "checkpoint",
+          "name": "resnet18_seed42",
+          "path": "exp/checkpoints/resnet18_cifar10_seed42.pt"
+        },
+        {
+          "type": "dataset",
+          "name": "cifar10",
+          "path": "shared/datasets/cifar10"
+        }
+      ],
+      "visualizations": [],
+      "note": "TRAK-50 requires 50 checkpoint saves during training; may need to retrain with checkpoint saving. EK-FAC full-model is the most expensive single computation (~2h on 1 GPU for 500 points); 2 GPUs for parallelizing methods.",
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "All 4 attribution methods produce valid per-point rankings for 100 test points AND Jaccard@10(EK-FAC, K-FAC) has non-trivial variance (std > 0.05)"
+      }
+    },
+    {
+      "id": "phase1_variance_decomposition",
+      "name": "Phase 1 Variance Decomposition (H-G1)",
+      "description": "Two-way ANOVA on 500 test points. Response variables: (1) J10 = Jaccard@10(EK-FAC, K-FAC), (2) tau = Kendall tau(IF, RepSim) per point, (3) LDS = per-point LDS(EK-FAC vs TRAK-50). Predictors: class (10 levels), log(gradient_norm). Type I sequential SS with class entered first. Report partial R-squared for class, gradient_norm, interaction, residual. Gate decision: residual > 30% on >=1 metric = PASS.",
+      "type": "analysis",
+      "depends_on": [
+        "phase1_attribution_compute"
+      ],
+      "expected_output": "exp/results/phase1_variance_decomposition.json",
+      "gpu_count": 0,
+      "multi_gpu_strategy": "single",
+      "estimated_minutes": 15,
+      "shared_resources": [],
+      "visualizations": [
+        {
+          "type": "table",
+          "description": "Variance decomposition: partial R-squared for class, grad_norm, interaction, residual across 3 response variables",
+          "columns": [
+            "Response",
+            "Class_R2",
+            "GradNorm_R2",
+            "Interaction_R2",
+            "Residual_R2"
+          ],
+          "paper_section": "experiments"
+        },
+        {
+          "type": "bar_chart",
+          "description": "Stacked bar chart of variance components per response variable",
+          "paper_section": "experiments"
+        }
+      ],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "ANOVA runs without error AND residual fraction is computable for all 3 metrics AND no metric has NaN"
+      }
+    },
+    {
+      "id": "phase2a_multiseed_train",
+      "name": "Phase 2a Multi-Seed Model Training (5 seeds)",
+      "description": "Train 4 additional ResNet-18 models on CIFAR-10 (seeds 123, 456, 789, 1024; seed 42 already trained). Same hyperparameters: SGD lr=0.1, cosine annealing, 200 epochs. Save checkpoints. Can run in parallel on 4 GPUs.",
+      "type": "experiment",
+      "depends_on": [
+        "phase1_variance_decomposition"
+      ],
+      "expected_output": "exp/checkpoints/resnet18_cifar10_seed{123,456,789,1024}.pt",
+      "gpu_count": 4,
+      "multi_gpu_strategy": "single",
+      "estimated_minutes": 45,
+      "note": "4 independent training runs, each on 1 GPU. Conditional on Phase 1 gate PASS. If Phase 1 FAIL, skip this and all subsequent Phase 2/3 tasks.",
+      "shared_resources": [
+        {
+          "type": "dataset",
+          "name": "cifar10",
+          "path": "shared/datasets/cifar10"
+        }
+      ],
+      "visualizations": [],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "All 4 models train to >93% test accuracy"
+      }
+    },
+    {
+      "id": "phase2a_bss_compute",
+      "name": "Phase 2a BSS Computation (5 seeds x 300 points)",
+      "description": "For each of 5 seeds: (1) Compute GGN top-100 eigenvalues/eigenvectors via Kronecker-factored eigendecomposition, (2) Compute K-FAC eigenvalues for perturbation factors, (3) Define 3 buckets (outlier: lambda>100, edge: 10<lambda<100, bulk: lambda<10), (4) Compute BSS_j(z) for 300 test points (30/class). Save per-seed BSS vectors and eigenvalue spectra.",
+      "type": "experiment",
+      "depends_on": [
+        "phase2a_multiseed_train"
+      ],
+      "expected_output": "exp/results/phase2a_bss/",
+      "gpu_count": 2,
+      "multi_gpu_strategy": "single",
+      "estimated_minutes": 60,
+      "note": "Eigendecomposition ~30min per seed on 1 GPU. BSS computation per point is cheap once eigenvectors are cached. Process 2-3 seeds per GPU sequentially.",
+      "shared_resources": [
+        {
+          "type": "dataset",
+          "name": "cifar10",
+          "path": "shared/datasets/cifar10"
+        }
+      ],
+      "visualizations": [
+        {
+          "type": "heatmap",
+          "description": "BSS outlier values across 300 test points, colored by class",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "line_plot",
+          "description": "Eigenvalue spectrum (log scale) across 5 seeds with bucket boundaries",
+          "x": "eigenvalue_index",
+          "y": "log_eigenvalue",
+          "paper_section": "experiments"
+        }
+      ],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "BSS computed for 100 points on 1 seed without OOM AND outlier bucket has >=5 eigenvalues AND BSS_outlier has non-trivial variance (std > 0.01)"
+      }
+    },
+    {
+      "id": "phase2a_bss_analysis",
+      "name": "Phase 2a BSS Stability and Diagnostic Analysis (H-D1, H-D2, H-D3)",
+      "description": "Analyze BSS results: (1) H-D1: Cross-seed stability - mean pairwise Spearman rho of BSS_outlier rankings across 10 seed pairs. (2) H-D2: Predictive power - Spearman(BSS_outlier, per-point LDS) + partial correlation controlling for class and grad norm. (3) H-D3: Class detector test - ANOVA BSS_outlier ~ class, within-class/total variance. Gate: rho>0.4, partial_corr>0.1, within-class>25%.",
+      "type": "analysis",
+      "depends_on": [
+        "phase2a_bss_compute",
+        "phase1_attribution_compute"
+      ],
+      "expected_output": "exp/results/phase2a_bss_analysis.json",
+      "gpu_count": 0,
+      "multi_gpu_strategy": "single",
+      "estimated_minutes": 15,
+      "shared_resources": [],
+      "visualizations": [
+        {
+          "type": "scatter_grid",
+          "description": "Cross-seed BSS_outlier scatter plots (seed_i vs seed_j) with Spearman rho",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "scatter",
+          "description": "BSS_outlier vs per-point LDS with regression line",
+          "x": "BSS_outlier",
+          "y": "per_point_LDS",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "box_plot",
+          "description": "BSS_outlier distribution by class (showing within-class variation)",
+          "paper_section": "experiments"
+        }
+      ],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "All three analyses produce valid statistics without NaN"
+      }
+    },
+    {
+      "id": "phase2b_disagreement",
+      "name": "Phase 2b Cross-Method Disagreement Analysis (H-D4)",
+      "description": "Using Phase 1 attribution data (no new GPU compute): (1) Label 500 points as IF-better or RepSim-better by LDS, (2) Compute per-point Kendall tau(IF, RepSim), (3) Compute global AUROC of tau as predictor, (4) Compute class-stratified AUROC (mean across 10 classes). Gate: global AUROC > 0.60 AND class-stratified > 0.55.",
+      "type": "analysis",
+      "depends_on": [
+        "phase1_attribution_compute"
+      ],
+      "expected_output": "exp/results/phase2b_disagreement.json",
+      "gpu_count": 0,
+      "multi_gpu_strategy": "single",
+      "estimated_minutes": 15,
+      "shared_resources": [],
+      "visualizations": [
+        {
+          "type": "bar_chart",
+          "description": "Class-stratified AUROC for disagreement predictor",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "scatter",
+          "description": "Per-point Kendall tau vs LDS difference (IF minus RepSim)",
+          "x": "kendall_tau",
+          "y": "LDS_diff",
+          "paper_section": "experiments"
+        }
+      ],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "AUROC computed without error AND class-stratified AUROC has values for all 10 classes"
+      }
+    },
+    {
+      "id": "phase3_loo_validation",
+      "name": "Phase 3 LOO Validation on CIFAR-10/5K",
+      "description": "Exact leave-one-out retraining on CIFAR-10/5K subset (5000 training samples) for 100 test points. For each of 100 test points, retrain model 5000 times removing one training sample each time (or use efficient incremental methods). Compare LOO ground truth against TRAK-50 to validate TRAK as ground truth. Report Spearman correlation between LOO and TRAK-50 per-point rankings.",
+      "type": "experiment",
+      "depends_on": [
+        "phase1_variance_decomposition"
+      ],
+      "expected_output": "exp/results/phase3_loo_validation.json",
+      "gpu_count": 4,
+      "multi_gpu_strategy": "DataParallel",
+      "estimated_minutes": 120,
+      "note": "LOO is extremely expensive even on 5K subset. Use efficient approximate LOO (influence function based) as fallback. 120min estimate assumes batch retraining with early stopping and 4 GPU parallelism. This task can run in parallel with Phase 2 tasks since it only depends on Phase 1 gate.",
+      "shared_resources": [
+        {
+          "type": "dataset",
+          "name": "cifar10_5k",
+          "path": "shared/datasets/cifar10_5k"
+        }
+      ],
+      "visualizations": [
+        {
+          "type": "scatter",
+          "description": "Per-point LOO vs TRAK-50 LDS comparison",
+          "x": "LOO_LDS",
+          "y": "TRAK50_LDS",
+          "paper_section": "experiments"
+        }
+      ],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "LOO retraining completes for 10 test points x 500 training removals (5K/10 subset) within timeout AND LOO-TRAK correlation > 0.3"
+      }
+    },
+    {
+      "id": "phase3_uniform_baselines",
+      "name": "Phase 3 Uniform Strategy Baselines",
+      "description": "Compute LDS and GPU-hours for all uniform strategies on 500 test points: Identity IF, K-FAC IF, EK-FAC IF, RepSim, TRAK-10, TRAK-50, naive 0.5:0.5 IF+RepSim ensemble. Most attributions already cached from Phase 1; need to add Identity IF and TRAK-10. Record wall-clock GPU time for each method. Build uniform Pareto frontier.",
+      "type": "baseline",
+      "depends_on": [
+        "phase1_attribution_compute"
+      ],
+      "expected_output": "exp/results/phase3_uniform_baselines.json",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "estimated_minutes": 45,
+      "note": "Most computation already done in Phase 1. Only Identity IF and TRAK-10 need new computation. Conditional on Phase 2a or 2b gate PASS.",
+      "shared_resources": [],
+      "visualizations": [
+        {
+          "type": "table",
+          "description": "Uniform strategy comparison: method, LDS, GPU-hours",
+          "columns": [
+            "Method",
+            "Mean_LDS",
+            "GPU_Hours",
+            "Std_LDS"
+          ],
+          "paper_section": "experiments"
+        }
+      ],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "All 7 uniform strategies produce valid LDS scores AND Pareto frontier has at least 3 non-dominated points"
+      }
+    },
+    {
+      "id": "phase3_adaptive_strategies",
+      "name": "Phase 3 Adaptive Strategy Evaluation (H-F1, H-F2)",
+      "description": "Implement and evaluate 4 adaptive strategies: (a) BSS-guided routing (route to IF when BSS_outlier high, RepSim otherwise), (b) disagreement-guided routing, (c) class-conditional selection (lookup table), (d) feature-based logistic regression selector. For BSS fusion: w(z)=sigmoid(-a*||BSS||_1+b), calibrate on 300 points, evaluate on 200. Compute LDS, GPU-hours, class-stratified AUROC, oracle gap closure for each.",
+      "type": "experiment",
+      "depends_on": [
+        "phase2a_bss_analysis",
+        "phase2b_disagreement",
+        "phase3_uniform_baselines"
+      ],
+      "expected_output": "exp/results/phase3_adaptive/",
+      "gpu_count": 1,
+      "multi_gpu_strategy": "single",
+      "estimated_minutes": 30,
+      "note": "Conditional on Phase 2a or 2b gate PASS. Pure scoring/routing on cached attributions; no new model training.",
+      "shared_resources": [],
+      "visualizations": [
+        {
+          "type": "line_plot",
+          "description": "Pareto frontier: LDS vs GPU-hours for uniform + adaptive strategies",
+          "x": "GPU_hours",
+          "y": "mean_LDS",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "bar_chart",
+          "description": "Ablation: LDS by routing strategy (BSS, disagreement, class, random, oracle)",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "bar_chart",
+          "description": "Oracle gap closure by adaptive strategy",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "line_plot",
+          "description": "BSS fusion weight distribution and per-class calibration",
+          "paper_section": "experiments"
+        }
+      ],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "All 4 adaptive strategies produce valid LDS scores AND at least one adaptive strategy exceeds best uniform strategy AND class-stratified AUROC computable for all strategies"
+      }
+    },
+    {
+      "id": "auxiliary_hypotheses",
+      "name": "Auxiliary Hypothesis Testing (H-A1, H-A2, H-A3)",
+      "description": "Test auxiliary hypotheses: (1) H-A1: Compute pairwise Spearman between U_metric (BSS), U_geodesic (cross-seed attribution variance), U_curvature (Laplace posterior variance) -- expect rho < 0.3. (2) H-A2: Partial correlation of stability metrics with LOO correctness controlling for class and grad norm -- expect < 0.1. (3) H-A3: Ensemble TRV (mean across 5 seeds) leave-one-seed-out stability -- expect rho > 0.6.",
+      "type": "analysis",
+      "depends_on": [
+        "phase2a_bss_analysis",
+        "phase3_loo_validation"
+      ],
+      "expected_output": "exp/results/auxiliary_hypotheses.json",
+      "gpu_count": 0,
+      "multi_gpu_strategy": "single",
+      "estimated_minutes": 20,
+      "shared_resources": [],
+      "visualizations": [
+        {
+          "type": "heatmap",
+          "description": "Pairwise correlation matrix of 3 uncertainty components",
+          "paper_section": "experiments"
+        },
+        {
+          "type": "scatter_grid",
+          "description": "Ensemble TRV leave-one-seed-out stability plots",
+          "paper_section": "appendix"
+        }
+      ],
+      "pilot": {
+        "samples": 100,
+        "seed": 42,
+        "timeout": 900,
+        "pass_criteria": "All pairwise correlations computable AND no NaN in partial correlation"
+      }
+    }
+  ]
+}

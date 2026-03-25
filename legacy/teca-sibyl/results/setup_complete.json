@@ -1,0 +1,49 @@
+{
+  "status": "complete",
+  "timestamp": "2026-03-17T02:21:43.336511",
+  "components": {
+    "conda_env": {
+      "name": "sibyl_TECA",
+      "python": "3.10",
+      "path": "/home/jinxulin/miniconda3/envs/sibyl_TECA",
+      "activate_cmd": "source /home/jinxulin/miniconda3/bin/activate sibyl_TECA"
+    },
+    "torch": {
+      "version": "2.5.1+cu121",
+      "cuda_available": true,
+      "gpu_count": 4,
+      "gpu_model": "NVIDIA GeForce RTX 4090",
+      "vram_mb": 24564
+    },
+    "transformers": {
+      "version": "4.45.2"
+    },
+    "easyedit": {
+      "path": "/home/jinxulin/sibyl_system/projects/TECA/EasyEdit",
+      "commit": "4193763",
+      "rome_verified": true,
+      "nethook_patched": true,
+      "patch_note": "Disabled with_kwargs=True in nethook.Trace to fix Conv1D output type issue with PyTorch 2.5+"
+    },
+    "gpt2_xl": {
+      "path": "/home/jinxulin/sibyl_system/shared/checkpoints/gpt2-xl",
+      "params_b": 1.56,
+      "layers": 48,
+      "d_model": 1600,
+      "symlink_to": "/mnt/hdd_1/share/huggingface/hub/models--openai-community--gpt2-xl/snapshots/15ea56dee5df4983c59b2538573817e1667135e2"
+    },
+    "counterfact": {
+      "path": "/home/jinxulin/sibyl_system/shared/datasets/counterfact/counterfact.json",
+      "total_facts": 21919
+    },
+    "bm25_index": {
+      "path": "/home/jinxulin/sibyl_system/projects/TECA/data/bm25_index_wiki100k.pkl",
+      "corpus": "wikitext-103-raw-v1",
+      "num_docs": 100000,
+      "size_mb": 140.4
+    }
+  },
+  "project_dir": "/home/jinxulin/sibyl_system/projects/TECA",
+  "env_activation": "source /home/jinxulin/miniconda3/bin/activate sibyl_TECA",
+  "easyedit_import": "sys.path.insert(0, \"/home/jinxulin/sibyl_system/projects/TECA/EasyEdit\")"
+}

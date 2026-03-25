@@ -1,0 +1,39 @@
+{
+  "task_id": "phase1_setup",
+  "mode": "PILOT",
+  "go_no_go": "GO",
+  "confidence": 0.92,
+  "summary": "ResNet-18 trained to 95.50% on CIFAR-10 (seed=42, 200 epochs, 35.5 min on RTX 4090). Full-model Hessian computation verified via dattri IFAttributorEKFAC (10 test x 100 train, 8.2s, 10.43GB peak). TRAK attribution also verified. Environment fully set up.",
+  "pass_criteria_met": {
+    "accuracy_above_93": true,
+    "hessian_api_works": true,
+    "overall_pass": true
+  },
+  "key_findings": [
+    "ResNet-18 reaches 95.50% test acc, well above 93% threshold",
+    "dattri IFAttributorEKFAC works for full-model Conv2d (pyDVL does NOT support Conv2d)",
+    "Full-model per-sample gradients use ~10GB for 100 train samples at batch=4",
+    "TRAK (traker package) works correctly; import as 'from trak import TRAKer'",
+    "RepSim via avgpool cosine similarity works as expected",
+    "CUDA_DEVICE_ORDER=PCI_BUS_ID required to match nvidia-smi GPU numbering"
+  ],
+  "risks_identified": [
+    "Memory constraint: Full 50K train x 500 test attribution will require chunked computation",
+    "GPU 3 may share memory with other users' processes (~7GB occupied during testing)",
+    "pyDVL cannot be used for ResNet-18 (Conv2d limitation); must use dattri exclusively",
+    "fast_jl not installed for TRAK CudaProjector; using BasicProjector (slower but functional)"
+  ],
+  "environment_notes": {
+    "conda_env": "sibyl_AURA",
+    "key_packages": "torch=2.10.0+cu128, dattri=0.3.0, pydvl=0.10.0, traker=0.3.2",
+    "critical_env_vars": "CUDA_DEVICE_ORDER=PCI_BUS_ID CUDA_VISIBLE_DEVICES=3"
+  },
+  "recommendations_for_next_phase": [
+    "Use dattri IFAttributorEKFAC for Phase 1 attribution computation (not pyDVL)",
+    "Use batch_size=4-8 for per-sample gradient computation to stay within 24GB",
+    "Process attributions in chunks: 50 test points at a time against training data",
+    "Install fast_jl for TRAK CudaProjector speedup if TRAK-50 computation is slow",
+    "Consider installing flash-attention for training speedup if multi-seed training is bottleneck"
+  ],
+  "timestamp": "2026-03-17T18:10:00"
+}
