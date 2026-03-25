@@ -37,3 +37,23 @@
 
 #### 边界 (Boundary)
 - [ ] **[跨阶段] [中] [BOUNDARY]** — formalize_review 的综合意见中 DATE-LM probe 要求与新方向不兼容。在 Direction B (FM1/FM2) 下 DATE-LM probe 是存亡级门槛，但在 Direction G1 (geometric incommensurability) 下完全不需要。这意味着 formalize_review → revise → formalize 的循环在方向 pivot 时可能产生"已解决但无关"的修订条件。Runner 无法区分"按审查意见修订"和"通过方向 pivot 使审查意见失效"。
+
+---
+
+## Entry 2 — design (v3.0, geometric incommensurability) — 2026-03-25
+
+**执行模式**: First design for new direction (post-pivot from BSS/FM1FM2)
+**时间分配**: Reading legacy TECA data ~30%, method component design ~40%, experiment planning ~30%
+
+### 观察
+
+#### 确认 (Confirm)
+- **[当前阶段]** — The "method = analysis framework" pattern works well for negative-result papers. The six-component structure (TECS + SVD + PAF + whitening ablation + attribution ablation + toy model) maps naturally to six experiments, making the method-experiment coupling tight.
+- **[当前阶段]** — Toy model as "oracle validation" is a powerful design pattern for theoretical claims. It provides a ground-truth anchor that purely empirical analysis cannot.
+
+#### 改进 (Improve)
+- [ ] **[Prompt: design-prompt] [中]** — Design prompt assumes the method is a MODEL or ALGORITHM (references "组件分解", "计算复杂度", "信息流分析" for learned representations). For analysis papers where the "method" is a measurement framework, many of these steps are inapplicable. Could benefit from a conditional branch: if attack angle is "characterization/analysis" rather than "new method," skip implementation-focused steps.
+- [ ] **[当前阶段] [中]** — Legacy code assessment was harder than expected because TECA code is in two locations (Codes/experiments/teca/ AND legacy/teca-sibyl/scripts/) with overlapping but not identical files. Consolidation during assimilation would have saved time.
+
+#### 边界 (Boundary)
+- [ ] **[跨阶段] [中] [BOUNDARY]** — The design phase for an analysis paper is closer to "experiment planning" than "method design." The method-design.md and experiment-design.md distinction feels artificial when the method IS the experiment. Consider allowing merged documents for analysis papers.

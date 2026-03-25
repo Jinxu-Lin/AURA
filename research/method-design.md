@@ -1,144 +1,196 @@
 ---
-version: "1.0"
+version: "3.0"
 created: "2026-03-25"
 last_modified: "2026-03-25"
-entry_mode: "assimilated"
-iteration_major: 1
+entry_mode: "first"
+iteration_major: 3
 iteration_minor: 0
 ---
 
-> [ASSIMILATED: generated from CRA_old + AURA methodology]
+> **v3.0 design**: Complete rewrite for geometric incommensurability direction. Replaces BSS diagnostic method-design (v2.0). Six-component geometric analysis framework for characterizing editing-attribution parameter-space relationship.
 
 # Method Design
 
-## 1. FM1/FM2 Diagnostic Framework
+## 1. Probe Signal Summary
 
-### 1.1 Signal-Processing Formalization
+From TECA experiments (GPT-2-XL, 100 CounterFact facts):
 
-We frame TDA failure through two independent signal-processing defects:
+**Core negative result**: TECS ~ 0 (Cohen's d = 0.05 vs Null-A). Editing and attribution directions do not align.
 
-**FM1 (Signal Dilution)**: In parameter space R^B (B ~ 10^9), per-sample gradients are near-orthogonal (Johnson-Lindenstrauss). The task-relevant signal subspace has dimension d_task << B, so the Signal-to-Noise Ratio of gradient-based attribution collapses:
+**Subspace asymmetry**: Editing effective dim = 40.8 (90% at top-44); attribution effective dim = 1.2 (94.8% in top-10). Principal angles near 90 deg, indistinguishable from random at k>=20.
 
-```
-SNR_param ~ d_task / B -> 0   as B -> infinity
-```
+**MEMIT** (30 facts, simplified): Cross-layer d ~ 0.63. Matched-layer d = 4.8-7.4 (shared loss artifact).
 
-Representation-space operation acts as **matched filtering**: by projecting to layer activations h^(l) in R^d (d ~ 4096), we concentrate signal in the task-relevant subspace:
+**Cross-projection**: G-in-D = 17.3%, D-in-G = 1.0% (k=10).
 
-```
-SNR_repr ~ d_task / d >> SNR_param
-```
+**Design constraints**: C1 extend beyond GPT-2-XL; C2 ablate C^{-1}; C3 test attribution aggregation; C4 address function-invariance; C5 budget 40-80 GPU-hours.
 
-The SNR gain from matched filtering is approximately B/d ~ 10^5-10^6.
+## 2. Compute Budget
 
-**FM2 (Common Influence Contamination)**: Standard IF scoring I(z_test, z_train) = nabla_theta L(z_test)^T H^{-1} nabla_theta L(z_train) measures **total** influence, dominated by shared pre-training knowledge. The attribution decomposes as:
+| Component | GPU-hours | GPU type |
+|-----------|----------|----------|
+| Cross-model TECS (GPT-J-6B) | 15-20 | A6000 |
+| Cross-model TECS (Pythia-1B, 6.9B) | 10-15 | A6000/4090 |
+| C^{-1} whitening ablation | 2-3 | 4090 |
+| RIF attribution directions | 3-5 | 4090 |
+| Full 48-layer sweep | 3-5 | 4090 |
+| Aggregation method ablation | 2-3 | 4090 |
+| Toy model experiment | 1-2 | CPU/4090 |
+| Extended fact sets (200+) | 5-8 | 4090 |
+| **Total** | **~41-61** | Within budget |
 
-```
-I(z_test, z_train) = I_task(z_test, z_train) + I_common(z_test, z_train)
-```
+## 3. Attack Angle to Component Mapping
 
-where I_common >> I_task due to the dominance of pre-training information in parameter space. DDA's evidence: removing debias (which subtracts I_common) drops AUC by 55.2pp, confirming I_common is the dominant term.
+| Sub-goal | Component | Root Cause Layer | Validation |
+|----------|-----------|-----------------|------------|
+| Quantify scalar incommensurability | C1: TECS metric | L1: Surface measurement | Exp-1 |
+| Characterize subspace geometry | C2: SVD + Principal Angles | L2-L3: Dimensionality asymmetry | Exp-2 |
+| Identify mechanism | C3: C^{-1} Whitening Ablation | L3: Algorithmic vs fundamental | Exp-3 |
+| Test attribution robustness | C4: Attribution Method Ablation | Constraint C3: aggregation artifact? | Exp-4 |
+| Validate framework | C5: Toy Model Ground Truth | Oracle validation | Exp-5 |
+| Map layer-wise geometry | C6: Layer Profile Analysis | Sub-RQ4: Depth variation | Exp-6 |
 
-Contrastive scoring acts as **differential detection**: by subtracting a reference signal (base-model attribution), common-mode interference is canceled:
+## 4. Framework Overview
 
-```
-I_contrastive(z_test, z_train) = I_{theta'}(z_test, z_train) - I_{theta_0}(z_test, z_train)
-                                ~ I_task(z_test, z_train)
-```
-
-**Independence claim**: FM1 and FM2 are distinct failure modes with independent remedies. In signal processing, matched filtering (dimension reduction) and differential detection (common-mode rejection) are classically orthogonal operations with 70+ years of theoretical foundation. Their composition should yield approximately additive gains.
-
-### 1.2 Empirical Support from AURA
-
-AURA's CIFAR-10/ResNet-18 experiments (500 test points, full-model) provide direct evidence:
-
-- **IF-RepSim anti-correlation** (tau = -0.467): The two spaces capture systematically different information, consistent with FM1/FM2 operating on different signal components.
-- **Variance decomposition**: Jaccard@10 between EK-FAC and K-FAC has 77.5% residual variance after class/gradient-norm control, confirming Hessian sensitivity is per-sample.
-- **Disagreement predictability** (AUROC = 0.691): The IF-RepSim disagreement is structured and predictable, not random noise.
-
-### 1.3 Relationship to Hessian Approximation
-
-FM1, FM2, and Hessian approximation error form **three complementary bottlenecks**:
-
-| Bottleneck | Nature | Remedy | Evidence |
-|------------|--------|--------|----------|
-| Hessian approximation | Computational | Better Hessian (H > GGN >> EK-FAC >> K-FAC) | Better Hessians Matter (2509.23437) |
-| FM1 (Signal Dilution) | Structural (dimensionality) | Representation-space operation | Li et al. (2409.19998), RepT (2510.02334) |
-| FM2 (Common Contamination) | Structural (knowledge coupling) | Contrastive scoring | DDA (2410.01285), In-the-Wild |
-
-At small scale (MLP, <1M params), FM1 is mild and FM2 is absent -> Hessian improvement dominates.
-At LLM scale (>1B params, pre-trained), FM1 and FM2 become dominant -> Hessian improvement has diminishing marginal returns.
-
-## 2. Unified Representation-Space TDA Family
-
-### 2.1 Bilinear Framework
-
-All five representation-space methods share the bilinear attribution form:
+This is an **analysis framework**, not a model. Six components characterize editing-attribution parameter-space geometry:
 
 ```
-s(z_test, z_train) = phi(z_test)^T M psi(z_train)
+Input: Model M, Fact set F, Editing method E, Attribution method A
+  -> C1: TECS (scalar alignment per fact + null baselines)
+  -> C2: Subspace SVD (effective dim, spectral decay)
+  -> C3: Principal Angles + Cross-Projection (structured vs random)
+  -> C4: C^{-1} Ablation (whitened vs unwhitened)
+  -> C5: Attribution Ablation (BM25, raw, RIF, SVD subspace)
+  -> C6: Toy Model (ground-truth validation)
 ```
 
-where phi, psi are feature extractors and M is a (possibly identity) metric matrix.
+## 5. Component Details
 
-| Method | phi | psi | M | Implicit Contrastive? |
-|--------|-----|-----|---|----------------------|
-| RepSim | h^(l) | h^(l) | I | No |
-| RepT | [h^(l*); nabla_h L] | [h^(l*); nabla_h L] | I | Yes (nabla_h L) |
-| In-the-Wild | h(x_chosen) - h(x_rejected) | h(x_data) - h(x_ref) | I | Yes (explicit diff) |
-| Concept IF | J_l^T v | nabla_theta f | H^{-1} | No |
-| AirRep | Enc(z) | Agg(Enc(z_i)) | learned | No |
+### C1: TECS Metric
 
-### 2.2 Contrastive Scoring as Orthogonal Enhancement
+**Function**: Scalar alignment between editing and attribution directions per fact.
 
-Contrastive scoring can be applied to any base method:
+**I/O**: delta_W (d_v x d_k), g_M (d_v x d_k) -> TECS = cos(vec(delta_W), vec(g_M)).
 
-```
-s_contrastive(z_test, z_train) = s_{theta'}(z_test, z_train) - s_{theta_0}(z_test, z_train)
-```
+**Causal argument**: Root cause is different operations selecting different directions. TECS is the natural scale-invariant directional metric. No simpler alternative captures directional (vs magnitude) alignment.
 
-For parameter-space methods: DDA already implements this.
-For representation-space methods: subtract base-model representation similarity from fine-tuned similarity.
+**Statistical framework**: 5 null baselines (Null-A: random fact; B: cross-layer; C: shuffled gradient; D: random direction; E: test gradient). Primary: Cohen's d with 10000 bootstrap. Bonferroni for 5 comparisons.
 
-This creates the 2x2 factor structure:
+**Complexity**: O(d_v * d_k) per fact. Trivial.
 
-|  | Standard scoring | Contrastive scoring |
-|--|-----------------|-------------------|
-| **Parameter-space** | IF / TRAK (baseline) | DDA / Contrastive-TRAK |
-| **Representation-space** | RepSim / RepT | Contrastive-RepSim / Contrastive-RepT |
+**Validation**: Exp-1. Expected: d < 0.2 across models.
 
-## 3. 2x2 Factor Experiment Design
+### C2: Subspace Construction and Spectral Analysis
 
-### 3.1 Design Rationale
+**Function**: Construct editing/attribution subspaces, characterize spectral properties.
 
-The 2x2 design {parameter-space, representation-space} x {standard, contrastive} directly tests FM1/FM2 independence:
+**I/O**: D (n x p), G (n x p) -> SVD -> effective dimensionality = exp(spectral entropy), variance profiles, decay rates.
 
-- **Main effect of representation-space** (row effect): Measures FM1 remediation gain.
-- **Main effect of contrastive scoring** (column effect): Measures FM2 remediation gain.
-- **Interaction term**: If small (<30% of min main effect), supports FM1/FM2 independence.
+**Causal argument**: TECS gives per-fact scalars. To understand WHY TECS ~ 0, we need subspace geometry. If editing uses ~40D and attribution ~1D, alignment is near-impossible in 10^7-D space -- this IS the explanation. Spectral entropy captures distributional information that rank or top-k variance cannot.
 
-### 3.2 Methods in Each Cell
+**Complexity**: Reduce to n-dimensional joint subspace first (n << p). O(n^3). Trivial.
 
-| Cell | Primary | Secondary |
-|------|---------|-----------|
-| Param + Standard | TRAK, IF (EK-FAC) | LoGra |
-| Param + Contrastive | DDA | Contrastive-TRAK |
-| Repr + Standard | RepSim, RepT | AirRep (if available) |
-| Repr + Contrastive | Contrastive-RepSim | Contrastive-RepT |
+**Validation**: Exp-2. Expected: editing eff-dim 30-60, attribution 1-5.
 
-### 3.3 Statistical Analysis
+### C3: Principal Angle and Cross-Projection
 
-Per-sample attribution scores analyzed via:
-- Per-sample permutation/bootstrap tests (not task-level ANOVA, which has insufficient power with only 3 tasks)
-- Multi-seed protocol: 5 seeds with std and 95% CI reported
-- Effect size: Cohen's d for pairwise comparisons
-- Interaction magnitude: ratio of interaction effect to minimum main effect
+**Function**: Principal angles between subspaces + cross-projection variance fractions.
 
-Cross-reference: See experiment-design.md for complete experimental protocol.
+**I/O**: Top-k singular vectors of D, G -> k angles, Grassmann distance, p-values vs 1000 random trials; cross-projection fractions.
 
-## 4. 元数据
+**Causal argument**: TECS ~ 0 could be structured near-orthogonality (organized but non-overlapping) or random orthogonality. Principal angles disambiguate via null hypothesis testing. Cross-projection reveals partial overlaps invisible to angles (TECA: G-in-D = 17.3% vs D-in-G = 1.0% shows hierarchical structure).
 
-- **核心方法**: FM1/FM2 diagnostic framework + unified representation-space TDA family + 2x2 factor experiment
-- **理论基础**: Signal processing (matched filtering + differential detection)
-- **先验验证**: AURA CIFAR-10/ResNet-18 实验 (tau = -0.467, variance decomposition, disagreement AUROC = 0.691)
-- **关键风险**: RepSim LDS performance on DATE-LM; Hessian scaling argument persuasiveness
+**Complexity**: O(k^3 + 1000*k^3). Negligible.
+
+**Validation**: Exp-2. Expected: random-level at k >= 20; cross-projection asymmetry universal.
+
+### C4: C^{-1} Whitening Ablation
+
+**Function**: Remove ROME's covariance-inverse rotation, repeat all analyses.
+
+**I/O**: Standard delta_W + C -> delta_W_unwhitened = C * delta_W -> TECS_unwhitened, subspace of D_unwhitened, angles vs G.
+
+**Causal argument**: ROME's C^{-1} decorrelates key space, emphasizing low-variance directions. TDA gradients are in natural basis. If C has high condition number (Marchenko-Pastur predicts this), the rotation is extreme. This is the single most theory-informative ablation: distinguishes "ROME artifact" from "fundamental geometry."
+
+**Implementation**: delta_W_raw = k* (v_new - Wk*)^T (outer product without covariance inversion). Or multiply delta_W by C.
+
+**Complexity**: O(d_k^2) per fact. ~2-3 GPU-hours total.
+
+**Validation**: Exp-3. Three scenarios all publishable:
+- TECS_unwhitened d > 0.3: C^{-1} is main cause
+- 0.1 < d < 0.3: C^{-1} contributes but doesn't explain
+- d < 0.1: incommensurability is fundamental
+
+### C5: Attribution Method Ablation
+
+**Function**: Test whether ~1D attribution collapse is aggregation artifact.
+
+**Methods**: BM25-weighted (baseline), raw mean, RIF-rescaled (2506.06656), SVD subspace (top-5, top-10).
+
+**Causal argument**: Attribution collapses to ~1D. Could be genuine (all facts' gradients dominated by same loss direction) or BM25 artifact. SVD subspace is key: retains multi-dimensional representation. If principal angles remain near-random even at r=10, incommensurability transcends the 1D collapse.
+
+**RIF integration**: Addresses formalize review RIF/BIF concern. RIF rescaling may change gradient weighting and thus attribution direction.
+
+**Complexity**: ~3-5 GPU-hours (RIF dominates).
+
+**Validation**: Exp-4. Expected: eff-dim ~1 for scalar aggregations; SVD subspace marginal improvement.
+
+### C6: Toy Model Validation
+
+**Function**: Validate framework with known ground truth.
+
+**Setup**: Linear associative memory W = sum v_i k_i^T. d in {100,500,1000}, n in {10,50,100}. ROME-style editing with C^{-1}. Gradient-based attribution.
+
+**Causal argument**: Theory claims over-parameterization + C^{-1} -> incommensurability. Toy model tests this with complete ground truth. Correct predictions validate theory; failures reveal which assumptions break.
+
+**Key prediction**: TECS ~ 0 for d/n > 10; increases as d/n -> 1. Phase boundary at d/n ~ 5-15.
+
+**Complexity**: CPU only, < 1 hour.
+
+**Validation**: Exp-5. 2D heatmap of d vs (d,n).
+
+## 6. Causal Chain
+
+**Gap**: Editing and attribution access same weights but different subspaces. No characterization exists.
+
+**Root Cause**: (1) Different optimization objectives -> different directions. (2) Over-parameterization -> multiple equivalent routes -> no convergence constraint.
+
+**Method**: C1 detects incommensurability. C2 reveals structural mechanism (40D vs 1D). C3 tests structured vs random. C4 isolates ROME's contribution. C5 tests aggregation artifacts. C6 validates theory.
+
+**Why complete**: Each component addresses a distinct aspect. Remove any one and a gap remains in the explanation.
+
+## 7. Theoretical Analysis
+
+### 7.1 TECS Rank-1 Decomposition
+
+Under linear associative memory: TECS = sign(alpha) * cos(C^{-1}k*, k_i) * cos(v*-Wk*, d_v_i).
+
+Null distribution: E[TECS^2] ~ 1/d_k. For GPT-2-XL (d_k=1600): E[|TECS|] ~ 0.025.
+SNR ~ rho_k * rho_v * sqrt(d_k). TECA result (d=0.05) implies rho_k * rho_v < 0.013.
+
+### 7.2 Over-parameterization
+
+p = d_v * d_k ~ 10^7, n ~ 10^2-10^3. Over-parameterization ratio ~ 10^2-10^3.
+
+Editing eff-dim predicted ~ min(n, d_k) with ROME spreading. Observed 40.8 in range.
+Attribution collapse to ~1 predicted when loss residuals are approximately parallel.
+
+### 7.3 C^{-1} Condition Number
+
+Marchenko-Pastur: condition number of C ~ (1+sqrt(d_k/N))^2 / (1-sqrt(d_k/N))^2 ~ 10^2-10^3 for GPT-2-XL. C^{-1} amplifies low-variance directions by this factor, creating extreme rotation away from natural gradient directions.
+
+## 8. Method Positioning
+
+**Inherits**: TECS metric and null framework from TECA. Standard SVD-based subspace analysis.
+
+**Changes**: From TECA's scalar question to full geometric characterization. Added cross-model universality, C^{-1} ablation, RIF attribution ablation, toy model.
+
+**Novel relative to**: Hase et al. (behavioral disconnect -> we give parameter-level explanation); ROME/MEMIT (editing effectiveness -> we study editing's geometric footprint); TDA literature (attribution quality -> we study attribution's geometric footprint).
+
+## 9. Probe Code Reuse
+
+**Directly usable** (`Codes/experiments/teca/`): pilot_rome.py, pilot_tecs_core.py, pilot_tda_gradient*.py, negative_subspace_geometry.py, negative_memit_experiment.py, precompute_memit_stats.py.
+
+**Needs adaptation**: negative_whitening.py -> full C^{-1} ablation.
+
+**Create new**: Cross-model pipeline, RIF attribution, toy model, 48-layer sweep, aggregation ablation.
