@@ -1,0 +1,35 @@
+# AURA Base Configuration
+# Shared settings across all experiments
+
+# Paths
+project_dir: "/home/jinxulin/AURA"
+codes_dir: "/home/jinxulin/AURA/Codes"
+data_dir: "/home/jinxulin/AURA/Codes/_Data"
+results_dir: "/home/jinxulin/AURA/Codes/_Results"
+sibyl_results_dir: "/home/jinxulin/AURA/iter_001/exp/results"
+dataset_dir: "~/Resources/Datasets"
+
+# Model
+model: "resnet18"
+dataset: "cifar10"
+num_classes: 10
+train_epochs: 200
+
+# Seeds
+seeds: [42, 123, 456, 789, 1024]
+primary_seed: 42
+
+# Test points
+n_test: 500
+n_per_class: 50
+
+# Damping (default)
+damping_kfac: 0.1
+damping_ekfac: 0.01
+
+# Ground truth
+ground_truth: "trak_50"  # LOO dropped per resource constraints
+
+# Reproducibility
+cudnn_deterministic: true
+cudnn_benchmark: false

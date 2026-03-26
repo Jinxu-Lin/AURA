@@ -1,0 +1,53 @@
+# Phase 2a: BSS Cross-Seed Stability Configuration
+
+# Eigendecomposition
+n_eigen_top: 100  # Top-k eigenvalues/eigenvectors
+
+# Bucket thresholds (adaptive, percentile-based)
+bucket_method: "percentile"
+bucket_percentiles:
+  outlier: 0.998  # Top 0.2%
+  edge: 0.993     # Next 0.5%
+  # Bulk: remaining 99.3%
+
+# BSS variants
+compute_variants:
+  - bss_raw
+  - bss_partial      # Regress out ||g||^2
+  - bss_ratio         # BSS_outlier / BSS_total
+
+# Cross-seed stability
+n_seed_pairs: 10  # C(5,2) = 10 pairs
+stability_metrics:
+  - spearman_rho
+  - icc_2_1
+
+# Gates
+gates:
+  bss_partial_rho:
+    pass: 0.5
+    borderline: 0.3
+    fail: 0.3
+    fail_action: "iterate_direction"
+  within_class_variance:
+    pass: 0.25
+    borderline: 0.15
+    fail: 0.15
+  partial_correlation:
+    pass: 0.15
+    borderline: 0.10
+    fail: 0.10
+
+# Randomized-bucket control
+randomized_bucket:
+  n_permutations: 1000
+  significance_threshold: 0.80  # If random > 80% of magnitude, structure irrelevant
+
+# Damping ablation
+damping_ablation:
+  values: [1.0e-06, 1.0e-04, 0.01, 0.1, 1.0]
+
+# Principal angles
+principal_angles:
+  k_values: [10, 20, 50]
+  n_random_null: 1000

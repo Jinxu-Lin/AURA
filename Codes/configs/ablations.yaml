@@ -1,0 +1,35 @@
+# Phase 5: Ablation Configuration
+
+# Each ablation varies one parameter, holds others at default
+defaults:
+  n_buckets: 3
+  top_k: 100
+  grad_norm_correction: "linear"
+  damping: 0.01
+  n_train: 5000
+
+ablations:
+  bucket_granularity:
+    variable: n_buckets
+    values: [3, 5, 10]
+    priority: 3
+
+  eigenvalue_count:
+    variable: top_k
+    values: [50, 100, 200]
+    priority: 2
+
+  grad_norm_correction:
+    variable: grad_norm_correction
+    values: ["none", "linear", "log"]
+    priority: 4
+
+  damping:
+    variable: damping
+    values: [0.001, 0.01, 0.1, 1.0]
+    priority: 1  # Highest priority (most theoretically informative)
+
+  train_subset:
+    variable: n_train
+    values: [5000, 10000, 50000]
+    priority: 5  # Lowest priority
