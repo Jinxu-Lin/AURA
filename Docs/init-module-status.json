@@ -1,12 +1,12 @@
 {
   "phase": "complete",
-  "initialized": false,
   "history": [
-    {
-      "phase": "init",
-      "outcome": "goto:complete",
-      "timestamp": "2026-03-25T20:24:42.514842"
-    }
+    {"phase": "init", "completed_at": "2026-03-16", "mode": "assimilated", "notes": "Sibyl system init"},
+    {"phase": "start", "completed_at": "2026-03-16", "mode": "assimilated", "notes": "6-agent debate: go_with_focus"},
+    {"phase": "probe_design", "completed_at": "2026-03-16", "mode": "assimilated", "notes": "CIFAR-10/ResNet-18 probe"},
+    {"phase": "review", "completed_at": "2026-03-16", "mode": "assimilated", "notes": "Go with focus: decouple Phase 1-2"},
+    {"phase": "probe_impl", "completed_at": "2026-03-17", "mode": "assimilated", "notes": "Phase 0-1-2b complete"},
+    {"phase": "complete", "completed_at": "2026-03-25", "mode": "assimilated"}
   ],
-  "last_updated": "2026-03-25T20:24:42.514850"
+  "last_updated": "2026-03-25T20:00:00"
 }

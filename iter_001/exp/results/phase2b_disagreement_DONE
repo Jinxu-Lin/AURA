@@ -1,0 +1,1 @@
+{"task_id": "phase2b_disagreement", "status": "success", "summary": "FULL disagreement analysis. Gate PASS: global AUROC=0.691, class-strat quantile AUROC=0.746. 471/500 IF-better, 29 RepSim-better. Tau signal significant after class+grad_norm control (partial rho=0.266).", "timestamp": "2026-03-17T22:54:54.575741"}

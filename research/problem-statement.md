@@ -1,154 +1,102 @@
 ---
-version: "3.0"
-created: "2026-03-25"
+version: "1.1"
+created: "2026-03-16"
 last_modified: "2026-03-25"
-entry_mode: "first"
-iteration_major: 3
-iteration_minor: 0
+entry_mode: "fr_revise"
+iteration_major: 1
+iteration_minor: 1
 ---
 
-> **v3.0**: Realigned to geometric incommensurability direction. Consistent with method-design.md v3.0 and experiment-design.md v3.0. Supersedes v1.1 (FM1/FM2) and v1.2 (transitional).
-
-# Problem Statement
+# Problem Statement: Per-Test-Point Hessian Sensitivity in TDA
 
 ## 1. Gap Definition
 
-### 1.1 Gap Candidate List
+### 1.1 Existing Methods
 
-| # | Candidate Gap | Derivation Path | Importance | Novelty | Feasibility |
-|---|--------------|----------------|-----------|---------|-------------|
-| G1 | Editing and attribution directions in parameter space are geometrically incommensurable — no prior work has characterized this geometry | TECA experiments (TECS ~ 0, subspace analysis) + Hase et al. (2023) localization-editing disconnect | **High**: Resolves fundamental disconnect between knowledge localization and editing | **High**: First geometric characterization of editing-attribution parameter-space relationship | **High**: TECA pilot data exists; need cross-model validation |
-| G2 | Five representation-space TDA methods outperform parameter-space methods on LLMs but lack unified evaluation | CRA_old framework + Li et al. + DDA evidence | **High**: Practitioner guidance gap | **Medium-High**: Unified framework novel; individual observations known | **Medium**: Requires DATE-LM experiments |
-| G3 | Per-test-point Hessian sensitivity varies dramatically but no reliable diagnostic exists | AURA variance decomposition + BSS instability | **Medium**: Practical diagnostic tool | **Medium**: BSS may degenerate to gradient norm | **Medium**: rho=0.906 is primary risk |
+Training Data Attribution (TDA) quantifies the influence of each training sample on model predictions. Two major families exist:
 
-### 1.2 Selected Gap (G1: Geometric Incommensurability of Knowledge Operations)
+**Parameter-space methods (Influence Functions and variants)**: Estimate training sample influence via Hessian inverse-vector products (iHVP). Key works: TRAK (2303.14186, ICML 2023), MAGIC (2504.16430), SOURCE (2405.12186), ASTRA (2507.14740, NeurIPS 2025), LoGra (2405.13954), TrackStar (2410.17413, ICLR 2025). These have clear counterfactual semantics but accuracy depends critically on Hessian approximation quality. Hong et al. (2509.23437) proved the strict hierarchy H >= GGN >> EK-FAC >> K-FAC, with the K-FAC-to-EK-FAC eigenvalue mismatch accounting for 41-65% of total error.
 
-**One sentence**: Model editing (ROME/MEMIT) and training data attribution (TDA) both operate on model parameters, yet their parameter update directions show zero alignment — and this non-alignment is structured, not random — but no work has characterized the geometric relationship between these knowledge operation subspaces.
+**Representation-space methods (RepSim and variants)**: Measure training-test similarity via intermediate representations. Key works: RepSim (2409.19998), Concept Influence (2602.14869), AirRep (2505.18513). Hessian-free, superior in low-SNR settings (IF 0-7% vs RepSim 96-100% per Li et al.), but lack counterfactual causal interpretation.
 
-**Detailed argument**:
+**Attribution uncertainty quantification**: Two ICML 2025 works touch attribution reliability from different angles:
+- **Daunce (2505.23223)**: Perturbed model ensemble covariance -- measures training randomness dimension
+- **Bayesian IF (BIF, 2509.26544)**: Posterior variance as attribution uncertainty -- measures Bayesian uncertainty dimension
 
-Knowledge editing (ROME) identifies a rank-one parameter update ΔW = (v* - Wk*)(C⁻¹k*)ᵀ at a critical layer l* to inject a new fact. Training data attribution identifies gradient directions g_z = ∇_θ L(z) to attribute model behavior to training examples. Both operate on the same parameter space, yet our TECA pilot experiments on GPT-2-XL (100 CounterFact facts) reveal:
+Neither addresses **Hessian approximation choice sensitivity** -- the dimension AURA targets.
 
-1. **TECS ≈ 0** (Cohen's d = 0.05 vs null): The cosine similarity between editing update direction and aggregated attribution gradient is indistinguishable from chance in a ~10M-dimensional space.
+### 1.2 Gap Statement
 
-2. **Structured incommensurability**: The editing subspace has effective dimensionality ~40.8 (distributed across 100 facts), while the attribution subspace collapses to ~1.2 effective dimensions (first PC explains 91% of variance). These are not randomly misaligned — they have fundamentally incompatible geometric structure.
+**One sentence**: No per-test-point diagnostic exists for Hessian-approximation-induced attribution instability -- practitioners cannot judge whether attribution rankings for a specific test point depend on the Hessian approximation choice rather than true data influence.
 
-3. **Whitening does not explain the gap**: Removing or applying ROME's C⁻¹ whitening to attribution gradients does not recover alignment (H6 rejected, d = -0.198).
+**Evidence**: Two methods' attribution rankings correlate at only 0.37-0.45 (Kowal et al. 2602.14869). Jaccard@10 drops from 1.0 (full GGN self-agreement) to ~0.48 (K-FAC) in our probe. ANOVA shows 77.5% of J10 variance is residual per-test-point variation after controlling class and gradient norm.
 
-4. **MEMIT shows layer-specific patterns**: Multi-layer distributed editing produces different alignment characteristics but the same fundamental incommensurability.
-
-This finding resolves a longstanding puzzle: Hase et al. (2023) showed that knowledge localization does not predict editing success. Our geometric analysis provides the parameter-level explanation — editing and attribution access the same weights but operate in geometrically incommensurable subspaces, meaning the "knowledge" they detect is structurally different.
-
-**Evidence type**: "Done but with fundamental flaw" (both fields assume parameter-space operations access the same knowledge structure) + "Conditions changed" (over-parameterization at LLM scale creates subspace separation).
+**Differentiation from Daunce/BIF**: These measure theoretically orthogonal uncertainty dimensions (model perturbation vs. Bayesian posterior). AURA measures method-choice sensitivity: "If I switch from EK-FAC to K-FAC, do my attributions change?" This is the most directly actionable question for practitioners.
 
 ### 1.3 Root Cause Analysis
 
-**Root Cause Type**: Structural geometric incompatibility arising from different optimization objectives in over-parameterized models.
+**Root cause**: The TDA community treats Hessian approximation error as a global property ("method A beats method B on average LDS"). Per-test-point sensitivity variation is invisible under global metrics.
 
-**Layer 1 (surface symptom)**: Knowledge localization (TDA) does not predict editing success (Hase et al. 2023).
+**Why per-test-point variation exists**: Different test-point gradients project differently onto the Hessian error spectrum. Points whose gradients align with high-error eigenspaces (where K-FAC eigenvalue mismatch is largest) have unstable attributions.
 
-**Layer 2 (editing structure)**: ROME's rank-one update is constrained by C⁻¹ whitening and the editing objective min||v* - Wk*||, producing a distributed ~40D subspace across facts that reflects the constrained optimization geometry, not the natural knowledge encoding.
+**Why prior diagnostics failed**: TRV (scalar Jaccard@10 stability) has cross-seed Spearman rho ~ 0 because it depends on individual eigenvector directions, which rotate across seeds. SI (Self-Influence) is orthogonal to Hessian sensitivity (rho ~ 0 in probe). Both rely on seed-unstable quantities.
 
-**Layer 3 (attribution structure)**: BM25-weighted aggregated gradients collapse into a ~1D subspace dominated by surface lexical features, reflecting the gradient flow geometry of pre-training loss, not fact-specific parameter structure.
+**Key insight**: Eigenvalue *magnitude* distributions are seed-stable (RMT: outlier count = number of classes, magnitudes determined by class separation, stable to O(1/sqrt(N))). BSS exploits this by bucketing spectral energy by magnitude rather than tracking individual eigenvectors.
 
-**Layer 4 (fundamental)**: In over-parameterized models (p/n ~ 10²-10³), the parameter space is large enough for editing and attribution to occupy near-orthogonal subspaces. The C⁻¹ covariance rotation (condition number ~ 10²-10³) further separates these subspaces. This is not a bug but a structural consequence of over-parameterization.
+### 1.4 Gap Assessment
 
-### 1.4 Gap Three-Dimensional Assessment
-
-| Dimension | Rating | Argument |
+| Dimension | Rating | Evidence |
 |-----------|--------|----------|
-| **Importance** | **High** | Resolves the Hase et al. (2023) localization-editing disconnect at parameter level. Provides geometric foundation for understanding why different knowledge operations access different parameter subspaces. Implications for model editing reliability, TDA method design, and knowledge representation theory. |
-| **Novelty** | **High** | No prior work compares editing and attribution parameter-space geometry. TECS metric is new. Subspace characterization (effective dim, principal angles, cross-projection) applied to knowledge operations is new. The "structured incommensurability" finding is surprising and counter-intuitive. |
-| **Feasibility** | **High** | TECA pilot data (GPT-2-XL, 100 facts) already demonstrates core finding. Cross-model validation (Pythia-1B, GPT-J-6B, Pythia-6.9B) requires 37-52 GPU-hours. Toy model validation is CPU-only. All code exists from TECA pilot. |
+| Importance | **High** | Serves all IF/TRAK/SOURCE/ASTRA users; sits at the intersection of TDA evaluation methodology crises (LDS miss-relation, attribution-influence misalignment, distributional TDA) |
+| Novelty | **Medium-High** | Daunce/BIF explore attribution uncertainty from different angles; no work addresses Hessian approximation sensitivity per test point; cross-domain transfer (sensitivity analysis -> TDA) has no precedent |
+| Solvability | **Medium-High** | Phase 1 confirmed phenomenon (77.5% residual); BSS has RMT-grounded theoretical basis; computation feasible for ResNet-18/CIFAR-10 |
 
 ## 2. Research Questions
 
-### 2.1 Main RQ
+**RQ1 (CONFIRMED)**: After controlling for class label and log(gradient norm), what fraction of attribution sensitivity variance is residual per-test-point variation?
+- **Result**: Residual J10 = 77.5%, LDS = 51.6%. Gate threshold was >30%. **PASS**.
 
-**Is the geometric incommensurability between model editing and training data attribution directions a universal property of transformer language models, and what geometric structure characterizes this incommensurability?**
+**RQ2 (TESTING)**: Does BSS provide a seed-stable, per-test-point diagnostic? Specifically:
+- Cross-seed BSS ranking Spearman rho > 0.5 (vs. TRV rho ~ 0)
+- Within-class BSS variance > 25% (not a class detector)
+- Partial correlation with attribution metrics > 0.15 after gradient-norm control
 
-- *Falsification*: If TECS Cohen's d > 0.5 on ANY model with N ≥ 100 facts, the incommensurability claim fails.
-- *Prediction*: TECS d < 0.2 across all models; editing eff-dim 30-60, attribution eff-dim 1-5; principal angles near-random at k ≥ 20.
-- *Boundary*: Addresses autoregressive transformers with ROME/MEMIT editing on factual knowledge (CounterFact). Does NOT claim about other architectures, editing methods, or knowledge types.
-
-### 2.2 Sub-RQs
-
-**Sub-RQ1 (Universality)**: Does TECS ≈ 0 hold across model families and scales (GPT-2-XL 1.5B, GPT-J 6B, Pythia 1B/6.9B)?
-- *Falsification*: TECS d > 0.3 on any model.
-- *Prediction*: d < 0.2 on all four models with consistent subspace dimensionality patterns.
-
-**Sub-RQ2 (Subspace Characterization)**: What are the geometric properties (effective dimensionality, spectral decay, principal angles) of editing vs attribution subspaces, and is their relationship structured or random?
-- *Falsification*: Principal angles statistically indistinguishable from random subspace null on all metrics.
-- *Prediction*: Editing 30-60D distributed, attribution 1-5D collapsed, with structured (non-random) angular relationships at low k.
-
-**Sub-RQ3 (Mechanism)**: Does ROME's C⁻¹ whitening explain the geometric separation?
-- *Falsification*: Removing C⁻¹ yields TECS d > 0.3 (whitening is the sole cause).
-- *Prediction*: C⁻¹ contributes partially (d increase 0.1-0.3 when removed) but does not fully explain incommensurability — over-parameterization is the dominant factor.
-
-**Sub-RQ4 (Attribution Robustness)**: Does the 1D attribution collapse persist with better aggregation methods (RIF-rescaled, SVD subspace projection)?
-- *Falsification*: SVD subspace (r=10) attribution yields principal angles significantly below random null.
-- *Prediction*: 1D collapse is partially an artifact of BM25; RIF increases eff-dim to 3-8 but incommensurability persists.
+**RQ3 (PLANNED)**: Does MRC soft combining (BSS + disagreement guided) Pareto-dominate uniform strategies by > 2% absolute LDS at equal compute budget?
 
 ## 3. Attack Angle
 
-### 3.1 Selected Attack Angle: Six-Component Geometric Analysis Framework
+### 3.1 Selected Approach: BSS + MRC Soft Combining
 
-**Core idea**: We propose TECS (TDA-Editing Consistency Score) as a scalar metric for editing-attribution alignment, then build a six-component analysis framework that progressively characterizes WHY alignment is absent: (C1) TECS confirms scalar incommensurability across models, (C2) SVD reveals asymmetric subspace dimensionality, (C3) principal angles + cross-projection quantify structural relationship, (C4) C⁻¹ ablation isolates whitening mechanism, (C5) attribution ablation tests robustness to aggregation method, (C6) toy model with known ground truth validates the geometric framework.
+The approach has three components in progressive gating order:
 
-**Root cause match**: Components directly map to root cause layers. C1 detects Layer 1 symptom across models. C2-C3 characterize Layers 2-3 structure. C4 tests Layer 2 mechanism. C5 tests Layer 3 robustness. C6 validates Layer 4 theory in controlled setting.
+**C1: Attribution Variance Decomposition** (COMPLETED)
+- Two-way ANOVA decomposing J10/tau/LDS into class, gradient-norm, and residual
+- Confirms per-test-point phenomenon is real, not a confound artifact
 
-**Probe evidence support**: TECA pilot (GPT-2-XL, 100 facts) provides strong prior:
-- TECS d = 0.05 (indistinguishable from null): Core signal confirmed
-- Editing eff-dim = 40.8, attribution eff-dim = 1.2: Asymmetry confirmed
-- H6 (whitening) rejected: C⁻¹ is not the sole explanation
-- H7 (structured incommensurability) confirmed: Not random misalignment
-- MEMIT cross-layer d ~ 0.63: Layer-specific patterns exist
+**C2: Bucketed Spectral Sensitivity (BSS)** (IN PROGRESS)
+- Decompose per-test-point attribution error by Hessian eigenvalue magnitude buckets
+- BSS_j(z) = sum_{k in B_j} |1/lambda_k - 1/tilde_lambda_k|^2 * (V_k^T g)^2
+- Buckets: outlier (top eigenvalues), edge (transition), bulk (noise)
+- Theoretical grounding: RMT predicts eigenvalue magnitude stability across seeds
+- Must verify: (a) cross-seed stability, (b) not a class detector, (c) adds info beyond gradient norm
 
-### 3.2 Limitations and Risks
+**C3: MRC Soft Combining** (PLANNED)
+- Weight function: w(z) = sigma(a * BSS_partial + b * disagreement + c)
+- Route between IF and RepSim per test point
+- Evaluate on Pareto frontier (LDS vs. GPU-hours)
 
-1. **"Negative result" perception**: TECS ≈ 0 may be perceived as "nothing works" rather than "structured finding." **Mitigation**: Frame as geometric characterization paper, not null result. The structured incommensurability IS the finding.
+### 3.2 Addressing Known Risks
 
-2. **BM25 attribution quality**: Attribution gradients based on BM25 retrieval may be weak. **Mitigation**: RIF and SVD subspace ablations (C5) test whether better attribution changes the story.
+**RIF/BIF as orthogonal improvements**: Daunce and BIF measure different uncertainty dimensions (training randomness, Bayesian posterior). AURA's BSS measures method-choice sensitivity. These are complementary, not competing.
 
-3. **ROME specificity**: Results may be ROME-specific, not generalizable. **Mitigation**: Include MEMIT comparison; note ROME is the most widely-used factual editing method.
+**W-TRAK as mandatory baseline**: Natural W-TRAK (2512.09103) provides theoretical attribution stability bounds. W-TRAK is included as a baseline in the Pareto comparison.
 
-4. **Parameter-space direction is not function-invariant**: Cosine similarity in parameter space depends on parameterization (Codex review critique). **Mitigation**: Acknowledge explicitly; toy model (C6) provides function-invariant ground truth; subspace analysis is more robust than scalar cosine.
+**CIFAR-10 scale limitation**: Full-model Hessian analysis is tractable on CIFAR-10/ResNet-18 but not ImageNet-scale. Acknowledged as primary limitation; theory extends to larger models via Kronecker approximation.
 
-5. **Limited to factual knowledge**: CounterFact covers factual associations only. **Mitigation**: State boundary clearly; note this is the standard benchmark for knowledge editing.
+**BSS-gradient norm correlation**: Pilot shows rho=0.906. Addressed via partial BSS (regress out gradient norm) and BSS_ratio (BSS_outlier / BSS_total).
 
-## 4. Probe Results Integration
+## 4. Metadata
 
-### 4.1 Verified Hypotheses (from TECA GPT-2-XL pilot)
-
-| Hypothesis | Evidence | Signal Strength |
-|------------|----------|----------------|
-| TECS ≈ 0 (no scalar alignment) | d = 0.05, 95% CI crosses zero, Bonferroni-corrected | **Strong** |
-| Structured (not random) incommensurability | Editing eff-dim = 40.8, attribution eff-dim = 1.2 | **Strong** |
-| C⁻¹ whitening does NOT explain the gap | H6 rejected, d = -0.198 | **Strong** |
-| MEMIT shows layer-specific patterns | Cross-layer d ~ 0.63, within-layer matches ROME | **Moderate** |
-
-### 4.2 Unverified Hypotheses
-
-| Hypothesis | Why Unverified | Verification Plan |
-|------------|---------------|-------------------|
-| Universality across models | Only GPT-2-XL tested | Exp-1: 4 models |
-| Phase transition in toy model | No toy model yet | Exp-5: synthetic |
-| RIF improves attribution dimensionality | Not tested | Exp-4: attribution ablation |
-| Layer profile correlates with causal tracing | Only l*=17 tested | Exp-6: 48-layer sweep |
-
-### 4.3 Unexpected Findings
-
-1. **Attribution 1D collapse**: Expected ~10D effective dimension; found 1.2D. First PC explains 91% of variance. Suggests BM25 retrieval introduces severe bias.
-
-2. **Asymmetric cross-projection**: G-in-D = 17.3% but D-in-G = 1.0%. Attribution partially overlaps with editing subspace, but editing subspace is essentially invisible from attribution perspective.
-
-3. **MEMIT matched-to-own-layer alignment**: When MEMIT deltas matched to their specific layers, alignment jumps to d = 4.8-6.7, suggesting layer-specific knowledge encoding.
-
-## 5. Metadata
-
-- **Based on**: TECA pilot experiments (GPT-2-XL, 100 CounterFact facts, Sibyl system), TECA_old 6-perspective debate (Noesis V1), AURA variance decomposition (CIFAR-10)
-- **Legacy data**: `/Users/jlin8272/Research/AURA/legacy/teca-sibyl/` (full TECA results), `/Users/jlin8272/Research/AURA/legacy/teca-noesis/` (debate materials)
-- **GPU resources**: 4x RTX 4090 (xuchang0); ~37-52 GPU-hours for full experiments
-- **Excluded directions** (archived in iteration-log):
-  - FM1/FM2 diagnostic framework (v1.1) — different research direction; requires DATE-LM experiments not yet done
-  - BSS per-test-point diagnostic — gradient norm degeneracy rho = 0.906
+- **Target**: NeurIPS 2026
+- **GPU Budget**: ~42 GPU-hours total
+- **Knowledge base references**: Gaps & Assumptions (G-BHM1, H-BHM1, G4), Cross-Paper Connections (C54, C55), Methods Bank (#10 RepSim, #15 TRAK, #7 EK-FAC IF)

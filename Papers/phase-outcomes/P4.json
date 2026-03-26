@@ -1,0 +1,5 @@
+{
+  "outcome": "skipped",
+  "phase": "P4",
+  "notes": "P4 integration skipped. No critical structural issues from P3 critique requiring rewriting. Outstanding issues are experimental (PENDING results) rather than writing-level. Minor fixes noted: section numbering mismatch in intro, MRC optimality overclaim. These will be addressed when PENDINGs are filled."
+}

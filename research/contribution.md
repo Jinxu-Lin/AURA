@@ -1,54 +1,58 @@
 ---
-version: "1.0"
-last_updated: "2026-03-25"
+version: "2.0"
+created: "2026-03-16"
+last_modified: "2026-03-25"
 ---
 
-> [ASSIMILATED: generated from CRA_old/research/contribution.md + AURA experimental findings]
+# Contribution Tracker: AURA
 
-# Contribution Tracker: AURA (TDA Diagnostic Framework)
+## Contribution List
 
-> 本文档跨阶段维护，记录项目贡献的演化过程。
-> 贡献必须足够支撑发表 -- Review Phase 将审查本文档判断发表价值。
+| # | Contribution | Type | Status | Dependencies |
+|---|-------------|------|--------|-------------|
+| C0 | **Attribution Variance Decomposition**: First systematic ANOVA decomposing TDA sensitivity into class, gradient-norm, and residual per-test-point components. Residual J10 = 77.5%, proving per-point diagnostics can work. | Empirical finding | **CONFIRMED** (Phase 1) | None |
+| C1 | **Bucketed Spectral Sensitivity (BSS)**: Theoretically grounded per-test-point diagnostic using eigenvalue-magnitude buckets (outlier/edge/bulk) instead of seed-unstable eigenvector directions. Grounded in RMT and operator perturbation theory. | Diagnostic tool | **TESTING** (Phase 2a) | C0 pass |
+| C2 | **MRC Soft Combining**: BSS-guided adaptive method selection between IF and RepSim with Cauchy-Schwarz optimal weights. Includes Pareto frontier evaluation against 11 strategies. | Method innovation | **PLANNED** (Phase 3) | C1 pass |
+| C3 | **Negative Results (SI/TRV)**: (a) Cross-seed TRV instability (rho ~ 0), (b) SI-TRV null correlation (rho ~ 0), (c) honest reporting of variance decomposition including tau failure. Constrains community expectations about per-sample TDA diagnostics. | Negative results | **CONFIRMED** (Phase 0) | None |
 
----
+## Evolution History
 
-## 贡献列表
+### Startup (2026-03-16)
+- C0 was "TRV diagnostic" (Jaccard@k stability)
+- C2 was "SI-TRV theory-empirical bridge"
+- C3 was "RA-TDA adaptive fusion"
 
-### Assimilation 初始化 (CRA_old + AURA fusion)
+### Post-Probe Pivot (2026-03-17)
+- TRV cross-seed rho ~ 0 --> pivot from TRV to BSS (eigenvalue buckets)
+- SI-TRV rho ~ 0 --> SI abandoned as proxy, becomes negative result
+- RA-TDA paused --> redesigned as MRC soft combining
 
-| # | 贡献 | 类型 | 来源 | 状态 |
-|---|------|------|------|------|
-| C0 | **FM1/FM2 Diagnostic Framework**: Identify two independent signal-processing defects in parameter-space TDA -- FM1 (Signal Dilution: p >> d_h causes SNR collapse) and FM2 (Common Influence Contamination: pre-training knowledge dominates attribution scores) -- and argue they are complementary to (not replacements for) Hessian approximation error. | Gap 识别 / 问题定义 | CRA_old problem-statement + signal processing theory | 概念完成，待 DATE-LM 验证 |
-| C1 | **Unified Representation-Space TDA Family**: Recognize 5 independently proposed methods (RepSim, RepT, In-the-Wild, Concept IF, AirRep) as instances of a single bilinear framework phi^T M psi, explaining their effectiveness as FM1 remediation. | 理论统一 | CRA_old + cross-paper pattern recognition | 概念完成 |
-| C2 | **First Systematic DATE-LM Evaluation of Representation Methods**: Benchmark RepSim, RepT (and optionally others) against TRAK, IF, DDA on the full DATE-LM benchmark (3 tasks), filling a recognized evaluation gap. | 实验贡献 | CRA_old design + DATE-LM gap | 待实验 |
-| C3 | **2x2 Ablation Verifying FM1/FM2 Independence**: {parameter-space, representation-space} x {standard, contrastive scoring} factor experiment quantifying each remediation's effect and their interaction, testing the "two independent failure modes" thesis. | 实验方法论 | CRA_old + signal processing theory | 待实验 |
-| C4 | **(Optional) Sensitivity-Aware TDA**: AURA's variance decomposition and disagreement analysis as supplementary evidence for FM1/FM2 framework -- demonstrating that IF and RepSim capture systematically different information (tau = -0.467) with predictable per-sample complementarity. | 实验发现 | AURA Phase 0-2b experiments | 已有数据 (CIFAR-10/ResNet-18) |
+### Post-Phase 1 (2026-03-18)
+- ANOVA confirms per-point variation (77.5% residual J10) --> C0 becomes variance decomposition
+- tau residual only 22.5% --> honest reporting, not a universal finding
+- BSS pilot shows within-class CV = 93.5% (not a class detector) but gradient-norm correlation concern
 
----
+### Current (v2.0, 2026-03-25)
+- C0 confirmed, C1 testing, C2 planned, C3 confirmed
+- BSS gradient-norm correlation (rho=0.906) being addressed via partial BSS
 
-## 贡献评估
+## Publication Value Assessment
 
-### 整体发表价值评估
+| Dimension | Rating | Evidence |
+|-----------|--------|----------|
+| Novelty | **Medium-High** | No prior work on per-test-point Hessian sensitivity diagnosis; BSS is new; orthogonal to Daunce/BIF |
+| Significance | **Medium-High** | Serves all TDA method users; variance decomposition is foundational |
+| Conference fit | **High** | NeurIPS 2026 accepts meta-methodology + evaluation contributions |
 
-| 评估维度 | 评级 | 论据 |
-|---------|------|------|
-| Novelty | 中-高 | No prior work unifies 5 representation-space methods or diagnoses FM1/FM2 as independent failure modes. Signal-processing framing is novel in TDA. |
-| Significance | 高 | Fills a recognized evaluation gap (representation methods on DATE-LM). Provides practitioner guidance for method selection. |
-| 与目标会议/期刊的匹配度 | 高 | NeurIPS 2026 values systematic empirical studies with theoretical framing. DATE-LM is a NeurIPS benchmark. |
+## Contribution Ceiling by Scenario
 
-### 贡献与论文章节的映射
-
-| 贡献 | Introduction 中的 claim | Experiments 中的验证 |
-|------|------------------------|---------------------|
-| C0 | "Parameter-space TDA fails at LLM scale due to two independent signal-processing defects" | 2x2 ablation main effects + Hessian scaling analysis |
-| C1 | "Five representation-space methods form a unified family sharing bilinear structure" | Method comparison + correlation matrix |
-| C2 | "First systematic evaluation of representation methods on DATE-LM" | Full LDS table across 3 tasks |
-| C3 | "FM1 and FM2 are independent: their remediation gains are approximately additive" | 2x2 interaction analysis |
-| C4 | "AURA's experiments provide small-scale validation of the framework" | Supplementary: CIFAR-10 results |
-
----
+| Scenario | Contributions | Ceiling |
+|----------|--------------|---------|
+| All gates pass | C0 + C1 + C2 + C3 | Strong NeurIPS paper |
+| BSS stable, fusion marginal | C0 + C1 + C3 | NeurIPS poster / TMLR |
+| BSS unstable | C0 + C3 | TMLR (negative results) |
 
 ## Metadata
-- **目标会议/期刊**: NeurIPS 2026
-- **上次更新**: Assimilation (2026-03-25)
-- **当前状态**: 贡献基本够 (C0-C3 collectively form a strong empirical+theoretical contribution; C4 is bonus)
+- **Target**: NeurIPS 2026
+- **Last updated**: 2026-03-25
+- **Current phase**: Research module, implement (Phase 2a full experiment)

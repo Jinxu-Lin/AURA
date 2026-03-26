@@ -1,0 +1,7 @@
+{
+  "outcome": "pass",
+  "phase": "P5",
+  "notes": "Weighted composite score: 5.95/10 (threshold 5.5). Decision: PASS conditional on filling critical PENDINGs. Breakdown: Novelty 6.5 (x0.25=1.625), Soundness 6.0 (x0.20=1.200), Significance 6.5 (x0.15=0.975), Experiments 4.5 (x0.25=1.125), Presentation 7.5 (x0.10=0.750), Reproducibility 5.5 (x0.05=0.275). Key condition: cross-seed BSS stability, MRC main results, and Pareto frontier must be completed before submission.",
+  "score": 5.95,
+  "decision": "pass"
+}

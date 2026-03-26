@@ -1,179 +1,198 @@
 ---
-version: "1.1"
-created: "2026-03-25"
+version: "2.0"
+created: "2026-03-17"
 last_modified: "2026-03-25"
-entry_mode: "dr_revise"
-iteration_major: 1
-iteration_minor: 1
+entry_mode: "design"
+iteration_major: 2
+iteration_minor: 0
 ---
 
-> **v1.1 dr_revise**: Revision of FM1/FM2 experiment design addressing design_review round-1 practical concerns. Changes: compute budget increased to ~210 GPU-hours; DDA downgraded to optional with Contrastive-TRAK as primary; gradient-norm baseline added; Hessian quality ablation added; interaction thresholds refined; timeline adjusted to 4-5 weeks.
+# Experiment Design: AURA
 
-# Experiment Design
+## 1. Variance Decomposition (Phase 1) -- COMPLETED
 
-## 1. Benchmarks
+### Setup
+- 500 CIFAR-10 test points (50/class, stratified)
+- ResNet-18, seed=42, 200 epochs, 95.5% test accuracy
+- Full-model Hessian (not last-layer)
+- Methods: EK-FAC IF, K-FAC IF, RepSim, TRAK-50
+- Damping: K-FAC=0.1, EK-FAC=0.01
 
-### 1.1 Primary: DATE-LM
+### Response Variables
+- J10: Jaccard@10(EK-FAC IF, K-FAC IF)
+- tau: Kendall tau(IF rankings, RepSim rankings) per test point
+- LDS: Per-point Linear Datamodeling Score (EK-FAC IF vs TRAK-50)
 
-**Benchmark**: DATE-LM (NeurIPS 2025), the standard LLM TDA evaluation benchmark.
-**GitHub**: DataAttributionEval/DATE-LM
-**Tasks**:
-1. **Data Selection**: Select training subsets that maximize downstream performance.
-2. **Toxicity Filtering**: Identify training samples causing toxic model outputs.
-3. **Factual Attribution**: Trace model predictions back to factual training sources.
+### Analysis
+Two-way ANOVA, Type I sequential SS, class entered first.
 
-**Metric**: Linear Datamodeling Score (LDS) -- Spearman correlation between predicted and actual leave-one-out effects.
+### Results
 
-**Models**: Pythia-1B (primary). Pythia-6.9B is an explicit stretch goal (NOT in core budget).
-**Training configs**: Both LoRA and full fine-tuning (to test FM1 LoRA artifact hypothesis).
+| Response | Class R^2 | GradNorm R^2 | Interaction R^2 | Residual R^2 | Gate |
+|----------|-----------|-------------|----------------|-------------|------|
+| J10 | 0.1409 | 0.0057 | 0.0194 | **0.7750** | PASS |
+| tau | 0.2639 | 0.3349 | 0.1762 | 0.2250 | FAIL |
+| LDS | 0.2668 | 0.1695 | 0.0473 | **0.5164** | PASS |
 
-### 1.2 Supplementary: CIFAR-10/ResNet-18
+Descriptive statistics:
 
-**Purpose**: Small-scale validation leveraging AURA existing infrastructure.
-**Configuration**: ResNet-18, CIFAR-10/50K, full-model Hessian, 5 seeds.
-**Existing data**: AURA Phase 0-2b results (500 test points, EK-FAC IF, K-FAC IF, RepSim, TRAK).
+| Metric | Mean | Std | Min | Max | Median |
+|--------|------|-----|-----|-----|--------|
+| J10 | 0.9945 | 0.0310 | 0.8182 | 1.0000 | 1.0000 |
+| tau | 0.0171 | 0.0825 | -0.1688 | 0.3108 | 0.0026 |
+| LDS | 0.7443 | 0.0901 | 0.4342 | 0.8930 | 0.7665 |
 
-## 2. Methods
+**Gate: PASS** (residual > 30% on J10 and LDS).
+**Compute**: ~5 GPU-hours.
 
-### 2.1 Core Methods (2x2 Matrix)
+---
 
-| Cell | Method | Implementation | Notes |
-|------|--------|---------------|-------|
-| Param + Standard | TRAK | trak library (10+ checkpoints, JL dim=4096) | Random projection baseline |
-| Param + Standard | IF (EK-FAC) | dattri IFAttributorEKFAC | Full parameter space |
-| Param + Contrastive | Contrastive-TRAK | TRAK_{theta'} - TRAK_{theta_0} | **Primary** contrastive param method |
-| Param + Contrastive | DDA | DDA codebase | **Optional** -- 40% failure risk on data selection |
-| Repr + Standard | RepSim | Cosine similarity on penultimate layer | Task-structured feature space |
-| Repr + Standard | RepT | concat[h^(l*), nabla_h L], auto layer selection | Enriched representation |
-| Repr + Contrastive | Contrastive-RepSim | RepSim_{theta'} - RepSim_{theta_0} | Both FM1 + FM2 remedies |
-| Repr + Contrastive | Contrastive-RepT | RepT_{theta'} - RepT_{theta_0} | Full remedy cell |
+## 2. BSS Cross-Seed Stability (Phase 2a) -- ~7 GPU-hours
 
-### 2.2 Additional Baselines
+### Setup
+- 500 CIFAR-10 test points (50/class)
+- 5 ResNet-18 models (seeds 42, 123, 456, 789, 1024)
+- Kronecker GGN eigendecomposition: top-100 eigenvalues/eigenvectors per seed
+- Adaptive bucket thresholds (percentile-based, not fixed)
 
-| Method | Purpose |
-|--------|---------|
-| Random | Sanity check |
-| BM25 | Lexical baseline for factual attribution |
-| LESS | Gradient projection baseline |
-| Gradient-norm | Zero-cost sanity check: per-sample gradient norm as attribution proxy |
-| AirRep | Learned representation baseline (if DATE-LM results available) |
+### BSS Variants
+1. **BSS_raw**: Standard BSS per bucket
+2. **BSS_partial**: BSS residualized against ||g||^2
+3. **BSS_ratio**: BSS_outlier / BSS_total
 
-## 3. Experimental Protocol
+### Analyses
+1. Cross-seed stability: Mean pairwise Spearman rho (10 pairs) for each BSS variant
+2. Predictive power: Spearman(BSS_outlier, per-point LDS) + partial correlation controlling class and gradient norm
+3. Class detector test: ANOVA BSS_outlier ~ class, within-class/total variance fraction
+4. Baselga decomposition of J10: replacement vs reordering components
 
-### 3.1 Multi-Seed Protocol
+### Gates
+| Criterion | Pass | Borderline | Fail |
+|-----------|------|-----------|------|
+| BSS_partial cross-seed rho | > 0.5 | 0.3-0.5 | < 0.3 |
+| Within-class BSS variance | > 25% | 15-25% | < 15% |
+| Partial corr (BSS vs LDS, controlling class+grad) | > 0.15 | 0.10-0.15 | < 0.10 |
 
-- **Seeds**: 5 per configuration (42, 123, 456, 789, 1024)
-- **Reporting**: Mean +/- std, 95% CI via bootstrap (10,000 resamples)
-- **Minimum**: 3 seeds for preliminary results; 5 seeds for final
+### Pilot Results (1 seed, 100 points)
+- Within-class variance: 93.5% (PASS H-D3)
+- BSS-gradient_norm rho: 0.906 (CONCERN -- partial BSS needed)
+- Perturbation factors nearly uniform (damping >> eigenvalues)
+- Eigenvalue scale: max ~5e-05 (Kronecker products very small)
+- Timing: ~1.2 min for 100 points (well within budget)
 
-### 3.2 Statistical Testing
+---
 
-**Per-sample analysis** (NOT task-level ANOVA):
-- With only 3 DATE-LM tasks, task-level ANOVA has insufficient statistical power.
-- Per-sample permutation tests within each task.
-- Bootstrap confidence intervals for LDS differences.
+## 3. MRC + Pareto Frontier (Phase 3) -- ~8 GPU-hours
 
-**2x2 interaction analysis** (PRIMARY test of FM1/FM2 remedy additivity):
-- For each task: compute main effects (representation vs parameter, contrastive vs standard) and interaction at per-sample level.
-- Report interaction magnitude as fraction of minimum main effect.
-- Interaction interpretation:
-  - < 10% of min(main effects) AND Cohen's d < 0.2: strong approximate additivity
-  - 10-30%: approximate additivity with noted interaction
-  - > 30%: interacting remedies requiring joint treatment
-- Permutation test: permute space and scoring labels within each sample, 10,000 iterations.
+### MRC Calibration
+- w(z) = sigmoid(a * BSS_partial + b * disagreement + c)
+- LOO cross-validation on 300 calibration points
+- Optimize (a, b, c) to maximize mean LDS
 
-**Multiple comparison correction**: Bonferroni for pairwise method comparisons within each task.
+### Strategy Comparison (11 strategies)
+1. Identity IF
+2. K-FAC IF
+3. EK-FAC IF
+4. RepSim
+5. TRAK-10
+6. TRAK-50
+7. W-TRAK
+8. Naive 0.5:0.5 IF+RepSim ensemble
+9. BSS-guided hard routing (IF if BSS_partial < threshold, else RepSim)
+10. Disagreement-guided routing
+11. MRC soft combining
 
-### 3.3 Evaluation Metrics
+### LOO Validation
+- CIFAR-10/5K subset, 100 test points
+- Exact leave-one-out retraining
+- Validates TRAK-50 ground truth quality
 
-| Metric | Description | Used For |
-|--------|-------------|----------|
-| LDS (Spearman) | Linear Datamodeling Score | Primary: all comparisons |
-| P@K (K=10,50,100) | Precision at K | Practical: finding right training samples |
-| Kendall tau | Rank correlation between methods | Diagnostic: IF-RepSim agreement |
-| Cohen's d | Effect size for pairwise comparisons | Significance |
+### Evaluation Metrics
+- Mean LDS (Spearman correlation against ground truth)
+- GPU-hours per strategy
+- Pareto frontier: LDS vs compute
+- Class-stratified AUROC for adaptive strategies
+- Oracle gap closure: (MRC - naive) / (oracle - naive)
 
-### 3.4 Ablation Protocol
+### Gate
+MRC > best uniform strategy by > 2% absolute LDS at same compute budget.
 
-1. **Space ablation**: Fix scoring type, vary space. Tests FM1.
-2. **Scoring ablation**: Fix space, vary scoring. Tests FM2.
-3. **Combined**: Full 2x2 with interaction analysis. Tests complementarity.
-4. **Layer selection**: For representation methods, test middle/last/auto-selected layers.
-5. **LoRA vs full FT**: Both training configs on DATE-LM. If FM1 is LoRA artifact, full FT shows LARGER repr-space advantage.
-6. **Hessian quality**: EK-FAC vs K-FAC for IF on Pythia-1B. Tests whether Hessian approximation quality is independent factor.
-7. **TRAK projection dimension**: dim=2048/4096/8192. Tests random projection ceiling.
+---
 
-## 4. Compute Budget
+## 4. Confound Controls
 
-### 4.1 DATE-LM Core Experiments
+### 4.1 Class-Stratified Analysis
+All adaptive strategies must achieve within-class AUROC > 0.55. If below 0.55, routing signal is merely a class proxy.
 
-| Component | GPU-hours (est.) | GPU type |
-|-----------|-----------------|----------|
-| Pythia-1B fine-tuning (5 seeds x 2 configs) | 25 | RTX 4090 |
-| TRAK computation (10 ckpts x 3 tasks + dim ablation) | 35 | RTX 4090 |
-| IF (EK-FAC) computation (3 tasks) | 45 | A6000 |
-| IF (K-FAC) computation (3 tasks) | 15 | A6000 |
-| RepSim/RepT computation (3 tasks) | 10 | RTX 4090 |
-| Contrastive-TRAK (3 tasks) | 20 | RTX 4090 |
-| Contrastive-RepSim/RepT (3 tasks) | 10 | RTX 4090 |
-| Gradient-norm baseline | <1 | RTX 4090 |
-| **Core subtotal** | **~161** | |
+### 4.2 Gradient-Norm Partial Correlations
+For all BSS variants, report partial Spearman(BSS, LDS | class + ||g||). If partial rho < 0.10, BSS adds no information beyond gradient norm.
 
-### 4.2 Debugging and Setup Buffer
+### 4.3 Stability vs Correctness
+Compute partial Spearman(BSS, LOO_correctness | class + ||g||). Expected: < 0.1 (stable != correct).
 
-| Component | GPU-hours (est.) |
-|-----------|-----------------|
-| DATE-LM environment setup + validation | 10 |
-| EK-FAC numerical stability debugging | 10 |
-| Re-runs for failed/corrupted experiments | 15 |
-| **Buffer subtotal** | **~35** |
+---
 
-### 4.3 CIFAR-10 Supplementary (Largely Completed)
+## 5. Ablations
 
-Remaining: contrastive scoring variants (~5 GPU-hours).
+| Ablation | Variable | Values | Purpose |
+|----------|----------|--------|---------|
+| Bucket granularity | Number of buckets | 3, 5, 10 | Sensitivity to partitioning |
+| Eigenvalue count | Top-k eigenvalues | 50, 100, 200 | How many modes matter |
+| Gradient-norm correction | Regression type | None, linear, log | Best normalization |
+| MRC weight function | Functional form | Sigmoid, softmax, piecewise | Robustness of combining |
+| Damping | delta | 0.001, 0.01, 0.1, 1.0 | Perturbation factor sensitivity |
+| Train subset size | N_train | 5K, 10K, 50K | Scalability |
 
-### 4.4 Total Budget
+---
 
-| Category | GPU-hours |
-|----------|-----------|
-| DATE-LM core | ~161 |
-| Debug/setup buffer | ~35 |
-| CIFAR-10 remaining | ~5 |
-| **Total** | **~201** |
-| **With 10% contingency** | **~220** |
+## 6. Paper Scenarios
 
-### 4.5 Available Resources
+### Scenario A: Full Paper (all gates pass)
+- C0: Variance decomposition (confirmed)
+- C1: BSS diagnostic (seed-stable, informative)
+- C2: MRC soft combining (Pareto-dominates uniform)
+- C3: Negative results (TRV/SI failures)
+- Target: NeurIPS 2026
 
-- **xuchang0**: 4x RTX 4090 (24GB each)
-- **jinxulin**: 4x A6000 (48GB each)
-- **Estimated timeline**: 4-5 weeks for core DATE-LM experiments
+### Scenario B: Diagnostic-Only Paper (Phase 2 pass, Phase 3 fail)
+- C0 + C1 + C3
+- Target: NeurIPS 2026 (poster) or TMLR
 
-**Pythia-6.9B**: NOT in core budget. Stretch goal only.
+### Scenario C: Negative Results Paper (Phase 2 fail)
+- C0 + C3
+- Target: TMLR
 
-## 5. Risk Mitigation
+---
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|------------|
-| RepSim < TRAK - 5pp on all tasks | 30% | Weakens FM1 narrative | Reframe as "different strengths"; RepT may recover |
-| DDA not applicable to data selection | 40% | Incomplete 2x2 for 1 task | Contrastive-TRAK is primary; DDA optional |
-| EK-FAC OOM on Pythia-1B | 25% | Cannot compute IF | K-FAC fallback; LoRA-only gradients |
-| Interaction > 30% | 20% | Complementarity requires reinterpretation | Design handles both outcomes |
-| DATE-LM setup fails | 15% | Week 1 blocker | Full Week 1 for setup; manual pipeline fallback |
-| Concurrent work | 15% | Reduced novelty | Framework + TRAK paradox analysis differentiate |
+## 7. Timeline & Compute Budget
 
-## 6. Back-References
+| Phase | GPU-hours | Status |
+|-------|-----------|--------|
+| Phase 0: Probe reanalysis | 0 | COMPLETED |
+| Phase 1: Variance decomposition | ~5 | COMPLETED |
+| Phase 2a pilot: BSS pilot | ~0.5 | COMPLETED |
+| Phase 2b: Disagreement analysis | 0 | COMPLETED |
+| **Phase 2a full: BSS cross-seed** | **~7** | **IN PROGRESS** |
+| **Phase 3: MRC + Pareto** | **~8** | **PLANNED** |
+| **Ablations** | **~5** | **PLANNED** |
+| **Confound controls** | **~2** | **PLANNED** |
+| **Total** | **~27.5** | |
 
-- Method design: research/method-design.md (FM1/FM2 framework, TRAK paradox)
-- Problem statement: research/problem-statement.md (Gap, RQs, prior evidence)
-- Probe results: Codes/_Results/probe_result.md (AURA Phase 0-2b)
-- Design review: Reviews/research-design/round-1/synthesis.md (M1-M4, S1-S5)
+Used: ~5.5 GPU-hours. Remaining budget: ~36.5 GPU-hours. Well within 42-hour total.
 
-## 7. Metadata
+---
 
-- **Primary benchmark**: DATE-LM (3 tasks, LDS, Pythia-1B)
-- **Supplementary**: CIFAR-10/ResNet-18 (AURA existing data)
-- **Statistical methods**: Per-sample permutation/bootstrap, 5 seeds, 2x2 interaction, Bonferroni
-- **Compute**: ~210 GPU-hours (core + buffer), ~220 with contingency
-- **Timeline**: 4-5 weeks
-- **Resources**: 4x RTX 4090 + 4x A6000
-- **Design review addressal**: S3 (budget revised); DDA optional; gradient-norm baseline; Hessian ablation; Pythia-6.9B stretch goal; interaction thresholds refined
+## 8. Expected Outputs
+
+### Tables
+- Table 1: Variance decomposition (Phase 1 results)
+- Table 2: BSS cross-seed stability (Spearman rho matrix)
+- Table 3: Main results (LDS by strategy, with compute cost)
+- Table 4: Ablation results
+
+### Figures
+- Figure 1: BSS outlier heatmap across test points, colored by class
+- Figure 2: Cross-seed BSS scatter plots with rho annotations
+- Figure 3: Pareto frontier (LDS vs GPU-hours)
+- Figure 4: MRC weight distribution and calibration curves
+- Figure 5: Baselga decomposition of attribution instability

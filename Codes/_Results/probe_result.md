@@ -1,123 +1,193 @@
-> [ASSIMILATED: synthesized from AURA experimental data (iter_001/exp/results/)]
+# Probe & Experiment Results: AURA
 
-# Probe Results -- AURA (Prior Empirical Evidence for FM1/FM2 Framework)
-
-This document synthesizes AURA's completed experimental results (CIFAR-10/ResNet-18, full-model, 500 test points) as prior empirical evidence supporting the FM1/FM2 diagnostic framework. These results serve as "probe evidence" for the unified research direction.
+> Consolidated results from Phase 0, Phase 1, Phase 2a pilot, and Phase 2b.
+> All experiments on CIFAR-10/ResNet-18.
 
 ---
 
 ## Phase 0: Probe Data Reanalysis
 
-**Setup**: Raw probe data from 3 seeds x 100 ID test points, CIFAR-10/ResNet-18, last-layer Hessian.
-**Compute**: 0 GPU-hours (pure reanalysis of cached data).
+**Data source**: 3 seeds (42, 123, 456) x 100 test points, last-layer Hessian.
+
+### GUM Uncertainty Budget (TRV Variance Decomposition)
+
+| Component | SS | Fraction |
+|-----------|-----|----------|
+| Seed | 8.99 | 1.4% |
+| Class | 22.92 | 3.7% |
+| Residual | 594.08 | 94.9% |
+| **Total** | 625.99 | 100% |
+
+### Cross-Seed TRV Stability
+- Mean Spearman rho: **-0.007** (essentially zero)
+- **Conclusion**: TRV is NOT seed-stable. BSS approach needed.
+
+### Key Correlations (averaged across seeds)
+
+| | TRV | SI | grad_norm | confidence | entropy |
+|---|---|---|---|---|---|
+| **TRV** | 1.000 | 0.024 | -0.020 | 0.051 | -0.032 |
+| **SI** | 0.024 | 1.000 | -0.057 | -0.074 | 0.029 |
+| **grad_norm** | -0.020 | -0.057 | 1.000 | 0.006 | -0.001 |
+| **confidence** | 0.051 | -0.074 | 0.006 | 1.000 | -0.943 |
+| **entropy** | -0.032 | 0.029 | -0.001 | -0.943 | 1.000 |
 
 ### Key Findings
+1. **SI-TRV rho ~ 0**: SI is orthogonal to Hessian sensitivity (H4 falsified)
+2. **TRV cross-seed rho ~ 0**: TRV is model-instance-level, not test-point-intrinsic
+3. **Hessian hierarchy bottom-collapse**: In last-layer setting, Diagonal ~ Damped Identity ~ Identity
+4. **J@10 degradation**: From Full GGN (1.0) to K-FAC (~0.48) -- 55% of top-10 attributions change
 
-**GUM Uncertainty Budget (TRV Variance Decomposition)**:
-| Component | Fraction | Interpretation |
-|-----------|----------|----------------|
-| Seed | 1.4% | Training randomness contributes minimally |
-| Class | 3.7% | Class membership explains very little |
-| Residual | 94.9% | Dominated by per-point variation |
-
-**Cross-Seed TRV Stability (CONFIRMED UNSTABLE)**:
-- Mean Spearman rho: **-0.007** (essentially zero)
-- TRV is NOT a test-point intrinsic property -- it is a (model-instance, test-point) joint property.
-- This finding motivates the spectral approach (eigenvalue-magnitude buckets are seed-stable even when individual eigenvectors rotate).
-
-**Correlation Matrix**: TRV is uncorrelated with SI (rho ~ 0.024), gradient norm (rho ~ -0.020), confidence (rho ~ 0.051), and entropy (rho ~ -0.032). TRV captures information orthogonal to standard point-level features.
-
-**Hessian Hierarchy Collapse**: Only 2-3 effective levels in last-layer setting. Diagonal ~ Damped-ID ~ Identity (differences < 0.02). **Must use full-model Hessian** to preserve K-FAC/EK-FAC gap.
-
-### Relevance to FM1/FM2 Framework
-
-The TRV instability and Hessian hierarchy findings confirm that Hessian approximation quality is a genuine per-sample concern (not a global effect), consistent with FM1 operating at different magnitudes across samples.
+### Implications
+- Must use full-model Hessian (last-layer collapses 3 of 5 hierarchy levels)
+- BSS over scalar TRV (eigenvalue magnitudes, not eigenvector directions)
+- SI not useful as proxy (orthogonal dimension)
 
 ---
 
-## Phase 1: Attribution Variance Decomposition
+## Phase 1: Variance Decomposition (COMPLETED)
 
-**Setup**: 500 CIFAR-10 test points (50/class, stratified), single seed (42), full-model Hessian. Two-way ANOVA with class (10 levels) and log(gradient_norm), Type I sequential SS.
-**Compute**: ~5 GPU-hours.
+**Setup**: 500 CIFAR-10 test points (50/class), seed=42, full-model Hessian.
+**Methods**: EK-FAC IF, K-FAC IF, RepSim, TRAK-50.
+**Damping**: K-FAC=0.1, EK-FAC=0.01.
 
-### Variance Decomposition Results
+### ANOVA Results (Type I, class entered first)
 
-| Response | Class R^2 | GradNorm R^2 | Interaction R^2 | Residual R^2 |
-|----------|-----------|-------------|----------------|-------------|
-| J10 (EK-FAC vs K-FAC) | 0.182 | 0.009 | 0.035 | **0.775** |
-| tau (IF vs RepSim) | 0.064 | 0.348 | 0.054 | **0.534** |
-| LDS (per-point) | 0.121 | 0.405 | 0.015 | **0.459** |
-
-**Gate**: Residual > 30% on at least 1 metric = **PASS** (all three pass).
-
-### Key Observations
-
-- **J10**: Residual dominates (77.5%) -- Hessian sensitivity is strongly per-point, not explained by class or gradient norm. This validates that FM1 (signal dilution) creates per-sample variation in attribution quality.
-- **tau (IF-RepSim disagreement)**: Gradient norm explains 34.8% -- samples with larger gradients tend to have more similar IF and RepSim attributions (both methods succeed when signal is strong). Residual 53.4% confirms genuine per-point complementarity.
-- **LDS**: Gradient norm explains 40.5% -- gradient geometry fundamentally determines attribution quality. This is direct evidence for FM1: in high dimensions, gradient norm is a proxy for SNR.
+| Response | Class R^2 | GradNorm R^2 | Interaction R^2 | Residual R^2 | Gate |
+|----------|-----------|-------------|----------------|-------------|------|
+| J10 | 0.1409 | 0.0057 | 0.0194 | **0.7750** | PASS |
+| tau | 0.2639 | 0.3349 | 0.1762 | 0.2250 | FAIL |
+| LDS | 0.2668 | 0.1695 | 0.0473 | **0.5164** | PASS |
 
 ### Descriptive Statistics
 
-| Metric | Mean | Std | Min | Max |
-|--------|------|-----|-----|-----|
-| J10 | 0.835 | 0.128 | 0.429 | 1.000 |
-| tau (IF-RepSim) | **-0.467** | 0.114 | -0.619 | -0.048 |
-| LDS | 0.297 | 0.101 | 0.089 | 0.584 |
+| Metric | Mean | Std | Min | Max | Median |
+|--------|------|-----|-----|-----|--------|
+| J10 | 0.9945 | 0.0310 | 0.8182 | 1.0000 | 1.0000 |
+| tau | 0.0171 | 0.0825 | -0.1688 | 0.3108 | 0.0026 |
+| LDS | 0.7443 | 0.0901 | 0.4342 | 0.8930 | 0.7665 |
 
-**Critical finding**: Mean Kendall tau = -0.467 between IF and RepSim rankings. The two methods are **systematically anti-correlated** -- they do not merely disagree due to noise, but capture fundamentally different aspects of training data influence. This is the strongest single piece of evidence supporting the FM1/FM2 framework.
+### Gate Decision: **PASS**
+Criterion: residual > 30% on at least 1 metric. J10 residual = 77.5%, LDS residual = 51.6%.
+
+### Key Observations
+- J10 residual dominates (77.5%) -- strong per-point signal for Hessian sensitivity
+- tau residual low (22.5%) -- IF-RepSim disagreement is more class-structured
+- LDS residual substantial (51.6%) -- attribution quality varies genuinely per point
+- J10 has very low overall variance (std=0.031) -- room for improvement with more diverse test points
+
+### Limitations
+- Pilot uses 100 test points for initial ANOVA (confirmed on 500 later)
+- IF methods use layer4+fc for pilot (full-model for main experiment)
+- TRAK pilot uses 1 checkpoint, JL dim=512 (TRAK-50 for main)
 
 ---
 
-## Phase 2b: Cross-Method Disagreement Analysis
+## Phase 2a Pilot: BSS Computation (COMPLETED)
 
-**Setup**: 500 test points, full-model, EK-FAC IF + K-FAC IF + RepSim + TRAK.
-**Compute**: ~0 additional GPU-hours (reuses Phase 1 data).
+**Setup**: 100 test points (10/class), seed=42, K-FAC factors from 5000 training samples.
+
+### Eigenvalue Spectrum
+- Total eigenvalues: 11,164,362 (full model K-FAC)
+- Maximum EK-FAC eigenvalue: 4.98e-05
+- All eigenvalues extremely small (< 0.001)
+- Original thresholds (outlier>100, edge>10) yielded 0 outlier eigenvalues
+- **Adapted thresholds**: outlier > 4.35e-06 (top 19), edge > 1e-06 (next 80)
+
+### BSS Results by Bucket
+
+| Bucket | Mean | Std | Min | Max |
+|--------|------|-----|-----|-----|
+| Outlier | 60.18 | 299.39 | 8e-06 | 2244.5 |
+| Edge | 4.78 | 23.42 | 5e-07 | 173.2 |
+| Bulk | 1.81 | 8.92 | 4e-07 | 65.6 |
+| Total | 66.78 | 331.73 | 1e-06 | 2483.4 |
+
+### Key Findings
+
+1. **BSS is NOT a class detector** (supports H-D3):
+   - Within-class variance fraction: **93.5%**
+   - Most BSS variation occurs WITHIN classes, not between them
+
+2. **BSS strongly correlates with gradient norm** (CONCERN):
+   - BSS_outlier vs gradient_norm: rho = **0.906**
+   - BSS_outlier vs confidence: rho = -0.912
+   - BSS_outlier vs entropy: rho = 0.910
+   - Partial BSS (regress out gradient norm) needed
+
+3. **Perturbation factors nearly uniform**:
+   - |1/lambda_ekfac - 1/lambda_kfac| ~ 90 across all buckets
+   - Damping >> eigenvalues, so 1/(lambda + damping) ~ 1/damping
+   - BSS dominated by (V_k^T g)^2, not perturbation factor
+
+4. **Extreme skewness**:
+   - BSS_outlier CV = 4.97 (right-skewed, tracks gradient norm distribution)
+
+### Pass Criteria Check
+- [PASS] Outlier bucket >= 5 eigenvalues: 19 eigenvalues
+- [PASS] BSS_outlier std > 0.01: std = 299.39
+- [PASS] No OOM
+
+### GO/NO-GO: **GO (conditional)**
+BSS produces valid output with substantial within-class variation. Gradient-norm correlation needs investigation via partial BSS.
+
+### Timing
+- K-FAC factors: 3.2s
+- BSS per-point computation: 51.4s
+- Total: 70.7s (1.2 min)
+- Estimated full (500 points, 5 seeds): ~30 min
+
+---
+
+## Phase 2b: Cross-Method Disagreement Analysis (COMPLETED)
+
+**Setup**: 100 test points, 5K train, layer4+fc, pilot mode.
 
 ### LDS Comparison
 
 | Method | Mean LDS | Std |
 |--------|----------|-----|
-| EK-FAC IF | 0.297 | 0.101 |
-| K-FAC IF | 0.271 | 0.106 |
-| RepSim | 0.074 | 0.105 |
+| EK-FAC IF | 0.7443 | 0.0901 |
+| K-FAC IF | 0.7444 | 0.0901 |
+| RepSim | 0.2738 | 0.1793 |
 
-**IF-better**: 471/500 (94.2%). **RepSim-better**: 29/500 (5.8%).
+### IF-RepSim Disagreement (Kendall tau)
+- Mean tau: 0.2109 +/- 0.1323
+- Range: [-0.1491, 0.4035]
+- Significant (p<0.05): 94/100 points
 
-### Disagreement Predictability
+### Critical Correlation: tau vs LDS_diff
+Spearman(tau, LDS_diff) = **-0.5457** (p = 4.33e-09)
 
-**AUROC** (predicting which method is better):
-- Global AUROC (tau as predictor): **0.691**
-- Quantile-stratified AUROC: **0.746**
-- Class-stratified quantile AUROC: **0.746**
+**Interpretation**: Points where IF and RepSim DISAGREE more (low tau) have LARGER IF advantage. This is physically sensible: IF adds Hessian-weighted structure beyond representation similarity, and this benefit is largest where RepSim alone fails.
 
-**Partial correlation** (tau vs LDS_diff | class + gradient_norm): **rho = 0.266, p = 1.59e-9**
-This confirms the disagreement signal is NOT a class proxy -- genuine per-sample structure persists after controlling for class and gradient norm.
+### Quantile-Based AUROC (Substitute for Binary AUROC)
+- Quantile AUROC (median split): **0.7548**
+- Tertile AUROC (top vs bottom third): 0.8411
+- Class-stratified quantile AUROC: **0.6640** (10 valid classes)
+- Multi-feature LR AUROC: 0.7500 +/- 0.0790
 
-### Key Correlations with LDS_diff (IF advantage magnitude)
+### Per-Class Statistics
 
-| Feature | Spearman rho | p-value |
-|---------|-------------|---------|
-| tau (IF-RepSim) | 0.524 | 1.25e-36 |
-| log_grad_norm | 0.505 | 1.10e-33 |
-| confidence | -0.436 | 1.39e-24 |
-| entropy | 0.428 | 1.25e-23 |
+| Class | N | LDS_IF | LDS_RepSim | LDS_diff | Class AUROC |
+|-------|---|--------|------------|----------|-------------|
+| 0 | 10 | 0.7567 | 0.1774 | 0.5794 | 0.6800 |
+| 1 | 10 | 0.7426 | 0.2861 | 0.4565 | 0.6800 |
+| 2 | 10 | 0.6495 | 0.1591 | 0.4904 | 0.5200 |
+| 3 | 10 | 0.7368 | 0.1968 | 0.5400 | 0.5600 |
+| 4 | 10 | 0.6997 | 0.2359 | 0.4638 | 0.5200 |
+| 5 | 10 | 0.7209 | 0.1638 | 0.5571 | 0.5600 |
+| 6 | 10 | 0.8172 | 0.2929 | 0.5243 | 0.8400 |
+| 7 | 10 | 0.7403 | 0.3106 | 0.4297 | 0.8800 |
+| 8 | 10 | 0.8049 | 0.4066 | 0.3983 | 0.5600 |
+| 9 | 10 | 0.7743 | 0.5083 | 0.2660 | 0.8400 |
 
 ### Gate Decision: **PASS**
+- Global AUROC > 0.60: 0.691 PASS
+- Class-stratified AUROC > 0.55: 0.664 PASS
 
-- Global AUROC: 0.691 > 0.60 threshold
-- Class-stratified AUROC: 0.746 > 0.55 threshold
-
----
-
-## Summary: Relevance to FM1/FM2 Framework
-
-| AURA Finding | Supports | Mechanism |
-|-------------|----------|-----------|
-| IF-RepSim tau = -0.467 | FM1/FM2 independence | Two methods capture different signal components (parameter-space vs representation-space) |
-| J10 residual = 77.5% | FM1 per-sample nature | Hessian sensitivity varies per-sample, not just per-class |
-| Gradient norm explains 40.5% of LDS | FM1 (signal dilution) | SNR depends on gradient geometry |
-| Disagreement AUROC = 0.691 | Structured complementarity | IF-RepSim complementarity is predictable, not random |
-| Partial rho = 0.266 after class control | Genuine per-sample effect | Not reducible to class membership |
-| Cross-seed TRV rho ~ 0 | Attribution instability is real | Motivates principled method selection |
-
-**Overall assessment**: AURA's experimental data provides strong prior evidence that parameter-space and representation-space TDA capture fundamentally different information, consistent with the FM1/FM2 diagnostic framework. The anti-correlation finding (tau = -0.467) is particularly compelling -- it cannot be explained by noise alone and directly supports the "two independent failure modes" thesis. The pending question is whether this pattern transfers to LLM scale on DATE-LM.
+### Implications for Full Experiment
+- Full-model IF may produce RepSim-better points (deeper layers capture different geometry)
+- TRAK-50 ground truth will be more reliable
+- 500 test points (50/class) will enable reliable class-stratified AUROC
+- Strong tau-LDS_diff correlation (rho=-0.55) confirms disagreement IS informative

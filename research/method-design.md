@@ -1,168 +1,198 @@
 ---
-version: "1.1"
-created: "2026-03-25"
+version: "2.0"
+created: "2026-03-17"
 last_modified: "2026-03-25"
-entry_mode: "dr_revise"
-iteration_major: 1
-iteration_minor: 1
+entry_mode: "design"
+iteration_major: 2
+iteration_minor: 0
 ---
 
-> **v1.1 dr_revise**: Complete rewrite for FM1/FM2 diagnostic framework + DATE-LM 2x2 ablation design. Replaces v3.0 (geometric incommensurability) and v2.0 (BSS diagnostic). Addresses design_review round-1 blocking items: M1 (TRAK projection paradox), M2 (independence -> complementarity reframing), M3 (SNR formalization downgraded to motivating analysis), M4 (document alignment). Core 2x2 design retained; theoretical framing substantially revised.
+# Method & Experiment Design: AURA
 
-# Method Design
+## 1. Component 1: Attribution Variance Decomposition (COMPLETED)
 
-## 1. Theoretical Foundation: FM1 and FM2 as Complementary Failure Modes
+### Method
+Two-way ANOVA decomposing attribution sensitivity into class-conditional, gradient-norm, and residual per-test-point components. Three response variables:
+- **J10**: Jaccard@10(EK-FAC IF, K-FAC IF) -- top-k overlap stability
+- **tau**: Kendall tau(IF rankings, RepSim rankings) -- cross-method agreement
+- **LDS**: Per-point Linear Datamodeling Score (EK-FAC IF vs TRAK-50)
 
-### 1.1 FM1: Signal Dilution in Parameter Space -- A Motivating Analysis
+Sequential sum of squares (Type I) with class entered first. 500 CIFAR-10 test points (50/class, stratified), single seed (42), full-model Hessian.
 
-**Observation**: Parameter-space TDA methods (IF, TRAK) consistently underperform representation-space methods (RepSim, RepT) on LLM tasks (Li et al. 2025: RepSim 96-100% vs IF 0-7% on factual tracing). We propose that this performance gap is driven by **signal dilution**: in the full parameter space (B ~ 10^9 for Pythia-1B), per-sample gradient directions become near-orthogonal, making it difficult to distinguish meaningful training influences from noise.
+### Results (Phase 1)
 
-**Dimensional scaling intuition** (NOT a formal theorem):
+| Response | Class R^2 | GradNorm R^2 | Interaction R^2 | Residual R^2 | Gate |
+|----------|-----------|-------------|----------------|-------------|------|
+| J10 | 0.1409 | 0.0057 | 0.0194 | **0.7750** | PASS |
+| tau | 0.2639 | 0.3349 | 0.1762 | 0.2250 | FAIL |
+| LDS | 0.2668 | 0.1695 | 0.0473 | **0.5164** | PASS |
 
-For a model with B total parameters and d_task task-relevant parameter directions, a rough signal-to-noise argument suggests:
+**Gate PASS**: Residual > 30% on J10 (77.5%) and LDS (51.6%).
+
+### Interpretation
+J10 residual dominates at 77.5%, meaning per-test-point Hessian sensitivity is NOT explained by class membership or gradient magnitude. The phenomenon is genuine and warrants per-point diagnostics. tau residual is lower (22.5%) because IF-RepSim disagreement is more class-structured.
+
+---
+
+## 2. Component 2: Bucketed Spectral Sensitivity (BSS)
+
+### 2.1 Theoretical Foundation
+
+**Random Matrix Theory (RMT) prediction**: For neural networks, the GGN eigenvalue spectrum has:
+- Outlier eigenvalues (count = number of classes) determined by class separation geometry
+- Bulk eigenvalues following Marchenko-Pastur distribution
+- Eigenvalue *magnitudes* are stable to O(1/sqrt(N)) across training seeds
+- Eigenvalue *directions* rotate freely across seeds
+
+This explains why TRV (which depends on eigenvector directions) has rho ~ 0 cross-seed, while BSS (using eigenvalue magnitude buckets) should be stable.
+
+**Hampel sensitivity connection**: BSS can be viewed as a spectral decomposition of the Hampel gross error sensitivity function, partitioned by the Hessian eigenvalue spectrum.
+
+### 2.2 BSS Definition
+
+For test point z with gradient g_z, Hessian eigenvalues {lambda_k} with eigenvectors {v_k}, and approximate eigenvalues {tilde_lambda_k}:
 
 ```
-SNR_param ~ d_task / B
+BSS_j(z) = sum_{k in B_j} |1/(lambda_k + delta) - 1/(tilde_lambda_k + delta)|^2 * (v_k^T g_z)^2
 ```
 
-For Pythia-1B: B ~ 1.4 x 10^9. If d_task ~ 10^3-10^4, then SNR_param ~ 10^{-6} to 10^{-5}.
+where B_j partitions eigenvalues into magnitude buckets and delta is the damping term.
 
-**Caveats and limitations** (addressing design review M3):
+**Eigenvalue buckets** (adaptive, percentile-based):
+- **Outlier**: Top 0.2% of eigenvalues (class-discriminative modes)
+- **Edge**: Next 0.5% (transition region)
+- **Bulk**: Remaining 99.3% (noise subspace)
 
-1. **Isotropic gradient assumption is violated.** Real neural network gradients are highly anisotropic -- they concentrate on a low-rank subspace (Gur-Ari et al. 2018; Papyan 2020). The effective dimensionality of the gradient space is much less than B, so the naive SNR_param estimate overstates the dilution.
+Note: Original fixed thresholds (outlier > 100, edge > 10) were invalidated by pilot -- Kronecker eigenvalue products are extremely small (max ~5e-05). Adaptive percentile-based thresholds are required.
 
-2. **d_task is ambiguous across spaces.** In parameter space, d_task counts parameter directions affected by the task. In representation space, d_task counts feature dimensions relevant to the task. These are different quantities with potentially different magnitudes.
+### 2.3 Partial BSS (Gradient-Norm Correction)
 
-3. **TRAK's random projection complicates the picture.** TRAK uses Johnson-Lindenstrauss random projection to reduce B ~ 10^9 to dim = 4096. This makes B_effective ~ 4096 for TRAK, apparently eliminating the claimed 10^5-10^6 SNR advantage. See Section 1.4 for resolution.
+Pilot revealed BSS-gradient_norm rho = 0.906. To disentangle:
 
-**Status**: This scaling argument is a **motivating analysis** -- dimensional intuition suggesting that representation space may offer SNR advantages. The 2x2 experiment (Section 2) **directly tests this hypothesis** rather than relying on the scaling argument alone.
+**BSS_partial**: Residuals of BSS_j regressed on ||g_z||^2:
+```
+BSS_partial_j(z) = BSS_j(z) - (alpha_j * ||g_z||^2 + beta_j)
+```
 
-### 1.2 FM2: Common Influence Contamination
+**BSS_ratio**: BSS_outlier / BSS_total (fraction of sensitivity in outlier modes, scale-invariant).
 
-**Observation**: In LLMs, pre-training creates a massive base of shared knowledge. Standard TDA scoring captures both task-specific and pre-training influences indiscriminately. This **common-mode interference** inflates attribution scores for training samples that shaped general language capabilities rather than task-specific behaviors.
+### 2.4 Baselga Turnover Decomposition
 
-**Evidence**: DDA (2410.01285) showed that contrastive scoring (IS_{theta'} - IS_{theta_0}) improved hallucination tracing AUC by 55.2pp.
+Decompose Jaccard distance between EK-FAC and K-FAC top-k sets into:
+- **Replacement component**: Points that enter/exit the top-k
+- **Reordering component**: Points that stay in top-k but change rank
 
-**Mechanism**: Contrastive scoring acts as a **differential filter** -- by subtracting the pre-trained baseline, it cancels common-mode interference and isolates task-specific influence. This remedy operates orthogonally to the space dimension.
+This separates "catastrophic" instability (different points attributed) from "mild" instability (same points, different order).
 
-### 1.3 FM1 and FM2 as Complementary (Not Independent) Failure Modes
+### 2.5 Cross-Seed Stability Protocol
 
-**Revised framing** (addressing design review M2):
+- 5 ResNet-18 models (seeds 42, 123, 456, 789, 1024)
+- 500 test points, BSS computed per seed
+- Stability metric: Mean pairwise Spearman rho of BSS_outlier rankings (10 seed pairs)
+- Gate: rho > 0.5
 
-FM1 and FM2 describe **complementary** failure modes -- they capture different aspects of why parameter-space TDA fails at LLM scale:
+### 2.6 MRC Optimality Justification
 
-- FM1 is about **where** you measure influence (parameter space vs representation space)
-- FM2 is about **what** you subtract from the measurement (nothing vs pre-trained baseline)
+Under Cauchy-Schwarz, the MSE-optimal combination weight for test point z is:
+```
+w*(z) = sigma_RepSim^2(z) / (sigma_IF^2(z) + sigma_RepSim^2(z))
+```
 
-**Evidence for complementarity** (NOT independence):
+BSS provides a spectral proxy for sigma_IF^2(z) (high BSS = high IF uncertainty). Cross-method disagreement provides a proxy for relative quality. MRC combines these signals.
 
-The AURA CIFAR-10 pilot found Kendall tau = -0.467 between IF and RepSim rankings across 500 test points. This anti-correlation indicates that the two methods capture **systematically different information**.
+---
 
-**Critical clarification**: tau = -0.467 is evidence of **negative dependence** (structured anti-correlation), NOT independence. We therefore:
+## 3. Component 3: MRC Soft Combining
 
-1. **Replace "independent" with "complementary"** throughout.
-2. **Use tau = -0.467 as evidence for "different information capture"**.
-3. **Make the 2x2 interaction test the PRIMARY assessment of remedy additivity.**
+### 3.1 Weight Function
 
-**Interaction interpretation thresholds**:
-- Interaction < 10% of min(main effects) AND Cohen's d < 0.2: strong approximate additivity
-- Interaction 10-30%: approximate additivity with noted interaction
-- Interaction > 30%: interacting remedies requiring joint treatment
+```
+w(z) = sigmoid(a * BSS_partial(z) + b * disagreement(z) + c)
+score(z) = w(z) * RepSim(z) + (1 - w(z)) * IF(z)
+```
 
-### 1.4 Why Representation Extraction Differs from Random Projection (Resolving the TRAK Paradox)
+where disagreement(z) = |Kendall_tau(IF_rankings(z), RepSim_rankings(z))|.
 
-**The paradox** (design review M1): TRAK projects parameter-space gradients to dim = 4096 via JL random projection. RepSim operates on the penultimate layer (d = 4096 for Pythia-1B). If FM1 were purely about dimensionality, both should perform comparably. Yet RepSim dramatically outperforms TRAK (Li et al. 2025). Why?
+When BSS_partial is high (IF unreliable) or disagreement is large, weight shifts toward RepSim.
 
-**Resolution**: FM1 is not merely about dimensionality reduction -- it is about the **nature of the feature space**.
+### 3.2 Calibration
 
-**Random projection (JL, used by TRAK)**:
-- Preserves pairwise distances but does NOT concentrate task-relevant information
-- Task-relevant signal is spread approximately uniformly across all 4096 projected dimensions
-- No semantic structure: each dimension carries roughly equal task information
-- SNR improvement from dimensionality reduction only (B -> 4096), not signal concentration
+- Leave-one-out cross-validation on 300 calibration points
+- Optimize (a, b, c) to maximize mean LDS against TRAK-50 ground truth
+- Evaluate on held-out 200 test points
 
-**Learned representation extraction (used by RepSim/RepT)**:
-- Neural network layers are **trained** to concentrate task-relevant variance
-- Dominant principal components capture class-discriminative features
-- 90%+ of class-discriminative variance in top 50-100 principal components
-- Semantic structure: features ordered by task relevance
+### 3.3 Baselines (11 strategies)
 
-**The FM1 mechanism restated**: The advantage of representation space is not "fewer dimensions" but "**task-structured** dimensions." Learned representations act as a **task-adapted matched filter** that concentrates signal, whereas random projection merely reduces dimensionality while distributing signal uniformly.
+| # | Strategy | Type | Compute |
+|---|----------|------|---------|
+| 1 | Identity IF | Uniform | Low |
+| 2 | K-FAC IF | Uniform | Low |
+| 3 | EK-FAC IF | Uniform | Medium |
+| 4 | RepSim | Uniform | Low |
+| 5 | TRAK-10 | Uniform | Medium |
+| 6 | TRAK-50 | Uniform | High |
+| 7 | W-TRAK | Uniform | Medium |
+| 8 | Naive 0.5:0.5 ensemble | Uniform | Medium |
+| 9 | BSS-guided routing | Adaptive | Medium+BSS |
+| 10 | Disagreement-guided routing | Adaptive | Medium |
+| 11 | MRC soft combining | Adaptive | Medium+BSS |
 
-**Testable predictions**:
-1. RepSim should outperform TRAK despite same dimensionality (confirmed: Li et al. 2025)
-2. PCA-truncated RepSim should maintain performance; PCA-truncated TRAK projections should degrade
-3. Representation-space advantage larger for tasks where pre-trained features align with evaluation
-4. LoRA fine-tuning should narrow parameter-vs-representation gap if FM1 is partly dimensional
+Oracle: Per-point max(LDS_IF, LDS_RepSim).
 
-## 2. The 2x2 Factorial Design
+---
 
-### 2.1 Design Matrix
+## 4. Theoretical Contributions
 
-| | Standard Scoring | Contrastive Scoring |
-|---|---|---|
-| **Parameter Space** | TRAK, IF (EK-FAC) | Contrastive-TRAK |
-| **Representation Space** | RepSim, RepT | Contrastive-RepSim, Contrastive-RepT |
+### Proposition 1: Spectral Decomposition of Attribution Error
+When H and H_tilde share eigenvectors (exact for K-FAC/EK-FAC within Kronecker structure), the attribution error decomposes exactly as:
+```
+||H^{-1}g - H_tilde^{-1}g||^2 = sum_k (1/lambda_k - 1/tilde_lambda_k)^2 * (v_k^T g)^2
+```
 
-- **Rows** test FM1: representation space vs parameter space
-- **Columns** test FM2: contrastive vs standard scoring
-- **Interaction** tests whether FM1 and FM2 remedies compose additively
+### Proposition 2: Eigenvalue Bucket Stability (RMT)
+Under standard assumptions (iid data, overparameterized regime), the fraction of test-gradient energy in each eigenvalue bucket converges to a data-geometric constant independent of training seed, with convergence rate O(1/sqrt(N)).
 
-### 2.2 Method Specifications
+### Proposition 3: MRC Optimality
+The MRC weight function w*(z) minimizes expected squared attribution error under the Cauchy-Schwarz bound, given correct estimates of per-method variance.
 
-**Parameter + Standard**: TRAK (JL dim=4096, trak library); IF EK-FAC (dattri).
-**Parameter + Contrastive**: Contrastive-TRAK (primary); DDA (optional, high risk).
-**Representation + Standard**: RepSim (penultimate layer cosine); RepT (auto layer selection).
-**Representation + Contrastive**: Contrastive-RepSim; Contrastive-RepT (full remedy cell).
+---
 
-### 2.3 Bilinear Unification (Notational Convenience)
+## 5. Experiment Design Summary
 
-All methods expressible as: `s(z, z_train) = phi(z)^T M psi(z_train)`.
+### Phase 2a: BSS Cross-Seed Stability (~7 GPU-hours)
+- 500 test points x 5 seeds
+- Kronecker GGN top-100 eigendecomposition per seed
+- Compute BSS (raw + partial + ratio) per seed
+- Gates: partial BSS cross-seed rho > 0.5, within-class CV > 25%, partial corr > 0.15
 
-**Note**: This is a **notational convenience**, not a theoretical contribution. Any bilinear function fits this template. Its value is taxonomic.
+### Phase 2b: Disagreement Analysis (0 GPU-hours, reuses Phase 1)
+- Already completed. Results: tau vs LDS_diff rho = -0.547, AUROC = 0.691, class-stratified AUROC = 0.664
 
-### 2.4 Statistical Analysis Framework
+### Phase 3: MRC + Pareto (~8 GPU-hours)
+- LOO validation on CIFAR-10/5K subset (100 points)
+- All 11 strategies evaluated
+- Gate: MRC > uniform by > 2% LDS at same compute
 
-**Per-sample analysis** (NOT task-level ANOVA): per-sample permutation tests within each task; bootstrap CIs; Bonferroni correction.
+### Phase 4: Confound Controls
+- Class-stratified AUROC for all adaptive strategies (must exceed 0.55 within classes)
+- Gradient-norm partial correlations for all BSS variants
 
-**2x2 interaction analysis** (PRIMARY test of FM1/FM2 additivity): permutation test (10,000 iterations); interaction magnitude as fraction of min(main effects).
+### Phase 5: Ablations
+- Bucket granularity (3 vs 5 vs 10 buckets)
+- Eigenvalue count (top-50 vs top-100 vs top-200)
+- Gradient-norm correction (none vs linear vs log)
+- MRC weight function (sigmoid vs softmax vs piecewise linear)
+- Damping sensitivity (delta = 0.001, 0.01, 0.1, 1.0)
 
-## 3. Additional Baselines and Controls
+---
 
-### 3.1 Mandatory Baselines
+## 6. Timeline
 
-| Method | Purpose |
-|--------|---------|
-| Random | Sanity check |
-| BM25 | Lexical baseline |
-| LESS | Gradient projection baseline |
-| Gradient-norm | Zero-cost sanity check |
-| AirRep | Learned representation baseline (if available) |
+| Week | Phase | Deliverable |
+|------|-------|-------------|
+| 1-2 | Phase 2a | BSS cross-seed stability results |
+| 3 | Phase 3 | MRC calibration + Pareto frontier |
+| 4 | Phase 4-5 | Confound controls + ablations |
+| 5-6 | Paper | Draft, revision, submission prep |
 
-### 3.2 Ablations
-
-1. LoRA vs full fine-tuning (FM1 LoRA artifact test)
-2. Layer selection for representation methods
-3. Hessian quality: EK-FAC vs K-FAC
-4. TRAK projection dimension: 2048/4096/8192
-
-## 4. Design Cross-References
-
-| Method Claim | Experiment | Section (experiment-design.md) |
-|-------------|-----------|-------------------------------|
-| Representation > parameter (FM1) | 2x2 main effect: Space | Exp 3.4 ablation 1 |
-| Contrastive > standard (FM2) | 2x2 main effect: Scoring | Exp 3.4 ablation 2 |
-| FM1/FM2 compose additively | 2x2 interaction | Exp 3.2 |
-| Random projection != learned repr | RepSim vs TRAK | Exp 2.1 + 3.4 ablation 4 |
-| FM1 not LoRA artifact | LoRA vs full FT | Exp 3.4 ablation 5 |
-| Gradient norm insufficient | Gradient-norm baseline | Exp 2.2 |
-| Hessian quality interaction | EK-FAC vs K-FAC | Exp 3.4 ablation 3 |
-
-## 5. Metadata
-
-- **Core framework**: FM1 + FM2 as complementary failure modes; 2x2 factorial on DATE-LM
-- **Theoretical status**: Motivating analyses, NOT formal theorems. 2x2 experiment is the definitive test.
-- **Prior validation**: AURA CIFAR-10 (tau=-0.467, AUROC=0.691)
-- **Key risk**: RepSim competitiveness on DATE-LM unknown
-- **Design review addressal**: M1 (Section 1.4), M2 (Section 1.3), M3 (Section 1.1), M4 (full rewrite)
-- **Excluded**: BSS (v2.0), TECA (v3.0) -- archived in iteration-log
+Total remaining: ~22 GPU-hours within 42-hour budget.
