@@ -146,8 +146,9 @@ def run_phase2a(config: dict, args: argparse.Namespace, device: torch.device) ->
 
         # K-FAC factors
         print(f"  Computing K-FAC factors (seed {seed})...")
+        n_train_subset = config.get("n_train_subset", 5000)
         train_loader = make_dataloader(trainset, batch_size=64, shuffle=False, num_workers=2,
-                                        indices=list(range(min(5000, len(trainset)))))
+                                        indices=list(range(min(n_train_subset, len(trainset)))))
         factors = compute_kfac_factors(model, train_loader, layer_name="fc", device=device)
 
         # Eigendecomposition
@@ -190,20 +191,21 @@ def run_phase2a(config: dict, args: argparse.Namespace, device: torch.device) ->
 
         # BSS computation
         print(f"  Computing BSS (raw, partial, ratio)...")
-        # For BSS, we need "true" vs "approximate" eigenvalues.
-        # In the K-FAC vs EK-FAC framework:
-        # eigenvalues = Kronecker products (K-FAC), eigenvalues_approx = diag-corrected (EK-FAC)
-        # For diagnostic purposes, we use the same eigenvalues with damping perturbation
-        # as the "approximation" is the damped inverse itself.
-        # Following pilot code: eigenvalues_approx = 0 (or very small) to measure
-        # total sensitivity in each bucket.
-        eigenvalues_approx = np.zeros_like(eigenvalues)
+        # Per method-design.md §2.2: BSS measures discrepancy between EK-FAC and K-FAC.
+        # Both use the same Kronecker eigenvalues (products of A and B eigenvalues),
+        # but with different damping: EK-FAC uses damping_ekfac (0.01), K-FAC uses
+        # damping_kfac (0.1). The perturbation factor becomes:
+        #   |1/(lam_k + d_ekfac) - 1/(lam_k + d_kfac)|^2
+        # Under damping dominance (delta >> lambda_max), BSS effectively measures
+        # gradient-eigensubspace projection geometry (per design review reframing).
+        damping_kfac = config.get("damping_kfac", 0.1)
 
         bss_result = compute_bss(
             eigenvalues=eigenvalues,
-            eigenvalues_approx=eigenvalues_approx,
+            eigenvalues_approx=eigenvalues,  # same Kronecker eigenvalues
             gradient_projections=projections,
-            damping=damping,
+            damping=damping,             # EK-FAC damping (true)
+            damping_approx=damping_kfac, # K-FAC damping (approximate)
         )
 
         # BSS partial (gradient-norm corrected)
@@ -229,6 +231,7 @@ def run_phase2a(config: dict, args: argparse.Namespace, device: torch.device) ->
         np.save(str(seed_dir / "bss_total.npy"), bss_result["bss_total"])
         np.save(str(seed_dir / "eigenvalues.npy"), eigenvalues)
         np.save(str(seed_dir / "grad_norms_sq.npy"), grad_norms_sq)
+        np.save(str(seed_dir / "gradient_projections.npy"), projections)
 
         # Free GPU memory
         del model, test_grads
@@ -349,25 +352,71 @@ def run_phase2a_augmented(config: dict, args: argparse.Namespace, device: torch.
 
     # Randomized-bucket control per seed
     n_perms = 100 if args.dry_run else config.get("randomized_bucket", {}).get("n_permutations", 1000)
+    damping_ekfac = config.get("damping_ekfac", 0.01)
+    damping_kfac = config.get("damping_kfac", 0.1)
 
     for seed in seeds:
         seed_dir = phase2a_dir / f"seed_{seed}"
         eigenvalues_path = seed_dir / "eigenvalues.npy"
+        grad_proj_path = seed_dir / "gradient_projections.npy"
+
         if not eigenvalues_path.exists():
             print(f"  Skipping seed {seed}: no cached eigenvalues")
             continue
 
         eigenvalues = np.load(str(eigenvalues_path))
-        # Load gradient projections (need to recompute or cache)
-        # For now, use bss_outlier and bss_total as proxies
-        bss_outlier = np.load(str(seed_dir / "bss_outlier.npy"))
-        bss_total = np.load(str(seed_dir / "bss_total.npy"))
 
-        print(f"  Seed {seed}: eigenvalue range [{eigenvalues.min():.2e}, {eigenvalues.max():.2e}]")
-        results["randomized_bucket"][seed] = {
-            "n_permutations": n_perms,
-            "eigenvalue_range": [float(eigenvalues.min()), float(eigenvalues.max())],
-        }
+        # Load or recompute gradient projections
+        if grad_proj_path.exists():
+            gradient_projections = np.load(str(grad_proj_path))
+        else:
+            print(f"  Skipping seed {seed}: no cached gradient_projections (run phase2a first)")
+            continue
+
+        # Run randomized-bucket permutation test (design review binding condition #3)
+        print(f"  Seed {seed}: running randomized-bucket control ({n_perms} permutations)...")
+        # eigenvalues_approx = eigenvalues (same Kronecker products, different damping)
+        rbc = randomized_bucket_control(
+            eigenvalues=eigenvalues,
+            eigenvalues_approx=eigenvalues,
+            gradient_projections=gradient_projections,
+            damping=damping_ekfac,
+            n_permutations=n_perms,
+            seed=seed,
+        )
+        print(f"    Real outlier CV: {rbc['real_outlier_cv']:.4f}")
+        print(f"    Mean random CV: {rbc['mean_random_cv']:.4f} +/- {rbc['std_random_cv']:.4f}")
+        print(f"    p-value: {rbc['p_value']:.4f} ({'SIGNIFICANT' if rbc['significant'] else 'NOT significant'})")
+
+        results["randomized_bucket"][seed] = rbc
+
+    # Per-seed ANOVA cross-validation (design review binding condition #4)
+    print("\n  Per-seed ANOVA cross-validation...")
+    from core.anova import type_i_ss
+    for seed in seeds:
+        seed_dir = phase2a_dir / f"seed_{seed}"
+        bss_partial_path = seed_dir / "bss_partial.npy"
+        if not bss_partial_path.exists():
+            continue
+
+        bss_partial = np.load(str(bss_partial_path))
+        _, testset = load_cifar10(data_dir=config.get("dataset_dir", "~/Resources/Datasets"))
+        n_per_class = (args.n_test or config.get("n_test", 500)) // 10
+        if args.dry_run:
+            n_per_class = 2
+        test_indices = stratified_test_indices(testset, n_per_class=n_per_class, seed=42)
+        test_labels = np.array([testset.targets[i] for i in test_indices])
+        n = min(len(bss_partial), len(test_labels))
+
+        seed_dir_data = seed_dir / "grad_norms_sq.npy"
+        if seed_dir_data.exists():
+            grad_norms_sq = np.load(str(seed_dir_data))[:n]
+            anova_result = type_i_ss(bss_partial[:n], test_labels[:n], grad_norms_sq)
+            results["anova_crossseed"][seed] = {
+                "residual_r2": float(anova_result.get("residual_r2", 0)),
+                "class_r2": float(anova_result.get("class_r2", 0)),
+            }
+            print(f"    Seed {seed}: residual R^2 = {anova_result.get('residual_r2', 0):.4f}")
 
     return results
 
@@ -642,6 +691,10 @@ def run_ablation(config: dict, args: argparse.Namespace, device: torch.device) -
             override_config["n_eigen_top"] = val
         elif variable == "n_buckets":
             override_config["n_buckets"] = val
+        elif variable == "n_train":
+            override_config["n_train_subset"] = val
+        elif variable == "grad_norm_correction":
+            override_config["grad_norm_correction"] = val
 
         # Run Phase 2a with this config
         phase2a_result = run_phase2a(override_config, args, device)

@@ -58,56 +58,136 @@ def adaptive_bucket_partition(
     }
 
 
+def quantile_bucket_partition(
+    eigenvalues: np.ndarray,
+    n_buckets: int = 5,
+) -> dict[str, np.ndarray]:
+    """Partition eigenvalues into n_buckets using uniform quantiles.
+
+    For ablation: test 3/5/10 bucket granularities per experiment-design.md §5.
+
+    Args:
+        eigenvalues: Sorted descending eigenvalue array, shape (n_eigen,).
+        n_buckets: Number of buckets.
+
+    Returns:
+        Dict with: outlier_idx, edge_idx, bulk_idx (first 3 buckets for compatibility),
+                   plus bucket_0_idx through bucket_{n-1}_idx for all buckets.
+    """
+    n = len(eigenvalues)
+    quantiles = np.linspace(100, 0, n_buckets + 1)  # descending percentiles
+    thresholds = [np.percentile(eigenvalues, q) for q in quantiles]
+
+    result = {}
+    for i in range(n_buckets):
+        upper = thresholds[i]
+        lower = thresholds[i + 1]
+        if i == 0:
+            mask = eigenvalues >= lower
+        elif i == n_buckets - 1:
+            mask = eigenvalues < upper
+        else:
+            mask = (eigenvalues >= lower) & (eigenvalues < upper)
+        result[f"bucket_{i}_idx"] = mask
+
+    # Compatibility: map first bucket to outlier, second to edge, rest to bulk
+    result["outlier_idx"] = result["bucket_0_idx"]
+    result["edge_idx"] = result["bucket_1_idx"] if n_buckets > 1 else np.zeros(n, dtype=bool)
+    bulk = np.zeros(n, dtype=bool)
+    for i in range(2, n_buckets):
+        bulk |= result[f"bucket_{i}_idx"]
+    result["bulk_idx"] = bulk
+    result["n_outlier"] = int(result["outlier_idx"].sum())
+    result["n_edge"] = int(result["edge_idx"].sum())
+    result["n_bulk"] = int(result["bulk_idx"].sum())
+
+    return result
+
+
 def compute_bss(
     eigenvalues: np.ndarray,
-    eigenvalues_approx: np.ndarray,
-    gradient_projections: np.ndarray,
+    eigenvalues_approx: np.ndarray | None = None,
+    gradient_projections: np.ndarray = None,
     damping: float = 0.01,
+    damping_approx: float | None = None,
     bucket_masks: dict[str, np.ndarray] | None = None,
     outlier_percentile: float = 0.998,
     edge_percentile: float = 0.993,
+    n_buckets: int = 3,
 ) -> dict[str, np.ndarray]:
     """Compute BSS for a set of test points.
 
-    BSS_j(z) = sum_{k in B_j} |1/(lambda_k + delta) - 1/(tilde_lambda_k + delta)|^2 * (v_k^T g_z)^2
+    BSS_j(z) = sum_{k in B_j} |1/(lambda_k + delta) - 1/(tilde_lambda_k + delta_approx)|^2 * (v_k^T g_z)^2
+
+    Supports two modes:
+    - Two eigenvalue arrays (eigenvalues vs eigenvalues_approx) with same damping
+    - Same eigenvalues with two damping values (damping vs damping_approx) — for K-FAC vs EK-FAC
+      where eigenvalues are identical Kronecker products but damping differs
 
     Args:
-        eigenvalues: True eigenvalues, shape (n_eigen,).
-        eigenvalues_approx: Approximate eigenvalues, shape (n_eigen,).
+        eigenvalues: True (EK-FAC) eigenvalues, shape (n_eigen,).
+        eigenvalues_approx: Approximate (K-FAC) eigenvalues, shape (n_eigen,). If None, uses eigenvalues.
         gradient_projections: (v_k^T g_z)^2 per test point, shape (n_test, n_eigen).
-        damping: Damping coefficient delta.
+        damping: Damping for true method (EK-FAC), default 0.01.
+        damping_approx: Damping for approximate method (K-FAC). If None, uses damping.
         bucket_masks: Pre-computed bucket masks. If None, computed from eigenvalues.
         outlier_percentile: Outlier percentile for bucket partition.
         edge_percentile: Edge percentile for bucket partition.
+        n_buckets: Number of buckets (3, 5, or 10). Default 3 (outlier/edge/bulk).
 
     Returns:
         Dict with: bss_outlier, bss_edge, bss_bulk, bss_total (each shape (n_test,)),
-                   bucket_info.
+                   bucket_info, perturbation_factor_stats.
     """
-    # eigenvalues: (n_eigen,), eigenvalues_approx: (n_eigen,)
-    # gradient_projections: (n_test, n_eigen)
+    # eigenvalues: (n_eigen,), gradient_projections: (n_test, n_eigen)
     n_test, n_eigen = gradient_projections.shape
     assert eigenvalues.shape == (n_eigen,)
+
+    if eigenvalues_approx is None:
+        eigenvalues_approx = eigenvalues
     assert eigenvalues_approx.shape == (n_eigen,)
 
-    # Perturbation factor: |1/(lambda + delta) - 1/(tilde_lambda + delta)|^2
+    if damping_approx is None:
+        damping_approx = damping
+
+    # Perturbation factor: |1/(lambda + delta_true) - 1/(tilde_lambda + delta_approx)|^2
     inv_true = 1.0 / (eigenvalues + damping)
-    inv_approx = 1.0 / (eigenvalues_approx + damping)
+    inv_approx = 1.0 / (eigenvalues_approx + damping_approx)
     perturbation_sq = (inv_true - inv_approx) ** 2  # (n_eigen,)
 
     # BSS per eigenvalue per test point
     bss_per_eigen = gradient_projections * perturbation_sq[np.newaxis, :]  # (n_test, n_eigen)
 
+    # Perturbation factor stats (for diagnostic — design review concern)
+    pf_stats = {
+        "mean": float(perturbation_sq.mean()),
+        "std": float(perturbation_sq.std()),
+        "max": float(perturbation_sq.max()),
+        "min": float(perturbation_sq.min()),
+        "outlier_bulk_ratio": float(perturbation_sq.max() / (perturbation_sq.min() + 1e-30)),
+    }
+
     # Bucket partition
     if bucket_masks is None:
-        bucket_masks = adaptive_bucket_partition(
-            eigenvalues, outlier_percentile, edge_percentile
-        )
+        if n_buckets == 3:
+            bucket_masks = adaptive_bucket_partition(
+                eigenvalues, outlier_percentile, edge_percentile
+            )
+        else:
+            # Uniform quantile-based buckets for ablation (5 or 10 buckets)
+            bucket_masks = quantile_bucket_partition(eigenvalues, n_buckets)
 
     bss_outlier = bss_per_eigen[:, bucket_masks["outlier_idx"]].sum(axis=1)
     bss_edge = bss_per_eigen[:, bucket_masks["edge_idx"]].sum(axis=1)
     bss_bulk = bss_per_eigen[:, bucket_masks["bulk_idx"]].sum(axis=1)
     bss_total = bss_per_eigen.sum(axis=1)
+
+    # For n_buckets > 3, also compute per-bucket BSS
+    per_bucket_bss = {}
+    if n_buckets > 3:
+        for key in bucket_masks:
+            if key.startswith("bucket_") and isinstance(bucket_masks[key], np.ndarray):
+                per_bucket_bss[key] = bss_per_eigen[:, bucket_masks[key]].sum(axis=1)
 
     return {
         "bss_outlier": bss_outlier,
@@ -115,16 +195,17 @@ def compute_bss(
         "bss_bulk": bss_bulk,
         "bss_total": bss_total,
         "bucket_info": bucket_masks,
+        "perturbation_factor_stats": pf_stats,
+        "per_bucket_bss": per_bucket_bss,
     }
 
 
 def compute_bss_partial(
     bss_values: np.ndarray,
     gradient_norms_sq: np.ndarray,
+    correction_type: str = "linear",
 ) -> np.ndarray:
     """Compute gradient-norm-corrected BSS (partial BSS).
-
-    BSS_partial_j(z) = BSS_j(z) - (alpha * ||g_z||^2 + beta)
 
     Per method-design.md §2.3: Pilot revealed BSS-gradient_norm rho = 0.906.
     Partial BSS residualizes out the gradient norm dependence.
@@ -132,12 +213,25 @@ def compute_bss_partial(
     Args:
         bss_values: Raw BSS values, shape (n_test,).
         gradient_norms_sq: ||g_z||^2 per test point, shape (n_test,).
+        correction_type: "none" (no correction), "linear" (BSS ~ ||g||^2),
+                         or "log" (BSS ~ log(||g||^2)). Per experiment-design.md §5 ablation.
 
     Returns:
         Partial BSS residuals, shape (n_test,).
     """
-    # OLS regression: bss = alpha * grad_norm_sq + beta
-    X = np.column_stack([gradient_norms_sq, np.ones(len(bss_values))])
+    if correction_type == "none":
+        return bss_values.copy()
+
+    if correction_type == "linear":
+        # OLS regression: bss = alpha * grad_norm_sq + beta
+        X = np.column_stack([gradient_norms_sq, np.ones(len(bss_values))])
+    elif correction_type == "log":
+        # OLS regression: bss = alpha * log(grad_norm_sq) + beta
+        log_norms = np.log(gradient_norms_sq + 1e-30)
+        X = np.column_stack([log_norms, np.ones(len(bss_values))])
+    else:
+        raise ValueError(f"Unknown correction_type: {correction_type}. Use 'none', 'linear', or 'log'.")
+
     beta, _, _, _ = np.linalg.lstsq(X, bss_values, rcond=None)
     fitted = X @ beta
     return bss_values - fitted
@@ -165,9 +259,10 @@ def compute_bss_ratio(
 
 def randomized_bucket_control(
     eigenvalues: np.ndarray,
-    eigenvalues_approx: np.ndarray,
-    gradient_projections: np.ndarray,
+    eigenvalues_approx: np.ndarray | None = None,
+    gradient_projections: np.ndarray = None,
     damping: float = 0.01,
+    damping_approx: float | None = None,
     n_permutations: int = 1000,
     seed: int = 42,
 ) -> dict[str, float]:
@@ -192,8 +287,14 @@ def randomized_bucket_control(
     """
     rng = np.random.RandomState(seed)
 
+    if eigenvalues_approx is None:
+        eigenvalues_approx = eigenvalues
+    if damping_approx is None:
+        damping_approx = damping
+
     # Compute real BSS
-    real_bss = compute_bss(eigenvalues, eigenvalues_approx, gradient_projections, damping)
+    real_bss = compute_bss(eigenvalues, eigenvalues_approx, gradient_projections,
+                           damping=damping, damping_approx=damping_approx)
     real_outlier = real_bss["bss_outlier"]
     real_cv = float(real_outlier.std() / (real_outlier.mean() + 1e-10))
     n_outlier = real_bss["bucket_info"]["n_outlier"]
@@ -202,7 +303,7 @@ def randomized_bucket_control(
 
     # Perturbation factor
     inv_true = 1.0 / (eigenvalues + damping)
-    inv_approx = 1.0 / (eigenvalues_approx + damping)
+    inv_approx = 1.0 / (eigenvalues_approx + damping_approx)
     perturbation_sq = (inv_true - inv_approx) ** 2
     bss_per_eigen = gradient_projections * perturbation_sq[np.newaxis, :]
 

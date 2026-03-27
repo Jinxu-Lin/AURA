@@ -98,7 +98,7 @@ def stratified_test_indices(
 
     by_class: dict[int, list[int]] = {c: [] for c in range(n_classes)}
     for i in range(len(testset)):
-        _, y = testset[i]
+        y = testset.targets[i]
         by_class[y].append(i)
 
     selected = []
