@@ -1,0 +1,43 @@
+# Baseline: Uniform Attribution Strategies
+# Compare IF, RepSim, TRAK at fixed compute budgets
+
+# Strategies to evaluate
+strategies:
+  - name: "Identity IF"
+    type: "if"
+    hessian: "identity"
+    compute_hours: 0.1
+
+  - name: "K-FAC IF"
+    type: "if"
+    hessian: "kfac"
+    damping: 0.1
+    compute_hours: 0.5
+
+  - name: "EK-FAC IF"
+    type: "if"
+    hessian: "ekfac"
+    damping: 0.01
+    compute_hours: 1.0
+
+  - name: "RepSim"
+    type: "repsim"
+    compute_hours: 0.3
+
+  - name: "TRAK-10"
+    type: "trak"
+    n_checkpoints: 10
+    compute_hours: 1.5
+
+  - name: "TRAK-50"
+    type: "trak"
+    n_checkpoints: 50
+    compute_hours: 5.0
+
+# Metrics
+evaluation:
+  primary_metric: "lds"  # Spearman vs ground truth
+  secondary_metrics:
+    - "j10"
+    - "kendall_tau"
+    - "class_stratified_auroc"

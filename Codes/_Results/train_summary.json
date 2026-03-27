@@ -1,0 +1,19 @@
+{
+  "task": "train_resnet18",
+  "seeds": [
+    42
+  ],
+  "results": [
+    {
+      "seed": 42,
+      "status": "dry_run",
+      "test_acc": 0.0,
+      "training_time_min": 0.0,
+      "checkpoint_path": null,
+      "epochs_completed": "dry_run_2_steps"
+    }
+  ],
+  "dry_run": true,
+  "device": "cpu",
+  "timestamp": "2026-03-27T17:14:52.127547"
+}

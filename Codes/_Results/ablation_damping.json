@@ -1,0 +1,82 @@
+{
+  "ablation": "damping",
+  "variable": "damping",
+  "values": {
+    "0.001": {
+      "mean_rho": {
+        "bss_raw": 1.0,
+        "bss_partial": 0.9969924812030074,
+        "bss_ratio": 1.0
+      },
+      "gates": {
+        "bss_partial_rho": {
+          "value": 0.9969924812030074,
+          "threshold": 0.5,
+          "pass": true
+        },
+        "within_class_variance": {
+          "value": 0.30949776870074525,
+          "threshold": 0.25,
+          "pass": true
+        }
+      }
+    },
+    "0.01": {
+      "mean_rho": {
+        "bss_raw": 1.0,
+        "bss_partial": 1.0,
+        "bss_ratio": 1.0
+      },
+      "gates": {
+        "bss_partial_rho": {
+          "value": 1.0,
+          "threshold": 0.5,
+          "pass": true
+        },
+        "within_class_variance": {
+          "value": 0.3102167072424805,
+          "threshold": 0.25,
+          "pass": true
+        }
+      }
+    },
+    "0.1": {
+      "mean_rho": {
+        "bss_raw": 1.0,
+        "bss_partial": 0.9984962406015038,
+        "bss_ratio": 1.0
+      },
+      "gates": {
+        "bss_partial_rho": {
+          "value": 0.9984962406015038,
+          "threshold": 0.5,
+          "pass": true
+        },
+        "within_class_variance": {
+          "value": 0.3108754507227942,
+          "threshold": 0.25,
+          "pass": true
+        }
+      }
+    },
+    "1.0": {
+      "mean_rho": {
+        "bss_raw": 1.0,
+        "bss_partial": 0.9969924812030074,
+        "bss_ratio": 0.993984962406015
+      },
+      "gates": {
+        "bss_partial_rho": {
+          "value": 0.9969924812030074,
+          "threshold": 0.5,
+          "pass": true
+        },
+        "within_class_variance": {
+          "value": 0.31017481378219325,
+          "threshold": 0.25,
+          "pass": true
+        }
+      }
+    }
+  }
+}

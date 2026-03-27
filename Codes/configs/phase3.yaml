@@ -1,0 +1,35 @@
+# Phase 3: MRC + Pareto Configuration
+# CONDITIONAL: Execute only if Phase 3 pre-gate passes (RepSim-wins > 15%)
+
+# MRC calibration
+mrc:
+  weight_function: "sigmoid"  # w(z) = sigmoid(a * BSS_partial + b * disagreement + c)
+  calibration_points: 300     # LOO cross-validation on 300 points
+  evaluation_points: 200      # Held-out 200 points
+  grid_search:
+    a_range: [-5.0, 5.0, 0.5]
+    b_range: [-5.0, 5.0, 0.5]
+    c_range: [-3.0, 3.0, 0.5]
+
+# Strategy comparison (11 strategies)
+strategies:
+  - identity_if
+  - kfac_if
+  - ekfac_if
+  - repsim
+  - trak_10
+  - trak_50
+  - w_trak
+  - naive_ensemble
+  - bss_guided_routing
+  - disagreement_routing
+  - mrc_soft
+
+# Pre-gate
+pregate:
+  repsim_wins_threshold: 0.15  # RepSim-wins rate > 15%
+
+# Gate
+gate:
+  mrc_advantage: 0.02          # MRC > best uniform by > 2% LDS
+  oracle_gap_closure: 0.10     # Oracle gap closure > 10%

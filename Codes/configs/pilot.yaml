@@ -1,0 +1,22 @@
+# AURA Pilot Configuration
+# Quick verification: minimal data, few steps
+
+# Override base
+train_epochs: 5
+n_test: 20
+n_per_class: 2
+
+# Seeds (only primary)
+seeds: [42]
+
+# BSS
+n_eigen_top: 50
+
+# Randomized-bucket
+randomized_bucket:
+  n_permutations: 100
+
+# Principal angles
+principal_angles:
+  k_values: [10]
+  n_random_null: 100
