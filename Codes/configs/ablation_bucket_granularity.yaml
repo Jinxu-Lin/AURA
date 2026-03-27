@@ -1,0 +1,5 @@
+# Ablation: Bucket granularity sensitivity
+# Priority 3
+_base_: ablations.yaml
+
+ablation_target: bucket_granularity

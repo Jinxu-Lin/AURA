@@ -1,0 +1,14 @@
+{
+  "phase": "phase3_pregate",
+  "repsim_wins": 5,
+  "total_points": 20,
+  "repsim_wins_rate": 0.25,
+  "ci_95": [
+    0.08657146910143461,
+    0.49104587170795744
+  ],
+  "threshold": 0.15,
+  "gate_pass": true,
+  "dry_run": true,
+  "timestamp": "2026-03-27T17:27:19.908523"
+}

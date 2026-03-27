@@ -1,0 +1,11 @@
+# Phase 2b: Disagreement Analysis Configuration
+# Uses Phase 1 data, 0 GPU-hours
+
+# Override: no additional seeds needed (uses primary seed data)
+seeds: [42]
+
+# Disagreement metrics
+disagreement:
+  primary_metric: "kendall_tau"  # per-point tau(IF, RepSim)
+  secondary_metric: "lds_diff"   # LDS_IF - LDS_RepSim per point
+  auroc_threshold: 0.55          # minimum class-stratified AUROC

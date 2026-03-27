@@ -27,7 +27,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import numpy as np
 import torch
 
-from config_loader import add_common_args, load_config, resolve_paths
+from core.config import add_common_args, apply_overrides, load_config, resolve_paths
 from core.data import load_cifar10, make_dataloader, make_resnet18_cifar10
 from core.utils import NumpyEncoder, ProgressReporter, set_reproducibility
 
@@ -232,6 +232,8 @@ def train_single_seed(
 def main():
     args = parse_args()
     config = load_config(args.config)
+    if hasattr(args, 'override') and args.override:
+        apply_overrides(config, args.override)
     resolve_paths(config)
 
     # Device

@@ -1,0 +1,11 @@
+{
+  "phase": "phase2b",
+  "dry_run": true,
+  "n_points": 20,
+  "tau_vs_lds_diff": {
+    "rho": -0.12030075187969923,
+    "p_value": 0.6134176645307824
+  },
+  "disagreement_auroc": 0.52,
+  "timestamp": "2026-03-27T17:28:03.107033"
+}

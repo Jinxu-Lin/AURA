@@ -1,0 +1,22 @@
+{
+  "phase": "confound",
+  "class_stratified_auroc": {
+    "42": 1.0
+  },
+  "gradient_norm_partial": {
+    "42": {
+      "bss_partial": {
+        "partial_rho": -0.156390977443609,
+        "p_value": 0.5102566899029022,
+        "above_threshold": true
+      },
+      "bss_ratio": {
+        "partial_rho": 0.4872180451127819,
+        "p_value": 0.02934199190370818,
+        "above_threshold": true
+      }
+    }
+  },
+  "dry_run": true,
+  "timestamp": "2026-03-27T17:27:26.466074"
+}

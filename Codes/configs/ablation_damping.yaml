@@ -1,0 +1,5 @@
+# Ablation: Damping sensitivity
+# Priority 1 (highest) -- most theoretically informative
+_base_: ablations.yaml
+
+ablation_target: damping
