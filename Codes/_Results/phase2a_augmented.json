@@ -1,0 +1,12 @@
+{
+  "randomized_bucket": {
+    "42": {
+      "n_permutations": 100,
+      "eigenvalue_range": [
+        9.428355951968115e-06,
+        0.0004138366784900427
+      ]
+    }
+  },
+  "anova_crossseed": {}
+}

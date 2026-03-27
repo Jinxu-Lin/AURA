@@ -1,6 +1,6 @@
 # AURA Experiment Results: phase3_pregate
 
-Generated: 2026-03-27T17:27:19.908623
+Generated: 2026-03-27T17:53:20.810165
 Dry-run: True
 
 ## Phase 3 Pre-Gate: RepSim-Wins Check

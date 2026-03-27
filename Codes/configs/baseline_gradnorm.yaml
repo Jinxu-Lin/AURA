@@ -1,0 +1,39 @@
+# Baseline: Gradient Norm Diagnostic
+# Purpose: Verify BSS captures spectral structure beyond raw gradient magnitude.
+# If BSS_partial (gradient-norm corrected) still shows cross-seed stability,
+# the signal is not merely a gradient-norm artifact.
+
+# Use pilot settings for quick verification
+train_epochs: 5
+n_test: 20
+n_per_class: 2
+
+# Single seed for baseline verification
+seeds: [42]
+
+# BSS settings (match pilot)
+n_eigen_top: 50
+
+# Gradient norm baseline: compare BSS variants against ||g||^2
+gradient_norm_baseline:
+  enabled: true
+  metrics:
+    - correlation_bss_vs_gradnorm     # Spearman(BSS_raw, ||g||^2)
+    - correlation_partial_vs_gradnorm  # Should be ~0 (decorrelated by design)
+    - rank_agreement_top10pct          # Do high-BSS and high-gradnorm overlap?
+
+# Confound control: gradient-norm partial correlation
+confound:
+  partial_correlation: true
+  class_stratified: true
+
+# Gates (relaxed for baseline, just checking pipeline)
+gates:
+  bss_partial_rho:
+    pass: 0.3
+    borderline: 0.2
+    fail: 0.2
+  within_class_variance:
+    pass: 0.15
+    borderline: 0.10
+    fail: 0.10

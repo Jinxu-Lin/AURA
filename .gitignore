@@ -7,3 +7,7 @@ CLAUDE.md
 .claude/skills
 .claude/settings.local.json
 .sibyl/system.json
+
+# Large binary data (models, datasets)
+Codes/_Data/models/
+Codes/_Data/cifar-10-batches-py/

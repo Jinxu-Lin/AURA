@@ -6,17 +6,17 @@
   "gradient_norm_partial": {
     "42": {
       "bss_partial": {
-        "partial_rho": -0.156390977443609,
-        "p_value": 0.5102566899029022,
-        "above_threshold": true
+        "partial_rho": -0.08421052631578946,
+        "p_value": 0.7241036435108114,
+        "above_threshold": false
       },
       "bss_ratio": {
-        "partial_rho": 0.4872180451127819,
-        "p_value": 0.02934199190370818,
+        "partial_rho": -0.11278195488721804,
+        "p_value": 0.6359170579042354,
         "above_threshold": true
       }
     }
   },
   "dry_run": true,
-  "timestamp": "2026-03-27T17:27:26.466074"
+  "timestamp": "2026-03-27T18:15:57.799986"
 }
